@@ -42,7 +42,6 @@ public class Registration : MonoBehaviour
             }
             else
             {
-                Debug.Log("Form upload complete!");
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
             }
         }
