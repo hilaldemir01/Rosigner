@@ -9,6 +9,15 @@ public class LoginSystem : MonoBehaviour
     public InputField emailInput;
     public InputField passwordInput;
     public Button login;
+    public Text notificationTxt;
+
+    void Start() {
+
+        
+        notificationTxt=GameObject.Find("Canvas/notification").GetComponent<Text>();
+        notificationTxt.gameObject.SetActive(false);
+
+    } 
 
     public void CallLogin()
     {
@@ -22,8 +31,8 @@ public class LoginSystem : MonoBehaviour
         form.AddField("unity", "login");
         form.AddField("email", emailInput.text);
         form.AddField("password", passwordInput.text);
+        notificationTxt.gameObject.SetActive(true);
         
-
 
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
         {
@@ -31,15 +40,19 @@ public class LoginSystem : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                notificationTxt.text= "" + www.error;
             }
             else
             {
                 if(www.downloadHandler.text.Contains("Login success!")){
-                    Debug.Log(www.downloadHandler.text);
+                    
+                    //Debug.Log(www.downloadHandler.text);
+                    notificationTxt.text= "" + www.downloadHandler.text;
+                    yield return new WaitForSeconds(1);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
                 }else {
-                    Debug.Log(www.downloadHandler.text);
+                    notificationTxt.text="" + www.downloadHandler.text;
+                    //Debug.Log(www.downloadHandler.text);
                 }
             }
         }

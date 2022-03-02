@@ -13,7 +13,18 @@ if($_POST['unity']=="register")
     $gender=$_POST['gender'];
     $email=$_POST['email'];
     $password=$_POST['password'];
+    $password1=$_POST['password1'];
     $hash = hash('sha256',$password);
+    $emailcheckQuery="SELECT email FROM users WHERE email = '".$email."';";
+    $emailcheckQueryResult = mysqli_query($con,$emailcheckQuery) or die("2: Name check query failed");
+    if(mysqli_num_rows($emailcheckQueryResult) == 1){
+        echo "This email address is already registered.";
+        exit();
+    }
+    if($password != $password1){
+        echo "Passwords do not match!";
+        exit();
+    }
 
     $query="INSERT INTO users (firstname, lastname, gender,email,hash) VALUES ('".$firstname."','".$lastname."','".$gender."','".$email."','".$hash."');";
     $queryResult = mysqli_query($con,$query);
