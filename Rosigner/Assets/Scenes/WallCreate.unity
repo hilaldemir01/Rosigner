@@ -427,8 +427,8 @@ MonoBehaviour:
   wallobj2: {fileID: 331416356}
   wallobj3: {fileID: 1452297696}
   wallobj4: {fileID: 198837520}
-  wall1: 5
-  wall2: 5
+  wall1: 20
+  wall2: 20
 --- !u!1 &743908529
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 1307380545}
   - component: {fileID: 1307380544}
   - component: {fileID: 1307380547}
+  - component: {fileID: 1307380548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -621,6 +622,21 @@ MonoBehaviour:
   objectToBeSpawned: {fileID: 524088303693805395, guid: 16e7399e113b23c4caeb915fabb7f892, type: 3}
   parent: {fileID: 1307380546}
   selectedObject: {fileID: 0}
+--- !u!114 &1307380548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307380543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a016ac748adb28a4c892801f699ede9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 1307380543}
+  Wall1_location: {fileID: 2030962212}
+  Wall2_location: {fileID: 331416356}
 --- !u!1 &1452297696
 GameObject:
   m_ObjectHideFlags: 0
