@@ -19,7 +19,7 @@ public class CamraLocation : MonoBehaviour
 
     void Update()
     {
-        float location1, location2, wall1_length, wall2_length;
+        float wall1_length, wall2_length;
 
         wall1_length = Wall1_location.gameObject.transform.localScale.x;
         wall2_length = Wall2_location.gameObject.transform.localScale.x;
