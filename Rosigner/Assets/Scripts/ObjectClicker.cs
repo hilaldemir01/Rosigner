@@ -7,7 +7,9 @@ public class ObjectClicker : MonoBehaviour
     [SerializeField] public GameObject objectToBeSpawned;
 
     [SerializeField] public Transform parent;
-    public GameObject selectedObject;
+    [SerializeField] public GameObject doorSpawn;
+    GameObject selectedObject;
+    int distance;
     // Update is called once per frame
     void Update()
     {
@@ -31,7 +33,8 @@ public class ObjectClicker : MonoBehaviour
 
     void SelectObject(GameObject obj)
     {
-        if(selectedObject != null)
+        distance = 5;
+        if (selectedObject != null)
         {
             if(obj == selectedObject){
                 return;
@@ -56,6 +59,32 @@ public class ObjectClicker : MonoBehaviour
                 r.material = m;
             }
         }
+
+        Vector3 position1 = selectedObject.transform.parent.position;
+        Debug.Log(""+selectedObject.transform.parent.name);
+
+        if (selectedObject.transform.parent.name == "W1")
+        {
+            Vector3 position_distance = new Vector3(position1.x + distance , position1.y , position1.z);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if(selectedObject.transform.parent.name == "W3")
+        {
+            Vector3 position_distance = new Vector3(position1.x - distance, position1.y, position1.z);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if (selectedObject.transform.parent.name == "W2" )
+        {
+            Vector3 position_distance = new Vector3(position1.x , position1.y , position1.z + distance);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if(selectedObject.transform.parent.name == "W4")
+        {
+            Vector3 position_distance = new Vector3(position1.x , position1.y , position1.z - distance);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+
+
     }
 
     void ClearSelection()
