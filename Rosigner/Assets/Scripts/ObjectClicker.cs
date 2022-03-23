@@ -43,9 +43,10 @@ public class ObjectClicker : MonoBehaviour
 
         if (selectedObject.tag == "Wall")
         {
-           
-            Vector3 position = selectedObject.transform.position;
-            Instantiate(objectToBeSpawned, position, Quaternion.identity, parent);
+
+            Vector3 position = selectedObject.transform.parent.position;
+            Vector3 startposition = new Vector3(position.x, 3.1f, position.z);
+            Instantiate(objectToBeSpawned, startposition, Quaternion.identity, parent);
 
             Renderer[] rs = selectedObject.GetComponentsInChildren<Renderer>();
             foreach(Renderer r in rs)
@@ -71,6 +72,7 @@ public class ObjectClicker : MonoBehaviour
                 m.color = Color.white;
                 r.material = m;
             }
+            Destroy(GameObject.Find("RedDot(Clone)"));
         }
        
 
