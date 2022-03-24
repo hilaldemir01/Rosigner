@@ -29,10 +29,10 @@ public class Resizing : MonoBehaviour
         wallobj4.gameObject.transform.localScale = new Vector3(wall2, 3, 0.2f);
 
 
-        wallobj1.gameObject.transform.localPosition= new Vector3(0, 0, 0);
-        wallobj2.gameObject.transform.localPosition= new Vector3(wall1+0.1f, 0, 0.1f);
-        wallobj3.gameObject.transform.localPosition= new Vector3(wall1, 0,wall2+0.2f);
-        wallobj4.gameObject.transform.localPosition= new Vector3(-0.1f, 0, wall2+0.1f);
+        wallobj1.gameObject.transform.localPosition= new Vector3(0, 1.5f, 0);
+        wallobj2.gameObject.transform.localPosition= new Vector3(wall1+0.1f, 1.5f, 0.1f);
+        wallobj3.gameObject.transform.localPosition= new Vector3(wall1, 1.5f, wall2+0.2f);
+        wallobj4.gameObject.transform.localPosition= new Vector3(-0.1f, 1.5f, wall2+0.1f);
 
 
     }

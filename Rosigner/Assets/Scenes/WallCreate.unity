@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -370,7 +370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346494917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3514749, y: -1.5, z: -6.489816}
+  m_LocalPosition: {x: -1.3514749, y: 0, z: -6.489816}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
@@ -427,8 +427,8 @@ MonoBehaviour:
   wallobj2: {fileID: 331416356}
   wallobj3: {fileID: 1452297696}
   wallobj4: {fileID: 198837520}
-  wall1: 20
-  wall2: 20
+  wall1: 10
+  wall2: 10
 --- !u!1 &743908529
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,8 +620,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToBeSpawned: {fileID: 524088303693805395, guid: 16e7399e113b23c4caeb915fabb7f892, type: 3}
-  parent: {fileID: 1307380546}
-  selectedObject: {fileID: 0}
+  parent: {fileID: 352754840}
+  doorSpawn: {fileID: 1709922377679238475, guid: 9266c93a673b03c449ec92166bb2cbaf, type: 3}
 --- !u!114 &1307380548
 MonoBehaviour:
   m_ObjectHideFlags: 0

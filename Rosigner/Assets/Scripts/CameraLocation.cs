@@ -2,20 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamraLocation : MonoBehaviour
+public class CameraLocation : MonoBehaviour
 {
     public GameObject Camera;
     
     public GameObject Wall1_location;
     public GameObject Wall2_location;
-
-
-    void Start()
-    {
-        Vector3 local = transform.localScale;
-        Vector3 local2 = transform.localPosition;
-    }
-
 
     void Update()
     {
@@ -29,8 +21,4 @@ public class CamraLocation : MonoBehaviour
        
 
     }
-
-
-
-
 }
