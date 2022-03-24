@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjectClicker : MonoBehaviour
+public class WallDefiner : MonoBehaviour
 {
     [SerializeField] public GameObject objectToBeSpawned;
 
@@ -65,34 +65,8 @@ public class ObjectClicker : MonoBehaviour
             return 0;
         }
 
-        distance = 3;
-        // This part assigns the position values of the selected wall to the position1
-        Vector3 position1 = selectedObject.transform.parent.position;
-
-        // Tag of the parents of the selectedObject is compared, and if one of the walls is clicked and  
-        // a distance value is entered, then the door/window will be placed on that wall in the given distance
-
-        if (selectedObject.transform.parent.name == "W1")
-        {
-            Vector3 position_distance = new Vector3(position1.x + distance , position1.y , position1.z);
-            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
-        }
-        else if(selectedObject.transform.parent.name == "W3")
-        {
-            Vector3 position_distance = new Vector3(position1.x - distance, position1.y, position1.z);
-            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
-        }
-        else if (selectedObject.transform.parent.name == "W2" )
-        {
-            Vector3 position_distance = new Vector3(position1.x , position1.y , position1.z + distance);
-            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
-        }
-        else if(selectedObject.transform.parent.name == "W4")
-        {
-            Vector3 position_distance = new Vector3(position1.x , position1.y , position1.z - distance);
-            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
-        }
-
+        // To be able to place doors or windows, we use the following method
+        RoomStructures();
         return 0;
     }
 
@@ -115,5 +89,37 @@ public class ObjectClicker : MonoBehaviour
        
 
         selectedObject = null;
+    }
+
+    int RoomStructures()
+    {
+        distance = 3;
+        // This part assigns the position values of the selected wall to the position1
+        Vector3 position1 = selectedObject.transform.parent.position;
+
+        // Tag of the parents of the selectedObject is compared, and if one of the walls is clicked and  
+        // a distance value is entered, then the door/window will be placed on that wall in the given distance
+
+        if (selectedObject.transform.parent.name == "W1")
+        {
+            Vector3 position_distance = new Vector3(position1.x + distance, position1.y, position1.z);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if (selectedObject.transform.parent.name == "W3")
+        {
+            Vector3 position_distance = new Vector3(position1.x - distance, position1.y, position1.z);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if (selectedObject.transform.parent.name == "W2")
+        {
+            Vector3 position_distance = new Vector3(position1.x, position1.y, position1.z + distance);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if (selectedObject.transform.parent.name == "W4")
+        {
+            Vector3 position_distance = new Vector3(position1.x, position1.y, position1.z - distance);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        return 0;
     }
 }
