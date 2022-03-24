@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectClicker : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class ObjectClicker : MonoBehaviour
 
     [SerializeField] public Transform parent;
     [SerializeField] public GameObject doorSpawn;
-    GameObject selectedObject;
     int distance;
+    GameObject selectedObject;
+
     // Update is called once per frame
     void Update()
     {
@@ -31,13 +33,12 @@ public class ObjectClicker : MonoBehaviour
     }
 
 
-    void SelectObject(GameObject obj)
+    int SelectObject(GameObject obj)
     {
-        distance = 5;
         if (selectedObject != null)
         {
             if(obj == selectedObject){
-                return;
+                return 0;
             }
 
             ClearSelection();
@@ -59,9 +60,17 @@ public class ObjectClicker : MonoBehaviour
                 r.material = m;
             }
         }
+        else
+        {
+            return 0;
+        }
 
+        distance = 3;
+        // This part assigns the position values of the selected wall to the position1
         Vector3 position1 = selectedObject.transform.parent.position;
-        Debug.Log(""+selectedObject.transform.parent.name);
+
+        // Tag of the parents of the selectedObject is compared, and if one of the walls is clicked and  
+        // a distance value is entered, then the door/window will be placed on that wall in the given distance
 
         if (selectedObject.transform.parent.name == "W1")
         {
@@ -84,7 +93,7 @@ public class ObjectClicker : MonoBehaviour
             Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
         }
 
-
+        return 0;
     }
 
     void ClearSelection()
