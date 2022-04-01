@@ -371,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 346494917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.3514749, y: 0, z: -6.489816}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1000, y: 1000, z: 1000}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -427,7 +427,7 @@ MonoBehaviour:
   wallobj2: {fileID: 331416356}
   wallobj3: {fileID: 1452297696}
   wallobj4: {fileID: 198837520}
-  wall1: 10
+  wall1: 15
   wall2: 10
 --- !u!1 &743908529
 GameObject:
@@ -574,7 +574,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -601,7 +601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307380543}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
