@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,8 @@ public class Resizing : MonoBehaviour
     public GameObject wallobj4;
     public float wall1;
     public float wall2;
- 
+    public Canvas canvas1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,5 +37,9 @@ public class Resizing : MonoBehaviour
         wallobj4.gameObject.transform.localPosition= new Vector3(-0.1f, 1.5f, wall2+0.1f);
 
 
+    }
+    public void Confirm()
+    {
+        canvas1.enabled = false;
     }
 }
