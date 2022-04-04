@@ -25,17 +25,21 @@ public class LoginSystem : MonoBehaviour
 
     }
 
+    // This method is used to connect to the database and compare user credentials which are e-mail and password to log in the user to the system.
     IEnumerator Login()
     {
+      
         WWWForm form = new WWWForm();
         form.AddField("unity", "login");
         form.AddField("email", emailInput.text);
         form.AddField("password", passwordInput.text);
         notificationTxt.gameObject.SetActive(true);
         
-
+        // database connection is done here:
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
         {
+            // checking if there are any database connection errors:
+
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)
@@ -44,6 +48,8 @@ public class LoginSystem : MonoBehaviour
             }
             else
             {
+                // if users credentials find a match in the database, then users can log in to their accounts 
+
                 if(www.downloadHandler.text.Contains("Login success!")){
                     
                     //Debug.Log(www.downloadHandler.text);

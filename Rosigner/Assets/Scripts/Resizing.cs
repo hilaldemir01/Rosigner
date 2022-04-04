@@ -13,24 +13,16 @@ public class Resizing : MonoBehaviour
     public float wall2;
     public Canvas canvas1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Vector3 local = transform.localScale;
-        Vector3 local2 = transform.localPosition;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        // This part of the code is used to set the length and width of the walls.
         wallobj1.gameObject.transform.localScale =  new Vector3(wall1, 3, 0.2f);
 
         wallobj2.gameObject.transform.localScale = new Vector3(wall2, 3, 0.2f);
         wallobj3.gameObject.transform.localScale = new Vector3(wall1, 3, 0.2f);
         wallobj4.gameObject.transform.localScale = new Vector3(wall2, 3, 0.2f);
 
-
+        // This part of the code is used to place walls in a way that they create an enclosed rectangular shape.
         wallobj1.gameObject.transform.localPosition= new Vector3(0, 1.5f, 0);
         wallobj2.gameObject.transform.localPosition= new Vector3(wall1+0.1f, 1.5f, 0.1f);
         wallobj3.gameObject.transform.localPosition= new Vector3(wall1, 1.5f, wall2+0.2f);
@@ -38,6 +30,7 @@ public class Resizing : MonoBehaviour
 
 
     }
+    // This method is used to close the modal.
     public void Confirm()
     {
         canvas1.enabled = false;

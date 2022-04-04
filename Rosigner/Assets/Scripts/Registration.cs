@@ -38,9 +38,11 @@ public class Registration : MonoBehaviour
         Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         Match match = regex.Match(emailInput.text);
         int passwordCheck = VerifyPassword();
-        // If e-mail address is valid, then 
+        // If e-mail address is valid, then :
         if (match.Success || passwordCheck == 1)
         {
+            // sending user inputs to the database:
+
             WWWForm form = new WWWForm();
             form.AddField("unity", "register");
             form.AddField("firstname", nameInput.text);
@@ -51,6 +53,7 @@ public class Registration : MonoBehaviour
             form.AddField("password1", passwordInput2.text);
             notificationTxt.gameObject.SetActive(true);
 
+            // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userRegister.php", form))
             {
                 yield return www.SendWebRequest();
@@ -62,6 +65,8 @@ public class Registration : MonoBehaviour
                 }
                 else
                 {
+                    // if there are no errors then user account is created:
+
                     if (www.downloadHandler.text.Contains("Registration is successful"))
                     {
                         notificationTxt.text = "" + www.downloadHandler.text;
@@ -75,6 +80,8 @@ public class Registration : MonoBehaviour
                 }
             }
         }
+        // if the e-mail formats do not fit the regex expression then display an error message:
+
         else if(!(match.Success) || passwordCheck == 0)
         {
             notificationTxt.text = "Invalid E-mail Type";

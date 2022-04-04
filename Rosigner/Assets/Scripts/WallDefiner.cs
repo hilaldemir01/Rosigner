@@ -15,6 +15,8 @@ public class WallDefiner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // This method is use to select the clicked wall. 
+
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -28,11 +30,12 @@ public class WallDefiner : MonoBehaviour
         }
         else
         {
+            // If other place rather than the clicked wall, the highlight will be removed.
             ClearSelection(); 
         }
     }
 
-
+    // This method is used to highlight the clicked wall and also a red dot is placed on the wall.
     int SelectObject(GameObject obj)
     {
         if (selectedObject != null)
@@ -47,9 +50,10 @@ public class WallDefiner : MonoBehaviour
 
         if (selectedObject.tag == "Wall")
         {
+            // position of the red dot is defined here:
 
             Vector3 position = selectedObject.transform.parent.position;
-            Vector3 startposition = new Vector3(position.x, 3.1f, position.z);
+            Vector3 startposition = new Vector3(position.x, 3.1f, position.z); 
             Instantiate(objectToBeSpawned, startposition, Quaternion.identity, parent);
 
             Renderer[] rs = selectedObject.GetComponentsInChildren<Renderer>();
@@ -70,6 +74,7 @@ public class WallDefiner : MonoBehaviour
         return 0;
     }
 
+    // If another area is clicked, then the highlight is removed, and also red dot is removed as well.
     void ClearSelection()
     {
         if(selectedObject == null)
@@ -105,14 +110,14 @@ public class WallDefiner : MonoBehaviour
             Vector3 position_distance = new Vector3(position1.x + distance, position1.y, position1.z);
             Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
         }
-        else if (selectedObject.transform.parent.name == "W3")
-        {
-            Vector3 position_distance = new Vector3(position1.x - distance, position1.y, position1.z);
-            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
-        }
         else if (selectedObject.transform.parent.name == "W2")
         {
             Vector3 position_distance = new Vector3(position1.x, position1.y, position1.z + distance);
+            Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
+        }
+        else if (selectedObject.transform.parent.name == "W3")
+        {
+            Vector3 position_distance = new Vector3(position1.x - distance, position1.y, position1.z);
             Instantiate(doorSpawn, position_distance, Quaternion.identity, parent);
         }
         else if (selectedObject.transform.parent.name == "W4")

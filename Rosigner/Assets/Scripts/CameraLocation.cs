@@ -13,8 +13,12 @@ public class CameraLocation : MonoBehaviour
     {
         float wall1_length, wall2_length;
 
+        // This part of the code is used to get the length of the walls.
+
         wall1_length = Wall1_location.gameObject.transform.localScale.x;
         wall2_length = Wall2_location.gameObject.transform.localScale.x;
+
+        // This part of the code is used to fix the distance between the floor and camera. Also, the camera is focused on the center of the room
 
         if (wall1_length>=wall2_length)
         {
