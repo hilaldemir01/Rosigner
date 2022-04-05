@@ -11,10 +11,17 @@ public class WallDefiner : MonoBehaviour
     [SerializeField] public GameObject doorSpawn;
     int distance;
     GameObject selectedObject;
+    GameObject tempObject;
+    public GameObject CanvasDistance;
+    public InputField distanceinp;
 
+
+ 
     // Update is called once per frame
     void Update()
     {
+
+
         // This method is use to select the clicked wall. 
 
         RaycastHit hit;
@@ -26,13 +33,21 @@ public class WallDefiner : MonoBehaviour
             {
                 if(Input.GetMouseButton(0))
                 SelectObject(hit.transform.gameObject);
+                
             }
         }
+        /*
         else
         {
+            if(!CanvasDistance.activeSelf)
+            {
             // If other place rather than the clicked wall, the highlight will be removed.
-            ClearSelection(); 
+                 ClearSelection();
+           
+            }
+            
         }
+        */
     }
 
     // This method is used to highlight the clicked wall and also a red dot is placed on the wall.
@@ -44,7 +59,14 @@ public class WallDefiner : MonoBehaviour
                 return 0;
             }
 
-            ClearSelection();
+            if (!CanvasDistance.activeSelf)
+            {
+                // If other place rather than the clicked wall, the highlight will be removed.
+                ClearSelection();
+
+            }
+            else { 
+            }
         }
         selectedObject = obj;
 
@@ -63,6 +85,9 @@ public class WallDefiner : MonoBehaviour
                 m.color = Color.gray;
                 r.material = m;
             }
+            tempObject = selectedObject;
+            CanvasDistance.SetActive(true);
+   
         }
         else
         {
@@ -70,7 +95,7 @@ public class WallDefiner : MonoBehaviour
         }
 
         // To be able to place doors or windows, we use the following method
-        RoomStructures();
+        
         return 0;
     }
 
@@ -90,15 +115,19 @@ public class WallDefiner : MonoBehaviour
                 r.material = m;
             }
             Destroy(GameObject.Find("RedDot(Clone)"));
+           
         }
        
-
-        selectedObject = null;
+        CanvasDistance.SetActive(false);
+     
     }
 
     int RoomStructures()
     {
-        distance = 3;
+        float distance;
+
+        float.TryParse(distanceinp.text, out float result);
+        distance = result;
         // This part assigns the position values of the selected wall to the position1
         Vector3 position1 = selectedObject.transform.parent.position;
 
@@ -127,4 +156,19 @@ public class WallDefiner : MonoBehaviour
         }
         return 0;
     }
+
+
+
+    public void confirm()
+    {
+        selectedObject=tempObject;
+        ClearSelection();
+        RoomStructures();
+        selectedObject = null;
+    }
+
 }
+
+
+
+
