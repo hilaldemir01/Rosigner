@@ -9,9 +9,11 @@ public class WallDefiner : MonoBehaviour
 
     [SerializeField] public Transform parent;
     [SerializeField] public GameObject doorSpawn;
+    [SerializeField] public GameObject windowSpawn;
     int distance;
     GameObject selectedObject;
     GameObject tempObject;
+    GameObject tempAsset;
     public GameObject CanvasDistance;
     public GameObject PanelWindowChosing;
     public InputField inputDistinceFromWall;
@@ -140,13 +142,14 @@ public class WallDefiner : MonoBehaviour
 
     int RoomStructures()
     {
-        float wallDistance, groundDistance;
+        float wallDistance, groundDistance, TempGroundDistance;
+        
 
         float.TryParse(inputDistinceFromWall.text, out float result);
         wallDistance = result;
 
         float.TryParse(inputDistanceFromGround.text, out float result2);
-        groundDistance = result2;
+        TempGroundDistance = result2;
 
 
         // This part assigns the position values of the selected wall to the position1
@@ -155,31 +158,42 @@ public class WallDefiner : MonoBehaviour
         // Tag of the parents of the selectedObject is compared, and if one of the walls is clicked and  
         // a distance value is entered, then the door/window will be placed on that wall in the given distance
 
+
+        if (DropdownRoomStructure.GetComponent<Dropdown>().value == 2)//window
+        {
+            groundDistance= TempGroundDistance;
+            tempAsset = windowSpawn;
+        }
+        else
+        {
+            groundDistance = 0;
+            tempAsset = doorSpawn;
+        }
+
         if (selectedObject.transform.parent.name == "W1")
         {
             Vector3 position_distance = new Vector3(position1.x + wallDistance, groundDistance, position1.z);
             RoomStructureSizing();
-            Instantiate(doorSpawn, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
+            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
         }
         else if (selectedObject.transform.parent.name == "W2")
         {
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z + wallDistance);
             RoomStructureSizing();
-            Instantiate(doorSpawn, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
+            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
         }
         else if (selectedObject.transform.parent.name == "W3")
         {
             Vector3 position_distance = new Vector3(position1.x - wallDistance, groundDistance, position1.z);
             RoomStructureSizing();
-            Instantiate(doorSpawn, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
-       
-            
+            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
+    
         }
         else if (selectedObject.transform.parent.name == "W4")
         {
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z - wallDistance);
             RoomStructureSizing();
-            Instantiate(doorSpawn, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
+            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
             
         }
         return 0;
@@ -195,7 +209,7 @@ public class WallDefiner : MonoBehaviour
         float.TryParse(inputWidth.text, out float result2);
         width = result2;
 
-        doorSpawn.transform.localScale= new Vector3(width, height, 0.5f);
+        tempAsset.transform.localScale= new Vector3(width, height, 0.5f);
     }
 
 

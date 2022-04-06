@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1376351113554779248}
   m_Layer: 0
-  m_Name: windowtry
+  m_Name: doortry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f93e5b0347515342a12073c472a21eb, type: 2}
+  - {fileID: 2100000, guid: 57dd64a27a4fb164ab9120d6c7325423, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
