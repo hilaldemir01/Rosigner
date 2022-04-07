@@ -244,11 +244,23 @@ public class WallDefiner : MonoBehaviour
         float.TryParse(inputHeight.text, out float result1);
         height = result1;
 
-
         float.TryParse(inputWidth.text, out float result2);
         width = result2;
 
-        if (width + wallDistance > tempScale)
+
+        if(wallDistance<0 || groundDistance < 0)
+        {
+            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.text = "Please do not enter negative value";
+            return false;
+        }
+        else if (width<=0 || height<=0)
+        {
+            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.text = "Please do not enter non positive value for with and height";
+            return false;
+        }
+        else if (width + wallDistance > tempScale)
         {
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter a width value more than the Wall width";
