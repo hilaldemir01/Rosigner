@@ -22,8 +22,13 @@ public class WallDefiner : MonoBehaviour
     public InputField inputWidth;
     public InputField inputDistanceFromGround;
     public GameObject CanvasWall;
-
+    public Button ConfirmButton;
+    public Text ErrorMessage;
+    
     float height, width;
+
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -40,9 +45,11 @@ public class WallDefiner : MonoBehaviour
             {
                 if(Input.GetMouseButton(0))
                 SelectObject(hit.transform.gameObject);
+
                 
             }
         }
+
 
         if (DropdownRoomStructure.GetComponent<Dropdown>().value == 2)
         {
@@ -52,19 +59,14 @@ public class WallDefiner : MonoBehaviour
         {
             PanelWindowChosing.SetActive(false);
         }
-        /*
-        else
-        {
-            if(!CanvasDistance.activeSelf)
-            {
-            // If other place rather than the clicked wall, the highlight will be removed.
-                 ClearSelection();
-           
-            }
-            
-        }
-        */
+
+   
+
     }
+
+
+
+
 
     // This method is used to highlight the clicked wall and also a red dot is placed on the wall.
     int SelectObject(GameObject obj)
@@ -103,10 +105,6 @@ public class WallDefiner : MonoBehaviour
             }
             tempObject = selectedObject;
             CanvasDistance.SetActive(true);
-
-
-          
-   
         }
         else
         {
@@ -136,15 +134,16 @@ public class WallDefiner : MonoBehaviour
             Destroy(GameObject.Find("RedDot(Clone)"));
            
         }
-       
+        
+
         CanvasDistance.SetActive(false);
      
     }
 
-    int RoomStructures()
+    bool RoomStructures()
     {
         float wallDistance, groundDistance, TempGroundDistance;
-        
+        float tempScale;
 
         float.TryParse(inputDistanceFromWall.text, out float result);
         wallDistance = result;
@@ -161,6 +160,7 @@ public class WallDefiner : MonoBehaviour
 
         if (DropdownRoomStructure.GetComponent<Dropdown>().value == 2)//window
         {
+
             groundDistance= TempGroundDistance;
             tempAsset = windowSpawn;
         }
@@ -169,41 +169,78 @@ public class WallDefiner : MonoBehaviour
             groundDistance = 0;
             tempAsset = doorSpawn;
         }
-        float parentWidth;
+
         if (selectedObject.transform.parent.name == "W1")
         {
-
+            tempScale=selectedObject.transform.parent.localScale.x;
             Vector3 position_distance = new Vector3(position1.x + wallDistance, groundDistance, position1.z);
-            RoomStructureSizing();
-            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
+            if(RoomStructureSizing(tempScale, wallDistance, groundDistance) == true)
+            {
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
+            }
+            else
+            {
+                Debug.Log("Asti Boyu w1");
+                return false;
+            }
         }
         else if (selectedObject.transform.parent.name == "W2")
         {
+            tempScale = selectedObject.transform.parent.localScale.x;
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z + wallDistance);
-            
-            RoomStructureSizing();
-            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
+
+            if (RoomStructureSizing(tempScale, wallDistance, groundDistance) == true)
+            {
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
+            }
+            else
+            {
+                Debug.Log("Asti Boyu w2");
+                return false;
+            }
         }
         else if (selectedObject.transform.parent.name == "W3")
         {
+            tempScale = selectedObject.transform.parent.localScale.x;
             Vector3 position_distance = new Vector3(position1.x - wallDistance, groundDistance, position1.z);
-            RoomStructureSizing();
-            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
+            if (RoomStructureSizing(tempScale, wallDistance, groundDistance) == true)
+            {
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
+            }
+            else
+            {
+                Debug.Log("Asti Boyu w3");
+                return false;
+            }
+         
     
         }
         else if (selectedObject.transform.parent.name == "W4")
         {
+            tempScale = selectedObject.transform.parent.localScale.x;
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z - wallDistance);
-            RoomStructureSizing();
-            Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
+           
+            if(RoomStructureSizing(tempScale, wallDistance, groundDistance) == true)
+            {
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
+            }
+            else
+            {
+                Debug.Log("Asti Boyu w4");
+                return false;
+            }
+
+            
             
         }
-        return 0;
+        return true;
     }
 
-    void RoomStructureSizing()
+    bool RoomStructureSizing(float tempScale, float wallDistance,float groundDistance)
     {
 
+        
+        
         float.TryParse(inputHeight.text, out float result1);
         height = result1;
 
@@ -211,18 +248,48 @@ public class WallDefiner : MonoBehaviour
         float.TryParse(inputWidth.text, out float result2);
         width = result2;
 
-        tempAsset.transform.localScale= new Vector3(width, height, 0.5f);
+        if (width + wallDistance > tempScale)
+        {
+            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.text = "Please do not enter a width value more than the Wall width";
+            return false;
+        }
+        else if(height+groundDistance > 3)
+        {
+            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.text = "Please do not enter a height value more than the Wall height";
+            return false;
+        }
+        else
+        {
+            tempAsset.transform.localScale= new Vector3(width, height, 0.3f);
+            ErrorMessage.gameObject.SetActive(false);
+            return true;
+        }
+
+        
     }
+
 
 
     public void confirm()
     {
+
         selectedObject=tempObject;
-        ClearSelection();
-        RoomStructures();
+
+        
+
+        bool hasEroors = RoomStructures();
+        if(hasEroors== true)
+        {
+            ClearSelection();
+        }
+      
         selectedObject = null;
 
+
     }
+
 
 }
 
