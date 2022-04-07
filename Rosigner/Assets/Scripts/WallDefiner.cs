@@ -16,11 +16,12 @@ public class WallDefiner : MonoBehaviour
     GameObject tempAsset;
     public GameObject CanvasDistance;
     public GameObject PanelWindowChosing;
-    public InputField inputDistinceFromWall;
+    public InputField inputDistanceFromWall;
     public Dropdown DropdownRoomStructure;
     public InputField inputHeight;
     public InputField inputWidth;
     public InputField inputDistanceFromGround;
+    public GameObject CanvasWall;
 
     float height, width;
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class WallDefiner : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out hit, 100.0f) && CanvasDistance.activeSelf == false)
+        if(Physics.Raycast(ray, out hit, 100.0f) && CanvasDistance.activeSelf == false && CanvasWall.activeSelf == false)
         {
             if(hit.transform != null)
             {
@@ -145,12 +146,11 @@ public class WallDefiner : MonoBehaviour
         float wallDistance, groundDistance, TempGroundDistance;
         
 
-        float.TryParse(inputDistinceFromWall.text, out float result);
+        float.TryParse(inputDistanceFromWall.text, out float result);
         wallDistance = result;
 
         float.TryParse(inputDistanceFromGround.text, out float result2);
         TempGroundDistance = result2;
-
 
         // This part assigns the position values of the selected wall to the position1
         Vector3 position1 = selectedObject.transform.parent.position;
@@ -169,9 +169,10 @@ public class WallDefiner : MonoBehaviour
             groundDistance = 0;
             tempAsset = doorSpawn;
         }
-
+        float parentWidth;
         if (selectedObject.transform.parent.name == "W1")
         {
+
             Vector3 position_distance = new Vector3(position1.x + wallDistance, groundDistance, position1.z);
             RoomStructureSizing();
             Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
@@ -179,6 +180,7 @@ public class WallDefiner : MonoBehaviour
         else if (selectedObject.transform.parent.name == "W2")
         {
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z + wallDistance);
+            
             RoomStructureSizing();
             Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
         }

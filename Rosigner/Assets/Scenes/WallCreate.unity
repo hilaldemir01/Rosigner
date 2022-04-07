@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2127,7 +2127,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 718991729}
   m_OnClick:
     m_PersistentCalls:
@@ -3411,11 +3411,12 @@ MonoBehaviour:
   windowSpawn: {fileID: 2078666874107388768, guid: 51cc52750624b0c43b62baca6312f8de, type: 3}
   CanvasDistance: {fileID: 1597718949}
   PanelWindowChosing: {fileID: 923780435}
-  inputDistinceFromWall: {fileID: 1778738466}
+  inputDistanceFromWall: {fileID: 1778738466}
   DropdownRoomStructure: {fileID: 1875111715}
   inputHeight: {fileID: 1356855388}
   inputWidth: {fileID: 1795652561}
   inputDistanceFromGround: {fileID: 1572531311}
+  CanvasWall: {fileID: 14008042}
 --- !u!114 &1307380548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4346,7 +4347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1597718950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4471,7 +4472,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 960, y: 540}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1601027697
 GameObject:
