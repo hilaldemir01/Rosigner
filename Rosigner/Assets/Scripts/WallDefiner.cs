@@ -64,10 +64,6 @@ public class WallDefiner : MonoBehaviour
 
     }
 
-
-
-
-
     // This method is used to highlight the clicked wall and also a red dot is placed on the wall.
     int SelectObject(GameObject obj)
     {
@@ -91,9 +87,9 @@ public class WallDefiner : MonoBehaviour
         if (selectedObject.tag == "Wall")
         {
             // position of the red dot is defined here:
-
+            float reddot_height = selectedObject.transform.parent.localScale.y + 0.1f;
             Vector3 position = selectedObject.transform.parent.position;
-            Vector3 startposition = new Vector3(position.x, 3.1f, position.z); 
+            Vector3 startposition = new Vector3(position.x, reddot_height, position.z); 
             Instantiate(objectToBeSpawned, startposition, Quaternion.identity, parent);
 
             Renderer[] rs = selectedObject.GetComponentsInChildren<Renderer>();
