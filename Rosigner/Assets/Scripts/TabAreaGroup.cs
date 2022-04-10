@@ -6,10 +6,10 @@ using UnityEngine.Networking;
 
 public class TabAreaGroup : MonoBehaviour
 {
-    public List<TabButton> tabAreaButtons;
-    public Sprite tabIdle;
-    public Sprite tabHover; //bu
-    public Sprite tabActive;
+    public List<TabButton> tabAreaButtons; //List of tabbuttons
+    public Sprite tabIdle; //when a tab is idle 
+    public Sprite tabHover; //when a tab is hovered
+    public Sprite tabActive; //when a tab is selected
     public TabButton selectedTab;
     public Text title;
 
@@ -20,6 +20,7 @@ public class TabAreaGroup : MonoBehaviour
         title.text = "Living Room Furniture";
     } 
     public List<GameObject> objectsToSwap;
+    //Subscribe takes tab button
     public void Subscribe(TabButton button){
         if(tabAreaButtons == null){
             tabAreaButtons = new List<TabButton>();
@@ -28,6 +29,7 @@ public class TabAreaGroup : MonoBehaviour
     }
 
     public void OnTabEnter(TabButton button){
+    //use hover sprite
         ResetTabs();
         if(selectedTab == null || button!= selectedTab){
             button.background.sprite = tabHover;
@@ -40,6 +42,7 @@ public class TabAreaGroup : MonoBehaviour
     }
 
     public void OnTabSelected(TabButton button){
+    //use selected sprite
         if(selectedTab != null){
             selectedTab.Deselect();
         }
@@ -62,6 +65,7 @@ public class TabAreaGroup : MonoBehaviour
         
     }
    public void ResetTabs(){
+    //to set all of tabs to idle
        foreach(TabButton button in tabAreaButtons){
            if(selectedTab != null && button == selectedTab){continue;}
            button.background.sprite = tabIdle;
