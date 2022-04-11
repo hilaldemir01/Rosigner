@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2216346737022463084, guid: 483132e734e4c914c83ab95d611abcf2, type: 3}
       propertyPath: m_Name
-      value: coffee_table_2
+      value: coffee_table_5
       objectReference: {fileID: 0}
     - target: {fileID: 2216346737022758988, guid: 483132e734e4c914c83ab95d611abcf2, type: 3}
       propertyPath: m_RootOrder
@@ -58,6 +58,6 @@ PrefabInstance:
     - target: {fileID: 2216346737024660140, guid: 483132e734e4c914c83ab95d611abcf2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e44bfe31f2a650543a669a716245820d, type: 2}
+      objectReference: {fileID: 2100000, guid: 888daeabd7af8694783c9a32a9ca19d2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 483132e734e4c914c83ab95d611abcf2, type: 3}
