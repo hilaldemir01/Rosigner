@@ -10,11 +10,11 @@ PrefabInstance:
     - target: {fileID: 5301018377204568625, guid: 204d0ec7048dfa14f8d33e7271d4c657, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 888daeabd7af8694783c9a32a9ca19d2, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a21eb46837654f4f84d01d31001741d, type: 2}
     - target: {fileID: 5301018377204568627, guid: 204d0ec7048dfa14f8d33e7271d4c657, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 888daeabd7af8694783c9a32a9ca19d2, type: 2}
+      objectReference: {fileID: 2100000, guid: 9a21eb46837654f4f84d01d31001741d, type: 2}
     - target: {fileID: 5301018377206762739, guid: 204d0ec7048dfa14f8d33e7271d4c657, type: 3}
       propertyPath: m_Name
       value: kitchen_table_2

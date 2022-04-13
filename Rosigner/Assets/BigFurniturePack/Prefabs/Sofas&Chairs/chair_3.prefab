@@ -55,5 +55,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: chair_3
       objectReference: {fileID: 0}
+    - target: {fileID: 420366980746267089, guid: 27cfa376aed45c4408efe61339b429e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b0cad466fb77ed4981710d807cf7ce8, type: 2}
+    - target: {fileID: 420366980746267091, guid: 27cfa376aed45c4408efe61339b429e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b0cad466fb77ed4981710d807cf7ce8, type: 2}
+    - target: {fileID: 420366980746267093, guid: 27cfa376aed45c4408efe61339b429e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b0cad466fb77ed4981710d807cf7ce8, type: 2}
+    - target: {fileID: 420366980746267095, guid: 27cfa376aed45c4408efe61339b429e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4b0cad466fb77ed4981710d807cf7ce8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27cfa376aed45c4408efe61339b429e0, type: 3}
