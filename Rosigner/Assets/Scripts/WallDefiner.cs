@@ -1,3 +1,4 @@
+using Assets.Models;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,10 +25,14 @@ public class WallDefiner : MonoBehaviour
     public GameObject CanvasWall;
     public Button ConfirmButton;
     public Text ErrorMessage;
-    
+
+    private int isTriggered=1;
+
+
+
+
     float height, width;
 
-    
 
     // Update is called once per frame
     void Update()
@@ -267,6 +272,12 @@ public class WallDefiner : MonoBehaviour
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter a height value more than the Wall height";
             return false;
+        }else if(isTriggered == 0)
+        {
+            ErrorMessage.gameObject.SetActive(true);  // window and door collider.
+            ErrorMessage.text = "The room structure to be places is colliding with another one";
+            return false;
+            
         }
         else
         {
@@ -278,9 +289,15 @@ public class WallDefiner : MonoBehaviour
         
     }
 
+    public void SetisTrigger(int x)
+     {
+        isTriggered =  x;
+     }
 
 
-    public void confirm()
+
+
+public void confirm()
     {
 
         selectedObject=tempObject;
