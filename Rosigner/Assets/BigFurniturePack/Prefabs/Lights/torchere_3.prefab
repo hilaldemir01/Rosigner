@@ -55,5 +55,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: torchere_3
       objectReference: {fileID: 0}
+    - target: {fileID: 8792384262239004144, guid: 000e730f65be47d49ad575a3deca3bb8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e109227a89b0dc44dadef10f7122ead1, type: 2}
+    - target: {fileID: 8792384262239004148, guid: 000e730f65be47d49ad575a3deca3bb8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e109227a89b0dc44dadef10f7122ead1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 000e730f65be47d49ad575a3deca3bb8, type: 3}

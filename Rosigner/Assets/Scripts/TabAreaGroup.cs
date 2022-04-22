@@ -8,8 +8,8 @@ public class TabAreaGroup : MonoBehaviour
 {
     public List<TabButton> tabAreaButtons; //List of tabbuttons
     public Sprite tabIdle; //when a tab is idle 
-    public Sprite tabHover; //when a tab is hovered
-    public Sprite tabActive; //when a tab is selected
+    public Sprite tabHover; //when a tab is hovered. (when hovering over the button)
+    public Sprite tabActive; //when a tab is selected. (keeping the edges of the button selected)
     public TabButton selectedTab;
     public Text title;
 
@@ -19,7 +19,7 @@ public class TabAreaGroup : MonoBehaviour
         title.gameObject.SetActive(true);
         title.text = "Living Room Furniture";
     } 
-    public List<GameObject> objectsToSwap;
+    public List<GameObject> objectsToSwap; //the list which include furniture areaa
     //Subscribe takes tab button
     public void Subscribe(TabButton button){
         if(tabAreaButtons == null){
