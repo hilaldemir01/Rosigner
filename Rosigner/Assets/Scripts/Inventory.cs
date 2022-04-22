@@ -5,29 +5,46 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 public class Inventory : MonoBehaviour
 {
-     [SerializeField] public GameObject armchair;
-    public Sprite armchair_img;
+    //[SerializeField] public GameObject armchair;
+    GameObject[] livingRoomPrefabs;
+    GameObject[] bedroomPrefabs;
+    GameObject[] studyRoomPrefabs;
+    //public Sprite armchair_img;
     public Image selectedFurnitureImage;
     public List<Slots> slots; 
     public Slots selectedSlot;
     public Transform furnitureBar;
     public Image furnitureImage; 
- 
-    //public string [] slotName = {"armchair_01", "armchair_02"};
-    
+   // public Measurement measurement;
+    public InputField widthInput, heightInput, lengthInput;
     // Start is called before the first frame update
     void Start()
     {
-        int i = 0 ;
-        armchair.name = "armchair_01";
-        armchair_img.name =  armchair.name;  
-       //Instantiate(armchair, new Vector3(0,0,0),Quaternion.identity); kanıtladık
-       /*
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("Assets/Prefabs/living room prefab");
-        while(i <= prefabs.Length){
-            Debug.Log(" "+prefabs[i]);
+        int i = 0 , j=0, k = 0;
+        //armchair.name = "armchair_01";
+        //armchair_img.name =  armchair.name;  
+        //Instantiate(armchair, new Vector3(0,0,0),Quaternion.identity); kanıtladık
+       
+        livingRoomPrefabs = Resources.LoadAll<GameObject>("living room prefab");
+        bedroomPrefabs = Resources.LoadAll<GameObject>("bedroom prefab");
+        studyRoomPrefabs = Resources.LoadAll<GameObject>("study room prefab");
+
+        /*Debug.Log("Living Room:");
+        while(i < livingRoomPrefabs.Length){
+            Debug.Log(" "+livingRoomPrefabs[i]);
             i++;
-        }*/
+        }
+        Debug.Log("Bedroom:"+bedroomPrefabs.Length);
+        while(j < bedroomPrefabs.Length){
+            Debug.Log(" "+bedroomPrefabs[j]);
+            j++;
+        }
+        Debug.Log("Study Room:"+studyRoomPrefabs.Length);
+        while(k < studyRoomPrefabs.Length){
+            Debug.Log(" "+studyRoomPrefabs[k]);
+            k++;
+        }
+        */
     }
 
     public void Subscribe(Slots slot){
@@ -61,7 +78,11 @@ public class Inventory : MonoBehaviour
         furnitureImage  = furnitureBar.gameObject.GetComponent<Image>();
         selectedFurnitureImage.sprite = furnitureImage.sprite;
     }
-   
+   /*
+    public void GetMeasurement(){
+        var value = int.Parse(inputField1.text);
+        measurement
+    }*/
 
     // Update is called once per frame
     void Update()
