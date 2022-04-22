@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Networking;
 
-namespace Assets.Models
-{
+
+
     public class Measurement 
     {
         public int furniture_height { get; set; }
@@ -17,4 +19,3 @@ namespace Assets.Models
             this.furniture_length = furniture_length;
         }
     }
-}
