@@ -12,7 +12,7 @@ if($_POST['unity']=="login")
     $email=$_POST['email'];
     $password=$_POST['password'];
     // Fetching user information using user emails
-    $query="SELECT email,hash FROM users WHERE email = '".$email."';";
+    $query="SELECT email,hash FROM registereduser WHERE email = '".$email."';";
     $queryResult = mysqli_query($con,$query) or die("2: Name check query failed");
     if(mysqli_num_rows($queryResult) != 1){
         echo "This email address is not registered.";
