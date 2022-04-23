@@ -14,38 +14,35 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     public UnityEvent onTabSelected;
     public UnityEvent onTabDeselected;
 
-
-
-        // Start is called before the first frame update
+    // Start is called before the first frame update
      void Start()
     {
         background = GetComponent<Image>();
         tabAreaGroup.Subscribe(this);
     }
-    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void OnPointerClick(PointerEventData eventData){
+        //To detect if a click occurs
         tabAreaGroup.OnTabSelected(this);
     }
     public void OnPointerEnter(PointerEventData eventData){
+        //To do this when the cursor enters the rect area of this selectable UI object
          tabAreaGroup.OnTabEnter(this);
     }
     public void OnPointerExit(PointerEventData eventData){
+        //Do this when the cursor exits the rect area of this selectable UI object.
         tabAreaGroup.OnTabExit(this);
     }
   
     public void Select(){
+         //this function is called from TabAreaGroup
         if(onTabSelected != null){
             onTabSelected.Invoke();
         }
     }
 
     public void Deselect(){
+         //this function is called from TabAreaGroup
         if(onTabDeselected != null){
             onTabDeselected.Invoke();
         }

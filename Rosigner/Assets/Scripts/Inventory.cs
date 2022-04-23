@@ -22,45 +22,26 @@ public class Inventory : MonoBehaviour
     public InputField widthInput, heightInput, lengthInput;
     GameObject[] mergePrefabs;
     public Button saveButton;
+    public Text notificationTxt;
+  
 
     // Start is called before the first frame update
     void Start()
     {
-       // widthInput = GameObject.Find("Canvas/RightSideLayout/MeasurementField/Border/WidthInputField");
+        widthInput.characterValidation=InputField.CharacterValidation.Integer;
+        heightInput.characterValidation=InputField.CharacterValidation.Integer;
+        lengthInput.characterValidation=InputField.CharacterValidation.Integer;
         widthInput.interactable=false;
         heightInput.interactable=false;
         lengthInput.interactable=false;
         saveButton.interactable = false;
-
-        int i = 0 , j=0, k = 0;
-        //armchair.name = "armchair_01";
-        //armchair_img.name =  armchair.name;  
-        //Instantiate(armchair, new Vector3(0,0,0),Quaternion.identity); kanıtladık
+        notificationTxt.gameObject.SetActive(false);
        
         livingRoomPrefabs = Resources.LoadAll<GameObject>("living room prefab");
         bedroomPrefabs = Resources.LoadAll<GameObject>("bedroom prefab");
         studyRoomPrefabs = Resources.LoadAll<GameObject>("study room prefab");
 
         mergePrefabs = livingRoomPrefabs.Concat(bedroomPrefabs).Concat(studyRoomPrefabs).ToArray();
-
-        Debug.Log( ""+mergePrefabs.Length);
-
-        /*Debug.Log("Living Room:");
-        while(i < livingRoomPrefabs.Length){
-            Debug.Log(" "+livingRoomPrefabs[i]);
-            i++;
-        }
-        Debug.Log("Bedroom:"+bedroomPrefabs.Length);
-        while(j < bedroomPrefabs.Length){
-            Debug.Log(" "+bedroomPrefabs[j]);
-            j++;
-        }
-        Debug.Log("Study Room:"+studyRoomPrefabs.Length);
-        while(k < studyRoomPrefabs.Length){
-            Debug.Log(" "+studyRoomPrefabs[k]);
-            k++;
-        }
-        */
     }
 
     public void Subscribe(Slots slot){
@@ -71,7 +52,6 @@ public class Inventory : MonoBehaviour
         slots.Add(slot);
     }
    
-
     public void OnSlotSelected(Slots slot){
     //when the slot selected
         if(selectedSlot != null){
@@ -80,13 +60,7 @@ public class Inventory : MonoBehaviour
         selectedSlot = slot;
         selectedSlot.Select();
         ShowFurnitureImage(selectedSlot);   
-    
     }
-     public void InstantiateCaller(GameObject prefab)
-     {
-         Instantiate(prefab);
-     }
-  
     public void ShowFurnitureImage(Slots selectedSlot){
         //to take selected image from furniture area inventory and locate it to right side
         furnitureBar = selectedSlot.transform.GetChild(0);
@@ -98,16 +72,17 @@ public class Inventory : MonoBehaviour
                break;
            } 
        }
-  
+
         widthInput.interactable=true;
         heightInput.interactable=true;
-        lengthInput.interactable=true;  
+        lengthInput.interactable=true; 
+        saveButton.interactable = false; 
+        notificationTxt.gameObject.SetActive(false);
         resetMeasurement();
-        
     }
 
     public void resetMeasurement(){
-
+        //to reset inputFields
         widthInput.text="";
         heightInput.text="";
         lengthInput.text="";
@@ -115,10 +90,10 @@ public class Inventory : MonoBehaviour
    
     public void GetMeasurement(){
       
-        var widthvalue= int.Parse(widthInput.text);
-        var heightvalue = int.Parse(heightInput.text);
-        var lengthvalue = int.Parse(lengthInput.text);
-    
+        int widthvalue= int.Parse(widthInput.text);
+        int heightvalue = int.Parse(heightInput.text);
+        int lengthvalue = int.Parse(lengthInput.text);
+        VerifyMeasurement(widthvalue,heightvalue,lengthvalue);
         //burda db bilgileri çekip bunun için ayrı fonksiyon yap onclick te o fonksiyonu çağır resetlencek resetfunc
         Debug.Log("w"+widthvalue);
         Debug.Log("h"+heightvalue);
@@ -126,13 +101,21 @@ public class Inventory : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void VerifyMeasurement(int widthvalue,int heightvalue,int lengthvalue){
+        //to check user's measurement inputs 
+       if(widthvalue <= 0 || heightvalue <= 0 || lengthvalue <= 0 )
+        {
+           
+            notificationTxt.gameObject.SetActive(true);
+            notificationTxt.text = "Please enter positive measure";
+        }
+        else{
+            notificationTxt.gameObject.SetActive(true);
+            notificationTxt.text = "Measures saved successfully";
+        }
     }
-     public async void VerifyInputs()
-    {
+     public async void VerifyInputs(){
+        // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {
             Debug.Log("girdi");
