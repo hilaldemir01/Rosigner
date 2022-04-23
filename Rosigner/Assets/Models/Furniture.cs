@@ -1,22 +1,25 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Models
 {
-    public class Furniture
+    public partial class Furniture
     {
-
-        public int furniture_type { get; set; }
-        public int furniture_height { get; set; }
-        public int furniture_width { get; set; }
-        public int furniture_length { get; set; }
-
-        public Furniture(int furniture_type, int furniture_height, int furniture_width, int furniture_length)
+        public Furniture()
         {
-            this.furniture_type = furniture_type;
-            this.furniture_height = furniture_height;
-            this.furniture_width = furniture_width;
-            this.furniture_length = furniture_length;
+            Design = new HashSet<Design>();
         }
+
+        public int FurnitureId { get; set; }
+        public int FurnitureTypeId { get; set; }
+        public double FurnitureXdimension { get; set; }
+        public double FurnitureYdimension { get; set; }
+        public double FurnitureZdimension { get; set; }
+        public double FurnitureXlocation { get; set; }
+        public double FurnitureYlocation { get; set; }
+        public double FurnitureZlocation { get; set; }
+
+        public virtual FurnitureType FurnitureType { get; set; }
+        public virtual ICollection<Design> Design { get; set; }
     }
 }
