@@ -1,8 +1,11 @@
+using Assets.Models;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+
+
 
 public class Registration : MonoBehaviour
 {
@@ -15,7 +18,7 @@ public class Registration : MonoBehaviour
     public InputField passwordInput2;
     public Button register;
     public Text notificationTxt;
-    
+    RosignerContext db = new RosignerContext();
 
   void Start() {
        
@@ -41,56 +44,42 @@ public class Registration : MonoBehaviour
         // If e-mail address is valid, then :
         if (match.Success || passwordCheck == 1)
         {
-            // sending user inputs to the database:
 
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "register");
-            form.AddField("firstname", nameInput.text);
-            form.AddField("lastname", surnameInput.text);
-            form.AddField("gender", GameObject.Find("GenderInput").GetComponent<Dropdown>().value);
-            form.AddField("email", emailInput.text);
-            form.AddField("password", passwordInput1.text);
-            form.AddField("password1", passwordInput2.text);
-            notificationTxt.gameObject.SetActive(true);
-
-            // setting database connection:
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userRegister.php", form))
+            if(passwordInput1.text == passwordInput2.text)
             {
-                yield return www.SendWebRequest();
+                RegisteredUser newUser = new RegisteredUser();
 
-                // This part of the code checks whether there exists a network or connection error with the database.
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    notificationTxt.text = "" + www.error;
-                }
-                else
-                {
-                    // if there are no errors then user account is created:
+                newUser.FirstName = nameInput.text;
+                newUser.LastName = surnameInput.text;
+                newUser.Gender = GameObject.Find("GenderInput").GetComponent<Dropdown>().value;
+                newUser.Email = emailInput.text;
+                newUser.Hash = passwordInput1.text;
 
-                    if (www.downloadHandler.text.Contains("Registration is successful"))
-                    {
-                        notificationTxt.text = "" + www.downloadHandler.text;
-                        yield return new WaitForSeconds(1);
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
-                    }
-                    else
-                    {
-                        notificationTxt.text = "" + www.downloadHandler.text;
-                    }
-                }
+            
+                notificationTxt.gameObject.SetActive(true);
+                StartCoroutine(db.Register(newUser)) ;
             }
-        }
-        // if the e-mail formats do not fit the regex expression then display an error message:
+            else
+            {
+                notificationTxt.gameObject.SetActive(true);
+                notificationTxt.text = "Passwords Do Not Match";
+            }
 
-        else if(!(match.Success) || passwordCheck == 0)
+            
+            // if the e-mail formats do not fit the regex expression then display an error message:
+
+        }
+        else if (!(match.Success) || passwordCheck == 0)
         {
+            notificationTxt.gameObject.SetActive(true);
             notificationTxt.text = "Invalid E-mail Type";
         }
-        
+        yield return new WaitForSeconds(1);
+
     }
-    
-    // This method is used to check whether the password includes numbers, upper or lower letters, special characters and at least 8 digit long.
-    public int VerifyPassword()
+
+        // This method is used to check whether the password includes numbers, upper or lower letters, special characters and at least 8 digit long.
+        public int VerifyPassword()
     {
         var hasNumber = new Regex(@"[0-9]+");
         var hasUpperChar = new Regex(@"[A-Z]+");

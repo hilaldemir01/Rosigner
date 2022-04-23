@@ -1,18 +1,22 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets.Models
 {
-    public class Room 
+    public partial class Room
     {
-        public int room_type { get; set; }
-        public List<Wall> number_of_walls { get; set; }
-
-        public Room(int room_type, List<Wall> number_of_walls)
+        public Room()
         {
-            this.room_type = room_type;
-            this.number_of_walls = number_of_walls;
+            Design = new HashSet<Design>();
         }
+
+        public int RoomId { get; set; }
+        public double Wall1Length { get; set; }
+        public double Wall2Length { get; set; }
+        public int RoomStructureId { get; set; }
+        public double WallHeight { get; set; }
+
+        public virtual RoomStructure RoomStructure { get; set; }
+        public virtual ICollection<Design> Design { get; set; }
     }
 }
