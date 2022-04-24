@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1376351113554779248}
   - component: {fileID: 7240781097360542943}
-  - component: {fileID: 1423383570848593083}
   - component: {fileID: 4379216569603894026}
   m_Layer: 0
   m_Name: windowtry
@@ -47,18 +46,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1423383570848593083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2078666874107388768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1322a9487e328b34f8df9eda6f4fd94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &4379216569603894026
 Rigidbody:
   m_ObjectHideFlags: 0

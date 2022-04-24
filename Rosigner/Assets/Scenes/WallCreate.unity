@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 198837521}
   m_Layer: 0
   m_Name: W4
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1164,7 +1164,7 @@ GameObject:
   - component: {fileID: 331416357}
   m_Layer: 0
   m_Name: W2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1376172967}
+      - m_Target: {fileID: 1307380547}
         m_TargetAssemblyTypeName: WallDefiner, Assembly-CSharp
         m_MethodName: confirm
         m_Mode: 1
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToBeSpawned: {fileID: 524088303693805395, guid: 16e7399e113b23c4caeb915fabb7f892, type: 3}
   parent: {fileID: 352754840}
-  doorSpawn: {fileID: 2078666874107388768, guid: 3fb34b7358d84e944ac2aebed1ca9e5b, type: 3}
+  doorSpawn: {fileID: 5055977843773460383, guid: 770b3d51c67340a49b7a859772fe2100, type: 3}
   windowSpawn: {fileID: 2078666874107388768, guid: 51cc52750624b0c43b62baca6312f8de, type: 3}
   CanvasDistance: {fileID: 1597718949}
   PanelWindowChosing: {fileID: 923780435}
@@ -4208,63 +4208,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356855386}
   m_CullTransparentMesh: 1
---- !u!1 &1376172965
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1376172966}
-  - component: {fileID: 1376172967}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1376172966
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1376172965}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 15, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1376172967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1376172965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c92a00d47772c8043bb8869fcd0c000b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToBeSpawned: {fileID: 524088303693805395, guid: 16e7399e113b23c4caeb915fabb7f892, type: 3}
-  parent: {fileID: 352754840}
-  doorSpawn: {fileID: 2078666874107388768, guid: 3fb34b7358d84e944ac2aebed1ca9e5b, type: 3}
-  windowSpawn: {fileID: 2078666874107388768, guid: 51cc52750624b0c43b62baca6312f8de, type: 3}
-  CanvasDistance: {fileID: 1597718949}
-  PanelWindowChosing: {fileID: 923780435}
-  inputDistanceFromWall: {fileID: 1778738466}
-  DropdownRoomStructure: {fileID: 1875111715}
-  inputHeight: {fileID: 1356855388}
-  inputWidth: {fileID: 1795652561}
-  inputDistanceFromGround: {fileID: 1572531311}
-  CanvasWall: {fileID: 14008042}
-  ConfirmButton: {fileID: 718991728}
-  ErrorMessage: {fileID: 1437566700}
 --- !u!1 &1381139265
 GameObject:
   m_ObjectHideFlags: 0
@@ -4534,7 +4477,7 @@ GameObject:
   - component: {fileID: 1452297697}
   m_Layer: 0
   m_Name: W3
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5936,7 +5879,7 @@ GameObject:
   - component: {fileID: 2030962213}
   m_Layer: 0
   m_Name: W1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

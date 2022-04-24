@@ -1,5 +1,5 @@
 using UnityEngine;
-
+/*
 public class CollusionCheck : MonoBehaviour
 {
     public GameObject gameObject;
@@ -19,3 +19,4 @@ public class CollusionCheck : MonoBehaviour
         }
     }
 }
+*/
