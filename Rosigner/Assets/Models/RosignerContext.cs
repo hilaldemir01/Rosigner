@@ -119,6 +119,56 @@ namespace Assets.Models
                 }
             }
         }
+        public IEnumerator Measurement(Measurement furnitureMeasurement){
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "measurement");
+            form.AddField("height", furnitureMeasurement.furniture_height);
+            form.AddField("width", furnitureMeasurement.furniture_width);
+            form.AddField("length", furnitureMeasurement.furniture_length);
+            form.AddField("furnitureName", furnitureMeasurement.furniture_name);
+
+            string message = "";
+            Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
+
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/measurement.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    message = "" + www.error;
+                    notificationTxt.gameObject.SetActive(true);
+                    notificationTxt.text = message;
+                }
+                else
+                {
+                    // if there are no errors then user account is created:
+
+                    if (www.downloadHandler.text.Contains("Measures saved successfully"))
+                    {
+                        message = "" + www.downloadHandler.text;
+                 
+                
+                        notificationTxt.gameObject.SetActive(true);
+                        notificationTxt.text= message;
+                        yield return new WaitForSeconds(1);
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
+                        
+                    }
+                    else
+                    { //sublime
+                        message = "" + www.downloadHandler.text;
+                        notificationTxt.gameObject.SetActive(true);
+                        notificationTxt.text = message;
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
 
 
 

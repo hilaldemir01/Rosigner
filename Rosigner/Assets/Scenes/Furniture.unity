@@ -1212,6 +1212,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &100145100 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -1322,6 +1323,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &115968791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,7 +1850,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 140068276}
         m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
-        m_MethodName: GetMeasurement
+        m_MethodName: CallInventory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1908,7 +1910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6735e5716fdd7ae48a31b4ebf634df59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFurnitureImage: {fileID: 0}
+  selectedFurnitureImage: {fileID: 183580271}
   slots: []
   selectedSlot: {fileID: 0}
   furnitureBar: {fileID: 0}
@@ -1918,6 +1920,9 @@ MonoBehaviour:
   lengthInput: {fileID: 1586173441}
   saveButton: {fileID: 140068273}
   notificationTxt: {fileID: 1233182595}
+  selectedFurnitureImageName: 
+  prefabName: 
+  a: 
 --- !u!224 &142871473 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -2015,7 +2020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tabAreaButtons: []
-  tabIdle: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  tabIdle: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 3}
   tabHover: {fileID: 0}
   tabActive: {fileID: 0}
   selectedTab: {fileID: 0}
@@ -2398,6 +2403,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &248864804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2614,6 +2620,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &303850649 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3001,6 +3008,9 @@ MonoBehaviour:
   lengthInput: {fileID: 1586173441}
   saveButton: {fileID: 140068273}
   notificationTxt: {fileID: 1233182595}
+  selectedFurnitureImageName: 
+  prefabName: 
+  a: 
 --- !u!1 &431028163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3027,6 +3037,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &481674157 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3053,6 +3064,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &484440410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3709,6 +3721,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &543214997 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3740,6 +3753,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &552454669 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3766,6 +3780,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &559873407
 GameObject:
   m_ObjectHideFlags: 0
@@ -4006,6 +4021,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &575040934
 GameObject:
   m_ObjectHideFlags: 0
@@ -4314,6 +4330,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &598430567
 GameObject:
   m_ObjectHideFlags: 0
@@ -4419,6 +4436,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &627626441 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -4776,6 +4794,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &700044800 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -4802,6 +4821,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &713231819
 GameObject:
   m_ObjectHideFlags: 0
@@ -4905,6 +4925,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &734318619 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -4936,6 +4957,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &773299741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5041,6 +5063,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &779299081 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -5201,6 +5224,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &847715708 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -5432,6 +5456,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &918011072 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -5907,6 +5932,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1010097681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6062,6 +6088,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1039468151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -6088,6 +6115,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1082035838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6518,6 +6546,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1179099284
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,6 +7193,9 @@ MonoBehaviour:
   lengthInput: {fileID: 1586173441}
   saveButton: {fileID: 140068273}
   notificationTxt: {fileID: 1233182595}
+  selectedFurnitureImageName: 
+  prefabName: 
+  a: 
 --- !u!1 &1343358156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -7190,6 +7222,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &1350017488 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -7221,6 +7254,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1415071998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7974,6 +8008,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1522412462 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -8000,6 +8035,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1528594995
 GameObject:
   m_ObjectHideFlags: 0
@@ -8640,6 +8676,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1693947086 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -8666,6 +8703,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1733125316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -8692,6 +8730,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1736133532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -8718,6 +8757,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1739143366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8958,6 +8998,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1751920226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9105,6 +9146,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1764823548 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -9131,6 +9173,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1773413431
 GameObject:
   m_ObjectHideFlags: 0
@@ -9232,6 +9275,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &1791004694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9686,6 +9730,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &1830549756
 GameObject:
   m_ObjectHideFlags: 0
@@ -9778,6 +9823,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &1874934510 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -9809,6 +9855,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &1917402212 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -9966,6 +10013,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &1971172427 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -10087,6 +10135,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &2038607781 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -10206,6 +10255,9 @@ MonoBehaviour:
   lengthInput: {fileID: 1586173441}
   saveButton: {fileID: 140068273}
   notificationTxt: {fileID: 1233182595}
+  selectedFurnitureImageName: 
+  prefabName: 
+  a: 
 --- !u!1 &2054604924
 GameObject:
   m_ObjectHideFlags: 0
@@ -10313,6 +10365,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1 &2080750360 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -10339,6 +10392,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!1001 &2094567280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10729,6 +10783,7 @@ MonoBehaviour:
   onSlotDeselected:
     m_PersistentCalls:
       m_Calls: []
+  image: 
 --- !u!224 &2131267291 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
