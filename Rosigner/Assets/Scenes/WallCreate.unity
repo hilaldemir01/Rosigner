@@ -678,7 +678,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e75320f03d262a54098fbe4f18672fed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3793,7 +3793,7 @@ MonoBehaviour:
   objectToBeSpawned: {fileID: 524088303693805395, guid: 16e7399e113b23c4caeb915fabb7f892, type: 3}
   parent: {fileID: 352754840}
   doorSpawn: {fileID: 5055977843773460383, guid: 770b3d51c67340a49b7a859772fe2100, type: 3}
-  windowSpawn: {fileID: 2078666874107388768, guid: 51cc52750624b0c43b62baca6312f8de, type: 3}
+  windowSpawn: {fileID: 6072458684956423321, guid: 5a11c5133e0f26f429aa82d34bccc66d, type: 3}
   CanvasDistance: {fileID: 1597718949}
   PanelWindowChosing: {fileID: 923780435}
   inputDistanceFromWall: {fileID: 1778738466}
@@ -5244,7 +5244,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e75320f03d262a54098fbe4f18672fed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5763,7 +5763,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e75320f03d262a54098fbe4f18672fed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6114,7 +6114,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e75320f03d262a54098fbe4f18672fed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

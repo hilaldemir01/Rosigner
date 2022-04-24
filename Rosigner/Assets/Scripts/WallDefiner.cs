@@ -117,7 +117,8 @@ public class WallDefiner : MonoBehaviour
     // If another area is clicked, then the highlight is removed, and also red dot is removed as well.
     void ClearSelection()
     {
-        if(selectedObject == null)
+        Color c = new Color(0.9339623f, 0.8399786f, 0.7084016f, 1);
+        if (selectedObject == null)
         {
             return;
         }
@@ -126,7 +127,7 @@ public class WallDefiner : MonoBehaviour
             foreach (Renderer r in rs)
             {
                 Material m = r.material;
-                m.color = Color.white;
+                m.color = c;
                 r.material = m;
             }
             Destroy(GameObject.Find("RedDot(Clone)"));
