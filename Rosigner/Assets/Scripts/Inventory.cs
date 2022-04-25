@@ -1,5 +1,7 @@
+using Assets.Models;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -22,47 +24,82 @@ public class Inventory : MonoBehaviour
     public InputField widthInput, heightInput, lengthInput;
     GameObject[] mergePrefabs;
     public Button saveButton;
+    public Text notificationTxt;
+    public string selectedFurnitureImageName;
+    public string prefabName;
+    public string a;
+    RosignerContext db = new RosignerContext();
+
 
     // Start is called before the first frame update
     void Start()
     {
-       // widthInput = GameObject.Find("Canvas/RightSideLayout/MeasurementField/Border/WidthInputField");
+        widthInput.characterValidation=InputField.CharacterValidation.Integer;
+        heightInput.characterValidation=InputField.CharacterValidation.Integer;
+        lengthInput.characterValidation=InputField.CharacterValidation.Integer;
+        
         widthInput.interactable=false;
         heightInput.interactable=false;
         lengthInput.interactable=false;
         saveButton.interactable = false;
-
-        int i = 0 , j=0, k = 0;
-        //armchair.name = "armchair_01";
-        //armchair_img.name =  armchair.name;  
-        //Instantiate(armchair, new Vector3(0,0,0),Quaternion.identity); kanıtladık
+        notificationTxt.gameObject.SetActive(false);
        
         livingRoomPrefabs = Resources.LoadAll<GameObject>("living room prefab");
         bedroomPrefabs = Resources.LoadAll<GameObject>("bedroom prefab");
         studyRoomPrefabs = Resources.LoadAll<GameObject>("study room prefab");
 
         mergePrefabs = livingRoomPrefabs.Concat(bedroomPrefabs).Concat(studyRoomPrefabs).ToArray();
+    }
+    public void CallInventory()
+    {
+        StartCoroutine(InventoryFunc());
 
-        Debug.Log( ""+mergePrefabs.Length);
-
-        /*Debug.Log("Living Room:");
-        while(i < livingRoomPrefabs.Length){
-            Debug.Log(" "+livingRoomPrefabs[i]);
-            i++;
-        }
-        Debug.Log("Bedroom:"+bedroomPrefabs.Length);
-        while(j < bedroomPrefabs.Length){
-            Debug.Log(" "+bedroomPrefabs[j]);
-            j++;
-        }
-        Debug.Log("Study Room:"+studyRoomPrefabs.Length);
-        while(k < studyRoomPrefabs.Length){
-            Debug.Log(" "+studyRoomPrefabs[k]);
-            k++;
-        }
-        */
     }
 
+    IEnumerator InventoryFunc(){
+        int widthvalue= int.Parse(widthInput.text);
+        int heightvalue = int.Parse(heightInput.text);
+        int lengthvalue = int.Parse(lengthInput.text);
+       
+        selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
+        
+        //to check user's measurement inputs 
+        if(widthvalue <= 0 || heightvalue <= 0 || lengthvalue <= 0 )
+        {
+            notificationTxt.gameObject.SetActive(true);
+            notificationTxt.text = "Please enter positive measure";
+        }
+        else{
+            //notificationTxt.text = "Measures saved successfully"; contextte
+            Measurement furnitureMeasurement = new Measurement();
+            
+            furnitureMeasurement.furniture_height = heightvalue;
+            furnitureMeasurement.furniture_width = widthvalue;
+            furnitureMeasurement.furniture_length = lengthvalue;
+            furnitureMeasurement.furniture_name = selectedFurnitureImageName;
+            Debug.Log("hello"+selectedFurnitureImageName);
+            notificationTxt.gameObject.SetActive(true);
+            StartCoroutine(db.Measurement(furnitureMeasurement)) ;
+        }
+       
+        yield return new WaitForSeconds(1);
+    
+    
+    
+    }
+    /*
+     public void GetMeasurement(){
+      
+        int widthvalue= int.Parse(widthInput.text);
+        int heightvalue = int.Parse(heightInput.text);
+        int lengthvalue = int.Parse(lengthInput.text);
+        VerifyMeasurement(widthvalue,heightvalue,lengthvalue);
+        //burda db bilgileri çekip bunun için ayrı fonksiyon yap onclick te o fonksiyonu çağır resetlencek resetfunc
+        Debug.Log("w"+widthvalue);
+        Debug.Log("h"+heightvalue);
+        Debug.Log("l"+lengthvalue);
+
+    }*/
     public void Subscribe(Slots slot){
     //to make a list of slots
         if(slots == null){
@@ -71,72 +108,58 @@ public class Inventory : MonoBehaviour
         slots.Add(slot);
     }
    
-
-    public void OnSlotSelected(Slots slot){
+    public string OnSlotSelected(Slots slot){
     //when the slot selected
         if(selectedSlot != null){
             selectedSlot.Deselect();
         }
         selectedSlot = slot;
         selectedSlot.Select();
-        ShowFurnitureImage(selectedSlot);   
-    
+
+        selectedFurnitureImageName = ShowFurnitureImage(selectedSlot); 
+        Debug.Log("img"+selectedFurnitureImageName);
+        return selectedFurnitureImageName;
     }
-     public void InstantiateCaller(GameObject prefab)
-     {
-         Instantiate(prefab);
-     }
-  
-    public void ShowFurnitureImage(Slots selectedSlot){
+    public string ShowFurnitureImage(Slots selectedSlot){
         //to take selected image from furniture area inventory and locate it to right side
         furnitureBar = selectedSlot.transform.GetChild(0);
         furnitureImage  = furnitureBar.gameObject.GetComponent<Image>();
         selectedFurnitureImage.sprite = furnitureImage.sprite;
+        selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
+        Debug.Log("bura "+selectedFurnitureImageName);
+
         for(int i=0; i<mergePrefabs.Length;i++){  
            if(selectedFurnitureImage.sprite.name == mergePrefabs[i].name){
                Debug.Log("FIND: "+mergePrefabs[i].name);
+               prefabName = mergePrefabs[i].name;
                break;
            } 
-       }
-  
+        }
+        //a = "beyza";
         widthInput.interactable=true;
         heightInput.interactable=true;
-        lengthInput.interactable=true;  
+        lengthInput.interactable=true; 
+        saveButton.interactable = false; 
+        notificationTxt.gameObject.SetActive(false);
         resetMeasurement();
-        
+        return selectedFurnitureImage.sprite.name;
     }
 
     public void resetMeasurement(){
-
+        //to reset inputFields
         widthInput.text="";
         heightInput.text="";
         lengthInput.text="";
     }
    
-    public void GetMeasurement(){
-      
-        var widthvalue= int.Parse(widthInput.text);
-        var heightvalue = int.Parse(heightInput.text);
-        var lengthvalue = int.Parse(lengthInput.text);
-    
-        //burda db bilgileri çekip bunun için ayrı fonksiyon yap onclick te o fonksiyonu çağır resetlencek resetfunc
-        Debug.Log("w"+widthvalue);
-        Debug.Log("h"+heightvalue);
-        Debug.Log("l"+lengthvalue);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-     public async void VerifyInputs()
-    {
+   
+     public async void VerifyInputs(){
+        // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {
-            Debug.Log("girdi");
             saveButton.interactable = true;
         }
+        
+        
     }
 }

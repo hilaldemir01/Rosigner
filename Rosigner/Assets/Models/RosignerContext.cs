@@ -12,7 +12,6 @@ namespace Assets.Models
 {
     class RosignerContext
     {
-        #region Register
         public IEnumerator Register(RegisteredUser newUser)
         {
             Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
@@ -68,9 +67,7 @@ namespace Assets.Models
             yield return new WaitForSeconds(1);
 
         }
-        #endregion
 
-        #region Login
         public IEnumerator Login(string email, string password)
         {
             //Text notificationTxt2 = GameObject.Find("Login/Canvas/notification").GetComponent<Text>();
@@ -105,11 +102,11 @@ namespace Assets.Models
                     {
 
                         //Debug.Log(www.downloadHandler.text);
-                        //      notificationTxt2.gameObject.SetActive(true);
-                        //      notificationTxt2.text = "" + www.downloadHandler.text;
+                 //      notificationTxt2.gameObject.SetActive(true);
+                 //      notificationTxt2.text = "" + www.downloadHandler.text;
+                        
                         yield return new WaitForSeconds(1);
                         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
-                        
                     }
                     else
                     {
@@ -122,76 +119,63 @@ namespace Assets.Models
                 }
             }
         }
-        #endregion
-
-        #region Fetch User Information
-        // https://www.youtube.com/watch?v=5jdGmGcmyT4&list=PLUGBd0sVm3sjrdmBd6kCIKRtJN2tZuQcb&index=20&ab_channel=GinfiSoftware
-        public IEnumerator LoginUserInfo(string email)
-        {
+        public IEnumerator Measurement(Measurement furnitureMeasurement){
             WWWForm form = new WWWForm();
-            form.AddField("unity","loginuserinfo");
-            form.AddField("email", email);
+            form.AddField("unity", "measurement");
+            form.AddField("height", furnitureMeasurement.furniture_height);
+            form.AddField("width", furnitureMeasurement.furniture_width);
+            form.AddField("length", furnitureMeasurement.furniture_length);
+            form.AddField("furnitureName", furnitureMeasurement.furniture_name);
 
-            using(UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/loginuserinfo.php", form))
-            {
-                yield return www.SendWebRequest();
+            string message = "";
+            Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
 
-                if(www.isNetworkError || www.isHttpError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    // storing the fetched user credentials 
-                    string returnedUser = www.downloadHandler.text;
-
-                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    string[] userArray = returnedUser.Split(';');
-
-                    // creating a registereduser object in order to store user credentials
-                    RegisteredUser loggedinUser = new RegisteredUser();
-                    loggedinUser.FirstName = userArray[0];
-                    loggedinUser.LastName = userArray[1];
-                    loggedinUser.Gender = int.Parse(userArray[2]);
-                    loggedinUser.Email = email;
-
-                    //checking if the returned values are correct
-                    Debug.Log(loggedinUser.FirstName);
-                    Debug.Log(loggedinUser.LastName);
-                    Debug.Log(loggedinUser.Gender);
-                    Debug.Log(loggedinUser.Email);
-                }
-            }
-        }
-        #endregion
-
-        #region Room Information
-        public IEnumerator Room(Room newRoom)
-        {
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "room");
-            form.AddField("wall1length", newRoom.Wall1Length.ToString());
-            form.AddField("wall2length", newRoom.Wall2Length.ToString());
-            form.AddField("wallheight", newRoom.WallHeight.ToString());
 
             // setting database connection:
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/room.php", form))
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/measurement.php", form))
             {
                 yield return www.SendWebRequest();
 
                 // This part of the code checks whether there exists a network or connection error with the database.
                 if (www.isNetworkError || www.isHttpError)
                 {
-                    Debug.Log(www.error);
+                    message = "" + www.error;
+                    notificationTxt.gameObject.SetActive(true);
+                    notificationTxt.text = message;
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
+                    // if there are no errors then user account is created:
+
+                    if (www.downloadHandler.text.Contains("Measures saved successfully"))
+                    {
+                        message = "" + www.downloadHandler.text;
+                 
+                
+                        notificationTxt.gameObject.SetActive(true);
+                        notificationTxt.text= message;
+                        yield return new WaitForSeconds(1);
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
+                        
+                    }
+                    else
+                    { //sublime
+                        message = "" + www.downloadHandler.text;
+                        notificationTxt.gameObject.SetActive(true);
+                        notificationTxt.text = message;
+                    }
                 }
             }
 
             yield return new WaitForSeconds(1);
         }
-        #endregion
+
+
+
+
+
+
+
+
     }
 }

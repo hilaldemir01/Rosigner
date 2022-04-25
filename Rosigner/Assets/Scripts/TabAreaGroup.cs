@@ -36,7 +36,6 @@ public class TabAreaGroup : MonoBehaviour
         }
         
     }
-
     public void OnTabExit(TabButton button){
         ResetTabs();
     }

@@ -11,32 +11,27 @@ public class Slots : MonoBehaviour, IPointerClickHandler
     public Inventory inventory, selectedFurniture;
     public Sprite furnitureActive;
     public UnityEvent onSlotSelected, onSlotDeselected;
-
-    // Start is called before the first frame update
-    void Start()
-    {
+    public string image;
+    
+    void Start(){
+        // Start is called before the first frame update
         inventory.Subscribe(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnPointerClick(PointerEventData eventData){
-        inventory.OnSlotSelected(this);
+        //when mouse click in the slot this method calleds
+        image = inventory.OnSlotSelected(this);
     }
    
- 
-  
     public void Select(){
+        //this function is called from inventory
         if(onSlotSelected != null){
             onSlotSelected.Invoke();
         }
     }
 
     public void Deselect(){
+         //this function is called from inventory
         if(onSlotDeselected != null){
             onSlotDeselected.Invoke();
         }
