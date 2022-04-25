@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Assets.Models;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class LoginSystem : MonoBehaviour
 {
@@ -33,8 +35,10 @@ public class LoginSystem : MonoBehaviour
         string password=passwordInput.text;
         StartCoroutine(db.Login(email, password));
         yield return new WaitForSeconds(1);
-        StartCoroutine(db.LoginUserInfo(email));
+        if(SceneManager.GetActiveScene().Equals("Menu"))
+        {
+            StartCoroutine(db.LoginUserInfo(email));
 
-
+        }
     }
 }

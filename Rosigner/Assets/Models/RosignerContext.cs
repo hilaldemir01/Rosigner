@@ -104,6 +104,7 @@ namespace Assets.Models
                         //      notificationTxt2.text = "" + www.downloadHandler.text;
                         yield return new WaitForSeconds(1);
                         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+                        yield return 1;
 
                     }
                     else
@@ -245,6 +246,34 @@ namespace Assets.Models
 
         #endregion
 
+        #region Furniture Name Insertion
+
+        public IEnumerator furnitureNameInsertion()
+        {
+            string allFurnitureNames = "bed_1;bed_2;bed_3;cabinet_1;cabinet_1_2;cabinet_1_3;cabinet_2;cabinet_3;PFB_BedsideTable;PFB_BedsideTable_2;PFB_FreestandMirror;Queen_Bed_2;Single_Bed_1;Single_Bed_1_2;armchair_1;armchair_2;armchair_3;coffee_table_1;coffee_table_2;coffee_table_3;dining_chair;kitchen_chair_1(Clone);kitchen_table_1;kitchen_table_2;kitchen_table_3;PFB_TV;rack_5;sofa;sofa_2;sofa_3;torchere_3;tv_table_1;chair_1;chair_2;modular_table_1;modular_table_1_2;rack_1;rack_2;table_1;table_2;table_3;table_3_2;torchere_2;Door(Brown);window1(single)";
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "furnitureNameInsertion");
+            form.AddField("allFurnitureNames", allFurnitureNames);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureNameInsertion.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+        #endregion
 
     }
 }
