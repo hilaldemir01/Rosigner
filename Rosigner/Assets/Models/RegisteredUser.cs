@@ -18,7 +18,5 @@ namespace Assets.Models
         public string Email { get; set; }
         public int Gender { get; set; }
         public string Hash { get; set; }
-
-        public virtual ICollection<UserDesign> UserDesign { get; set; }
     }
 }

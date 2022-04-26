@@ -74,12 +74,6 @@ public class Resizing : MonoBehaviour
             wallobj3.gameObject.transform.position = new Vector3(wall1inp, 0, wall2inp + 0.2f);
             wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wall2inp + 0.1f);
 
-            Room newRoom = new Room();
-            newRoom.Wall1Length = float.Parse(wall1.text);
-            newRoom.Wall2Length = float.Parse(wall2.text);
-            newRoom.WallHeight = float.Parse(height.text);
-            StartCoroutine(db.Room(newRoom));
-
             ErrorMessage.gameObject.SetActive(false);
             return true;
         }

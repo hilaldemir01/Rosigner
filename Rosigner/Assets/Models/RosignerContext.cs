@@ -166,9 +166,7 @@ namespace Assets.Models
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "room");
-            form.AddField("wall1length", newRoom.Wall1Length.ToString());
-            form.AddField("wall2length", newRoom.Wall2Length.ToString());
-            form.AddField("wallheight", newRoom.WallHeight.ToString());
+
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/room.php", form))
