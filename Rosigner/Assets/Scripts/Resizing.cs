@@ -54,10 +54,16 @@ public class Resizing : MonoBehaviour
         float.TryParse(height.text, out float result3);
         heightinp = result3;
 
+        
         if (wall1inp <= 0 || wall2inp<=0 || heightinp <=0)
         {
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter non positive value";
+            return false;
+        } else if (heightinp >= 10)
+        {
+            ErrorMessage.gameObject.SetActive(true);
+            ErrorMessage.text = "Please enter the heigh of the wall upto 10 meters";
             return false;
         }
         else

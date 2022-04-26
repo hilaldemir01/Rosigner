@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1786,7 +1786,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &454583088
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1865,7 +1865,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &555899502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2113,7 +2113,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &606441190
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2766,7 +2766,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &843192119
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3313,7 +3313,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &1099422178
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3471,7 +3471,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &1211094765
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3645,7 +3645,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 352754841}
         m_TargetAssemblyTypeName: Resizing, Assembly-CSharp
-        m_MethodName: Hide
+        m_MethodName: ConfirmButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3706,7 +3706,6 @@ GameObject:
   - component: {fileID: 1307380544}
   - component: {fileID: 1307380547}
   - component: {fileID: 1307380548}
-  - component: {fileID: 1307380549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3821,25 +3820,6 @@ MonoBehaviour:
   Wall1_location: {fileID: 2030962212}
   Wall2_location: {fileID: 331416356}
   Light_object: {fileID: 743908529}
---- !u!114 &1307380549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1307380543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58e5a1ba909158b49a7abb332ad4880b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wall1Height: {fileID: 0}
-  wall2Height: {fileID: 0}
-  wallHeight: {fileID: 0}
-  inputHeightRoomStructure: {fileID: 0}
-  inputWidthRoomStructure: {fileID: 0}
-  inputDistanceFromGroundRoomStructure: {fileID: 0}
-  ConfirmButton: {fileID: 0}
 --- !u!1 &1322020090
 GameObject:
   m_ObjectHideFlags: 0
@@ -3910,7 +3890,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: 
 --- !u!222 &1322020093
 CanvasRenderer:
   m_ObjectHideFlags: 0
