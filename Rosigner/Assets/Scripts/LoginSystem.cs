@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using Assets.Models;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class LoginSystem : MonoBehaviour
 {
@@ -10,6 +13,7 @@ public class LoginSystem : MonoBehaviour
     public InputField passwordInput;
     public Button login;
     public Text notificationTxt;
+    RosignerContext db = new RosignerContext();
 
     void Start() {
 
@@ -27,34 +31,14 @@ public class LoginSystem : MonoBehaviour
 
     IEnumerator Login()
     {
-        WWWForm form = new WWWForm();
-        form.AddField("unity", "login");
-        form.AddField("email", emailInput.text);
-        form.AddField("password", passwordInput.text);
-        notificationTxt.gameObject.SetActive(true);
-        
-
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
+        string email= emailInput.text;
+        string password=passwordInput.text;
+        StartCoroutine(db.Login(email, password));
+        yield return new WaitForSeconds(1);
+        if(SceneManager.GetActiveScene().Equals("Menu"))
         {
-            yield return www.SendWebRequest();
+            StartCoroutine(db.LoginUserInfo(email));
 
-            if (www.isNetworkError || www.isHttpError)
-            {
-                notificationTxt.text= "" + www.error;
-            }
-            else
-            {
-                if(www.downloadHandler.text.Contains("Login success!")){
-                    
-                    //Debug.Log(www.downloadHandler.text);
-                    notificationTxt.text= "" + www.downloadHandler.text;
-                    yield return new WaitForSeconds(1);
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
-                }else {
-                    notificationTxt.text="" + www.downloadHandler.text;
-                    //Debug.Log(www.downloadHandler.text);
-                }
-            }
         }
     }
 }

@@ -1,24 +1,22 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace Assets.Models
 {
-    public class RegisteredUser : User
+    [JsonObject,Serializable]
+    public partial class RegisteredUser
     {
-        public RegisteredUser(string name, string surname, int gender, string email, string password, int userType ): base(userType)
-        {
-            this.name = name;
-            this.surname = surname;
-            this.gender = gender;
-            this.email = email;
-            this.password = password;
-            this.userType = userType;
-        }
+        //public RegisteredUser()
+        //{
+        //    UserDesign = new HashSet<UserDesign>();
+        //}
 
-        public string name { get; set; }
-        public string surname { get; set; }
-        public int gender { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
+        public int UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public int Gender { get; set; }
+        public string Hash { get; set; }
     }
 }

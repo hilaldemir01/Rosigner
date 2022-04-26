@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Register.unity
     guid: 2107edda511ea7646b394e9458197df1
+  - enabled: 1
+    path: Assets/Scenes/WallCreate.unity
+    guid: 242dda401285d2d4db5ec77157300fde
+  - enabled: 1
+    path: Assets/Scenes/Furniture.unity
+    guid: a88befd873ec14b4dac1f8dfaa1e5d92
   m_configObjects: {}

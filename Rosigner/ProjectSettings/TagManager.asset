@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - RedDot
+  - Furniture
+  - windowtry
   layers:
   - Default
   - TransparentFX

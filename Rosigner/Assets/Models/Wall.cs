@@ -1,17 +1,17 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Assets.Models
 {
-    public class Wall 
+    class Wall
     {
-        public float wall_height { get; set; }
-        public float wall_width { get; set; }
-
-        public Wall(float wall_height, float wall_width)
-        {
-            this.wall_height = wall_height;
-            this.wall_width = wall_width;
-        }
+        public int WallID { get; set; }
+        public string WallName { get; set; }
+        public float WallLength { get; set; }
+        public float WallHeight { get; set; }
+        public int RoomID { get; set; }
     }
 }
