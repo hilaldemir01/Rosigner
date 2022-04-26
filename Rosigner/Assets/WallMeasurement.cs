@@ -12,18 +12,30 @@ public class WallMeasurement : MonoBehaviour
     public InputField inputHeightRoomStructure;
     public InputField inputWidthRoomStructure;
     public InputField inputDistanceFromGroundRoomStructure;
+    public InputField inputDistanceFromRedDot;
     public Button ConfirmButton;
     RosignerContext db = new RosignerContext();
 
-    public void SendToDatabase()
+    public void callSendToDatabase()
+    {
+        StartCoroutine(SendToDatabase());
+    }
+    IEnumerator SendToDatabase()
     {
         Room newRoom = new Room();
         newRoom.Wall1Length = float.Parse(wall1Height.text);
         newRoom.Wall2Length = float.Parse(wall2Height.text);
         newRoom.WallHeight = float.Parse(wallHeight.text);
 
-        RoomStructure newRoomStructure = new RoomStructure(); 
+        RoomStructure newRoomStructure = new RoomStructure();
+        newRoomStructure.DistanceFromRedDot = float.Parse(inputDistanceFromRedDot.text);
+        newRoomStructure.DistanceFromGround = float.Parse(inputDistanceFromGroundRoomStructure.text);
+        newRoomStructure.RoomStructureHeight = float.Parse(inputHeightRoomStructure.text);
+        newRoomStructure.RoomStructureWidth = float.Parse(inputWidthRoomStructure.text);
+
 
         StartCoroutine(db.Room(newRoom));
+        yield return new WaitForSeconds(1);
+
     }
 }

@@ -256,7 +256,7 @@ public class WallDefiner : MonoBehaviour
         else if (width<=0 || height<=0)
         {
             ErrorMessage.gameObject.SetActive(true);
-            ErrorMessage.text = "Please do not enter non positive value for with and height";
+            ErrorMessage.text = "Please do not enter non positive value for width and height";
             return false;
         }
         else if (width + wallDistance > tempScale)
