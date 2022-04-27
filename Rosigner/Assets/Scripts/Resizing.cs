@@ -60,10 +60,10 @@ public class Resizing : MonoBehaviour
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter non positive value";
             return false;
-        } else if (heightinp >= 10)
+        } else if (wall1inp > 10 || wall2inp > 10 || heightinp > 10 )
         {
             ErrorMessage.gameObject.SetActive(true);
-            ErrorMessage.text = "Please enter the heigh of the wall upto 10 meters";
+            ErrorMessage.text = "Please do not enter value more than 10 meters";
             return false;
         }
         else
