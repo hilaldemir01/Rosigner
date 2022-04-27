@@ -89,7 +89,7 @@ public class WallDefiner : MonoBehaviour
         if (selectedObject.tag == "Wall")
         {
             // position of the red dot is defined here:
-            float reddot_height = selectedObject.transform.parent.localScale.y + 0.1f;
+            float reddot_height = selectedObject.transform.parent.localScale.y + 0.01f;
             Vector3 position = selectedObject.transform.parent.position;
             Vector3 startposition = new Vector3(position.x, reddot_height, position.z); 
             Instantiate(objectToBeSpawned, startposition, Quaternion.identity, parent);
@@ -316,12 +316,10 @@ public class WallDefiner : MonoBehaviour
 
 
 
-public void confirm()
+    public void confirm()
     {
 
         selectedObject=tempObject;
-
-        
 
         bool hasEroors = RoomStructures();
         if(hasEroors== true)

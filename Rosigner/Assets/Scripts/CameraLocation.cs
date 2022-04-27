@@ -27,7 +27,7 @@ public class CameraLocation : MonoBehaviour
         {
 
                 float camposition1= (wall1_length / 2) * Mathf.Sqrt(5) + wall_height;
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, wall2_length / 2);
+                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, (wall2_length / 2)+0.1f);
                 Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, wall2_length / 2);
 
             
@@ -35,7 +35,7 @@ public class CameraLocation : MonoBehaviour
         else 
         {
                 float camposition2 = (wall2_length / 2) * Mathf.Sqrt(5) + wall_height;
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, wall2_length / 2);
+                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, (wall2_length / 2) + 0.1f);
                 Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, wall2_length / 2);
                 
 
