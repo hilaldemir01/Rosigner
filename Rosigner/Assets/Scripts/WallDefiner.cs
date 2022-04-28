@@ -1,5 +1,6 @@
 using Assets.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WallDefiner : MonoBehaviour
@@ -25,22 +26,38 @@ public class WallDefiner : MonoBehaviour
     public Button ConfirmButton;
     public Text ErrorMessage;
 
-    private int isTriggered=1;
+    public static WallDefiner instance;
+    public int x = 0;
+    public int isTriggered;
 
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
 
+    private void Awake()
+    {
+        instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
+
+    }
+
+
     private void Start()
     {
-        loggedinUser = LoginSystem.instance.loggedinUser;
-        Debug.Log(loggedinUser.FirstName + loggedinUser.LastName);
-        Debug.Log(loggedinUser.UserId);
+        if (loggedinUser.Email != null)
+        {
+            loggedinUser = LoginSystem.instance.loggedinUser;
+            Debug.Log(loggedinUser.FirstName + loggedinUser.LastName);
+            Debug.Log(loggedinUser.UserId);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        isTriggered = x;
+       // Debug.Log(isTriggered);
 
         // This method is use to select the clicked wall. 
 
@@ -250,8 +267,8 @@ public class WallDefiner : MonoBehaviour
         float.TryParse(inputWidth.text, out float result2);
         width = result2/100.0f;
 
-
-        if(DropdownRoomStructure.GetComponent<Dropdown>().value == 0)
+        Debug.Log(isTriggered);
+        if (DropdownRoomStructure.GetComponent<Dropdown>().value == 0)
         {
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please select the room structure type";
@@ -291,12 +308,12 @@ public class WallDefiner : MonoBehaviour
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter a height value more than the Wall height";
             return false;
-        }else if(isTriggered == 0)
+        }else if(isTriggered == 2)
         {
             ErrorMessage.gameObject.SetActive(true);  // window and door collider.
             ErrorMessage.text = "The room structure to be places is colliding with another one";
             return false;
-            
+           
         }
         else
         {
@@ -380,5 +397,17 @@ public class WallDefiner : MonoBehaviour
             CanvasGoAddFurniture.SetActive(false);
         }
     }
-
+    /*
+    public void backButton()
+    {
+        if (loggedinUser.Email != null)
+        {
+            SceneManager.LoadScene("PreviousDesigns");
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu");
+        }
+    }
+    */
 }

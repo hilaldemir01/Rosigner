@@ -3157,7 +3157,6 @@ GameObject:
   - component: {fileID: 945728844}
   - component: {fileID: 945728843}
   - component: {fileID: 945728842}
-  - component: {fileID: 945728841}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -3184,19 +3183,6 @@ RectTransform:
   m_AnchoredPosition: {x: -212, y: 123}
   m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &945728841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945728839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7bbffef3d70b84a94386151b872b41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: PreviousDesigns
 --- !u!114 &945728842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3240,19 +3226,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 945728843}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 945728841}
-        m_TargetAssemblyTypeName: WindowChange, Assembly-CSharp
-        m_MethodName: StartScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &945728843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4279,6 +4253,8 @@ MonoBehaviour:
   CanvasWall: {fileID: 14008042}
   ConfirmButton: {fileID: 718991728}
   ErrorMessage: {fileID: 1437566700}
+  x: 0
+  isTriggered: 0
 --- !u!114 &1307380548
 MonoBehaviour:
   m_ObjectHideFlags: 0
