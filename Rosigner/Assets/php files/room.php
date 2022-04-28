@@ -15,11 +15,11 @@ if($_POST['unity']=="room")
     $query="INSERT INTO room (UserID) VALUES ('".$userid."');";
     $queryResult = mysqli_query($con,$query);
 
-    // Print this message if the insertion is successful
-    if($queryResult){
-        echo "RoomId creation is successful";
-    }else{
-        echo "Failed to insert";
-    }
+    $query2 = "SELECT * FROM room WHERE UserID = '".$userid."';";
+
+	$queryResult2 = $con->query($query2); // table 
+	$result = $queryResult2->fetch_object(); // table is turned into an array and it can be used by column name 
+	$returnvalue = "$result->RoomID";
+	echo $returnvalue;
 }
 ?>

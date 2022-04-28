@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -284,5 +285,35 @@ namespace Assets.Models
         }
         #endregion
 
+        #region Wall Table Information Insertion
+        public IEnumerator Wall(Wall wall, System.Action<string> callback)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "wall");
+            form.AddField("roomID", wall.RoomID);
+            form.AddField("wallName", wall.WallName);
+            form.AddField("wallLength", wall.WallLength.ToString());
+            form.AddField("wallHeight", wall.WallHeight.ToString());
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/wall.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                    callback(www.downloadHandler.text);
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+        #endregion
     }
 }

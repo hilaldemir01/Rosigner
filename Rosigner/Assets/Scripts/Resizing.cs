@@ -19,6 +19,8 @@ public class Resizing : MonoBehaviour
     public GameObject CanvasWall;
     public Text ErrorMessage;
     RosignerContext db = new RosignerContext();
+    int RoomID;
+    List<Wall> wallList = new List<Wall>();
 
     float wall1inp, wall2inp, heightinp;
     private void Start()
@@ -55,7 +57,6 @@ public class Resizing : MonoBehaviour
         float.TryParse(height.text, out float result3);
         heightinp = result3;
 
-        
         if (wall1inp <= 0 || wall2inp<=0 || heightinp <=0)
         {
             ErrorMessage.gameObject.SetActive(true);
@@ -95,13 +96,30 @@ public class Resizing : MonoBehaviour
         bool hasEroors=CreatingWalls();
         if (hasEroors == true) // if there are no errors
         {
-            StartCoroutine(db.Room(LoginSystem.instance.loggedinUser.UserId, print_message));
+            //StartCoroutine(db.Room(LoginSystem.instance.loggedinUser.UserId, getRoomID)); // generate a new room id and insert those to the db
+            //for (int i=0; i < 4; i++)
+            //{
+            //    StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
+            //}
             Hide();
         }
     }
 
-    public void print_message(string message)
+    public void getRoomID(string roomID)
     {
-        Debug.Log(message);
+        //RoomID = Convert.ToInt32(roomID); 
+        int.TryParse(roomID, out int returnedvalue);
+        RoomID = returnedvalue;
+
+        wallList.Add(new Wall() { WallName = "W1", WallLength = wall1inp, WallHeight = heightinp, RoomID = RoomID });
+        wallList.Add(new Wall() { WallName = "W2", WallLength = wall2inp, WallHeight = heightinp, RoomID = RoomID });
+        wallList.Add(new Wall() { WallName = "W3", WallLength = wall1inp, WallHeight = heightinp, RoomID = RoomID });
+        wallList.Add(new Wall() { WallName = "W4", WallLength = wall2inp, WallHeight = heightinp, RoomID = RoomID });
+        Debug.Log("RoomID:" + RoomID);
+
+    }
+    public void getWallID(string WallID)
+    {
+        Debug.Log("WallID:" + WallID);
     }
 }
