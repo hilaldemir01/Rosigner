@@ -9,17 +9,15 @@ if ($con -> connect_errno) {
 if($_POST['unity']=="room")
 {
     // Getting room information from the user interface
-    $wall1length=$_POST['wall1length'];
-    $wall2length=$_POST['wall2length'];
-    $wallheight=$_POST['wallheight'];
+    $userid=$_POST['userid'];
 
     // add the room into the database 
-    $query="INSERT INTO room (wall1length, wall2length, wallheight) VALUES ('".$wall1length."','".$wall2length."','".$wallheight."');";
+    $query="INSERT INTO room (UserID) VALUES ('".$userid."');";
     $queryResult = mysqli_query($con,$query);
 
     // Print this message if the insertion is successful
     if($queryResult){
-        echo "Room measurement is successful inserted";
+        echo "RoomId creation is successful";
     }else{
         echo "Failed to insert";
     }

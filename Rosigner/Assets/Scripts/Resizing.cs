@@ -93,9 +93,15 @@ public class Resizing : MonoBehaviour
     public void ConfirmButton()
     {
         bool hasEroors=CreatingWalls();
-        if (hasEroors == true)
+        if (hasEroors == true) // if there are no errors
         {
+            StartCoroutine(db.Room(LoginSystem.instance.loggedinUser.UserId, print_message));
             Hide();
         }
+    }
+
+    public void print_message(string message)
+    {
+        Debug.Log(message);
     }
 }

@@ -170,12 +170,12 @@ namespace Assets.Models
         }
         #endregion
 
-        #region Room Information
-        public IEnumerator Room(Room newRoom)
+        #region Room Table Connection
+        public IEnumerator Room(int UserID, System.Action<string> callback)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "room");
-
+            form.AddField("userid", UserID);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/room.php", form))
@@ -190,6 +190,7 @@ namespace Assets.Models
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
+                    callback(www.downloadHandler.text);
                 }
             }
 

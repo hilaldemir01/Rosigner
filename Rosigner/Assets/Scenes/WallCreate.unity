@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -143,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &14008043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +232,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 960, y: 540}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 500, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &14008047
 MonoBehaviour:
@@ -4124,16 +4124,14 @@ MonoBehaviour:
   CanvasDistance: {fileID: 1597718949}
   PanelWindowChosing: {fileID: 923780435}
   CanvasGoAddFurniture: {fileID: 1212845115}
+  CanvasWall: {fileID: 14008042}
   inputDistanceFromWall: {fileID: 1778738466}
   DropdownRoomStructure: {fileID: 1875111715}
   inputHeight: {fileID: 1356855388}
   inputWidth: {fileID: 1795652561}
   inputDistanceFromGround: {fileID: 1572531311}
-  CanvasWall: {fileID: 14008042}
   ConfirmButton: {fileID: 718991728}
   ErrorMessage: {fileID: 1437566700}
-  x: 0
-  isTriggered: 0
 --- !u!114 &1307380548
 MonoBehaviour:
   m_ObjectHideFlags: 0
