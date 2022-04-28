@@ -123,7 +123,7 @@ public class Registration : MonoBehaviour
     // This method is used to check whether input fields are empty or not. It also checks for the password lengths to be more than 8 digits.
     public async void VerifyInputs()
     {
-        if(nameInput.text.Length >0 && surnameInput.text.Length > 0 && emailInput.text.Length > 0 && genderInput.value != 0 && passwordInput1.text.Length >= 8 &&  passwordInput2.text.Length >= 8)
+        if(nameInput.text.Length >0 && surnameInput.text.Length > 0 && emailInput.text.Length > 0 && genderInput.value != 0 && passwordInput1.text.Length >= 8 &&  passwordInput2.text.Length >= 8 && GameObject.Find("GenderInput").GetComponent<Dropdown>().value != 0)
         {
             register.interactable = true;
         }
