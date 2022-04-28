@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1911,10 +1911,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedFurnitureImage: {fileID: 183580271}
+  furnitureImage: {fileID: 0}
   slots: []
   selectedSlot: {fileID: 0}
   furnitureBar: {fileID: 0}
-  furnitureImage: {fileID: 0}
   widthInput: {fileID: 87734079}
   heightInput: {fileID: 121861286}
   lengthInput: {fileID: 1586173441}
@@ -1922,7 +1922,6 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
-  a: 
 --- !u!224 &142871473 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -2047,7 +2046,6 @@ GameObject:
   - component: {fileID: 177660261}
   - component: {fileID: 177660265}
   - component: {fileID: 177660264}
-  - component: {fileID: 177660263}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2106,20 +2104,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &177660263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177660260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a451dbf511a28408cf6698a3af89e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theName: 
-  furnitureCategory: {fileID: 0}
 --- !u!114 &177660264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2999,10 +2983,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedFurnitureImage: {fileID: 183580271}
+  furnitureImage: {fileID: 0}
   slots: []
   selectedSlot: {fileID: 0}
   furnitureBar: {fileID: 0}
-  furnitureImage: {fileID: 0}
   widthInput: {fileID: 87734079}
   heightInput: {fileID: 121861286}
   lengthInput: {fileID: 1586173441}
@@ -3010,7 +2994,6 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
-  a: 
 --- !u!1 &431028163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -7184,10 +7167,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedFurnitureImage: {fileID: 183580271}
+  furnitureImage: {fileID: 0}
   slots: []
   selectedSlot: {fileID: 0}
   furnitureBar: {fileID: 0}
-  furnitureImage: {fileID: 0}
   widthInput: {fileID: 87734079}
   heightInput: {fileID: 121861286}
   lengthInput: {fileID: 1586173441}
@@ -7195,7 +7178,6 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
-  a: 
 --- !u!1 &1343358156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -10246,10 +10228,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedFurnitureImage: {fileID: 183580271}
+  furnitureImage: {fileID: 0}
   slots: []
   selectedSlot: {fileID: 0}
   furnitureBar: {fileID: 0}
-  furnitureImage: {fileID: 0}
   widthInput: {fileID: 87734079}
   heightInput: {fileID: 121861286}
   lengthInput: {fileID: 1586173441}
@@ -10257,7 +10239,6 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
-  a: 
 --- !u!1 &2054604924
 GameObject:
   m_ObjectHideFlags: 0

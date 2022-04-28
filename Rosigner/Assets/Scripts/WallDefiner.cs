@@ -22,8 +22,8 @@ public class WallDefiner : MonoBehaviour
     public Button ConfirmButton;
     public Text ErrorMessage;
     public static WallDefiner instance;
-    public int x = 0;
-    public int isTriggered;
+    
+    private int isTriggered=1;
 
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
@@ -44,8 +44,6 @@ public class WallDefiner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isTriggered = x;
-       // Debug.Log(isTriggered);
 
         // This method is use to select the clicked wall. 
 
@@ -255,7 +253,6 @@ public class WallDefiner : MonoBehaviour
         float.TryParse(inputWidth.text, out float result2);
         width = result2/100.0f;
 
-        Debug.Log(isTriggered);
         if (DropdownRoomStructure.GetComponent<Dropdown>().value == 0)
         {
             ErrorMessage.gameObject.SetActive(true);
@@ -296,7 +293,7 @@ public class WallDefiner : MonoBehaviour
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter a height value more than the Wall height";
             return false;
-        }else if(isTriggered == 2)
+        }else if(isTriggered == 0)
         {
             ErrorMessage.gameObject.SetActive(true);  // window and door collider.
             ErrorMessage.text = "The room structure to be places is colliding with another one";
@@ -385,6 +382,8 @@ public class WallDefiner : MonoBehaviour
             CanvasGoAddFurniture.SetActive(false);
         }
     }
+
+
     /*
     public void backButton()
     {

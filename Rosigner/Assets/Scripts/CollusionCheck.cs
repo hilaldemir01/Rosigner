@@ -3,7 +3,7 @@ using UnityEngine;
 public class CollusionCheck : MonoBehaviour
 {
     
-
+    /*
     public void OnTriggerEnter(Collider other)
     {
        // WallDefiner wallDefiner = gameObject.AddComponent<WallDefiner>();
@@ -19,4 +19,5 @@ public class CollusionCheck : MonoBehaviour
             WallDefiner.instance.x=1;
         }
     }
+    */
 }
