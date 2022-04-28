@@ -45,13 +45,13 @@ public class LoginSystem :  MonoBehaviour
         yield return new WaitForSeconds(1);
         //if(SceneManager.GetActiveScene().Equals("PreviousDesigns"))
         //{
-            StartCoroutine(db.LoginUserInfo(email,loggedinUser,userInfo));
+            StartCoroutine(db.LoginUserInfo(email,loggedinUser, fetchUserInformation));
 
        // }
     }
 
     // This is for getting user credentials after the login process is successfully made and storing into the global variable
-    public void userInfo (RegisteredUser newUser)
+    public void fetchUserInformation (RegisteredUser newUser)
     {
         loggedinUser.FirstName = newUser.FirstName;
         loggedinUser.LastName = newUser.LastName;
