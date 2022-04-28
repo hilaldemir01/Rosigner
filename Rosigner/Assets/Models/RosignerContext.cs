@@ -7,6 +7,9 @@ namespace Assets.Models
 {
     class RosignerContext
     {
+        public RegisteredUser instance;
+        public RegisteredUser currentUser = new RegisteredUser();
+
         #region Register
         public IEnumerator Register(RegisteredUser newUser)
         {
@@ -103,7 +106,6 @@ namespace Assets.Models
                         //      notificationTxt2.gameObject.SetActive(true);
                         //      notificationTxt2.text = "" + www.downloadHandler.text;
                         yield return new WaitForSeconds(1);
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
                         yield return 1;
 
                     }
@@ -122,7 +124,7 @@ namespace Assets.Models
 
         #region Fetch User Information
         // https://www.youtube.com/watch?v=5jdGmGcmyT4&list=PLUGBd0sVm3sjrdmBd6kCIKRtJN2tZuQcb&index=20&ab_channel=GinfiSoftware
-        public IEnumerator LoginUserInfo(string email)
+        public IEnumerator LoginUserInfo(string email, RegisteredUser loggedinUser, System.Action<RegisteredUser> callback)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "loginuserinfo");
@@ -145,10 +147,10 @@ namespace Assets.Models
                     string[] userArray = returnedUser.Split(';');
 
                     // creating a registereduser object in order to store user credentials
-                    RegisteredUser loggedinUser = new RegisteredUser();
-                    loggedinUser.FirstName = userArray[0];
-                    loggedinUser.LastName = userArray[1];
-                    loggedinUser.Gender = int.Parse(userArray[2]);
+                    loggedinUser.UserId = int.Parse(userArray[0]);
+                    loggedinUser.FirstName = userArray[1];
+                    loggedinUser.LastName = userArray[2];
+                    loggedinUser.Gender = int.Parse(userArray[3]);
                     loggedinUser.Email = email;
 
                     //checking if the returned values are correct
@@ -156,8 +158,15 @@ namespace Assets.Models
                     Debug.Log(loggedinUser.LastName);
                     Debug.Log(loggedinUser.Gender);
                     Debug.Log(loggedinUser.Email);
+
+                    currentUser = loggedinUser;
+                    callback(loggedinUser);
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("PreviousDesigns");
+
                 }
             }
+
+
         }
         #endregion
 

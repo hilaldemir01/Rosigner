@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Furniture.unity
     guid: a88befd873ec14b4dac1f8dfaa1e5d92
+  - enabled: 1
+    path: Assets/Scenes/PreviousDesigns.unity
+    guid: 7fdb1b98064bc1d43b7aa4bd4a3af31e
   m_configObjects: {}
