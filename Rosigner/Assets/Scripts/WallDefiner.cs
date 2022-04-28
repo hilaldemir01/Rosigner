@@ -14,6 +14,7 @@ public class WallDefiner : MonoBehaviour
     GameObject tempAsset;
     public GameObject CanvasDistance;
     public GameObject PanelWindowChosing;
+    public GameObject CanvasGoAddFurniture;
     public InputField inputDistanceFromWall;
     public Dropdown DropdownRoomStructure;
     public InputField inputHeight;
@@ -24,9 +25,6 @@ public class WallDefiner : MonoBehaviour
     public Text ErrorMessage;
 
     private int isTriggered=1;
-
-
-
 
     float height, width;
 
@@ -62,7 +60,7 @@ public class WallDefiner : MonoBehaviour
             PanelWindowChosing.SetActive(false);
         }
 
-   
+        checkforGoAddFurniture();
 
     }
 
@@ -145,10 +143,10 @@ public class WallDefiner : MonoBehaviour
         float tempScaleWidth, tempScaleHeight;
 
         float.TryParse(inputDistanceFromWall.text, out float result);
-        wallDistance = result;
+        wallDistance = result/ 100.0f;
 
         float.TryParse(inputDistanceFromGround.text, out float result2);
-        TempGroundDistance = result2;
+        TempGroundDistance = result2/ 100.0f;
 
         // This part assigns the position values of the selected wall to the position1
         Vector3 position1 = selectedObject.transform.parent.position;
@@ -245,10 +243,10 @@ public class WallDefiner : MonoBehaviour
         
         
         float.TryParse(inputHeight.text, out float result1);
-        height = result1;
+        height = result1/ 100.0f;
 
         float.TryParse(inputWidth.text, out float result2);
-        width = result2;
+        width = result2/100.0f;
 
 
         if(DropdownRoomStructure.GetComponent<Dropdown>().value == 0)
@@ -371,6 +369,19 @@ public class WallDefiner : MonoBehaviour
         selectedObject = null;
 
     }
+
+    public void checkforGoAddFurniture()
+    {
+        if (!CanvasDistance.activeSelf && !CanvasWall.activeSelf)
+        {
+            CanvasGoAddFurniture.SetActive(true);
+        }
+        else
+        {
+            CanvasGoAddFurniture.SetActive(false);
+        }
+    }
+
 }
 
 
