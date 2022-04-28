@@ -117,6 +117,7 @@ public class WallDefiner : MonoBehaviour
     // If another area is clicked, then the highlight is removed, and also red dot is removed as well.
     void ClearSelection()
     {
+
         Color c = new Color(0.9339623f, 0.8399786f, 0.7084016f, 1);
         if (selectedObject == null)
         {
@@ -131,9 +132,8 @@ public class WallDefiner : MonoBehaviour
                 r.material = m;
             }
             Destroy(GameObject.Find("RedDot(Clone)"));
-           
+      
         }
-        
 
         CanvasDistance.SetActive(false);
      
@@ -337,8 +337,43 @@ public class WallDefiner : MonoBehaviour
 
     }
 
+    public void CancelButton()
+    {
 
+        selectedObject = tempObject;
+
+        Color c = new Color(0.9339623f, 0.8399786f, 0.7084016f, 1);
+        if (selectedObject == null)
+        {
+            return;
+        }
+        if (selectedObject.tag == "Wall")
+        {
+            Renderer[] rs = selectedObject.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in rs)
+            {
+                Material m = r.material;
+                m.color = c;
+                r.material = m;
+            }
+            Destroy(GameObject.Find("RedDot(Clone)"));
+
+        }
+
+        CanvasDistance.SetActive(false);
+
+        inputDistanceFromGround.text = "";
+        inputDistanceFromWall.text = "";
+        inputHeight.text = null;
+        inputWidth.text = null;
+        DropdownRoomStructure.value = 0;
+
+        selectedObject = null;
+
+    }
 }
+
+
 
 
 
