@@ -11,21 +11,16 @@ public class WallDefiner : MonoBehaviour
     [SerializeField] public GameObject doorSpawn;
     [SerializeField] public GameObject windowSpawn;
     int distance;
-    GameObject selectedObject;
-    GameObject tempObject;
-    GameObject tempAsset;
-    public GameObject CanvasDistance;
-    public GameObject PanelWindowChosing;
-    public GameObject CanvasGoAddFurniture;
+    GameObject selectedObject, tempObject, tempAsset;
+
+    public GameObject CanvasDistance, PanelWindowChosing, CanvasGoAddFurniture, CanvasWall;
+    
     public InputField inputDistanceFromWall;
     public Dropdown DropdownRoomStructure;
-    public InputField inputHeight;
-    public InputField inputWidth;
-    public InputField inputDistanceFromGround;
-    public GameObject CanvasWall;
+    public InputField inputHeight, inputWidth, inputDistanceFromGround;
+
     public Button ConfirmButton;
     public Text ErrorMessage;
-
     public static WallDefiner instance;
     public int x = 0;
     public int isTriggered;
@@ -33,13 +28,6 @@ public class WallDefiner : MonoBehaviour
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
 
-    private void Awake()
-    {
-        instance = this;
-
-        DontDestroyOnLoad(this.gameObject);
-
-    }
 
 
     private void Start()
