@@ -1,3 +1,4 @@
+using Assets.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,14 @@ public class WallDefiner : MonoBehaviour
     private int isTriggered=1;
 
     float height, width;
+    RegisteredUser loggedinUser = new RegisteredUser();
 
+    private void Start()
+    {
+        loggedinUser = LoginSystem.instance.loggedinUser;
+        Debug.Log(loggedinUser.FirstName + loggedinUser.LastName);
+        Debug.Log(loggedinUser.UserId);
+    }
 
     // Update is called once per frame
     void Update()
@@ -230,18 +238,12 @@ public class WallDefiner : MonoBehaviour
                 Debug.Log("Asti Boyu w4");
                 return false;
             }
-
-            
-            
         }
         return true;
     }
 
     bool RoomStructureSizing(float tempScaleHeight, float tempScaleWidth, float wallDistance,float groundDistance)
     {
-
-        
-        
         float.TryParse(inputHeight.text, out float result1);
         height = result1/ 100.0f;
 
@@ -310,9 +312,6 @@ public class WallDefiner : MonoBehaviour
      {
         isTriggered =  x;
      }
-
-
-
 
     public void confirm()
     {
@@ -383,9 +382,3 @@ public class WallDefiner : MonoBehaviour
     }
 
 }
-
-
-
-
-
-
