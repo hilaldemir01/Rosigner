@@ -189,21 +189,22 @@ namespace Assets.Models
 
         #endregion
 
-        #region Measurement
-        public IEnumerator Measurement(Measurement furnitureMeasurement){
+        #region Furniture
+        public IEnumerator Furniture(Furniture furnitureMeasurement, string furnitureName){
         WWWForm form = new WWWForm();
-            form.AddField("unity", "measurement");
-            form.AddField("height", furnitureMeasurement.furniture_height);
-            form.AddField("width", furnitureMeasurement.furniture_width);
-            form.AddField("length", furnitureMeasurement.furniture_length);
-            form.AddField("furnitureName", furnitureMeasurement.furniture_name);
+            form.AddField("unity", "furniture");
+            form.AddField("height", furnitureMeasurement.Ydimension);
+            form.AddField("width", furnitureMeasurement.Xdimension);
+            form.AddField("length", furnitureMeasurement.Zdimension);
+            form.AddField("furnitureName", furnitureName);
+           
 
             string message = "";
             Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
 
 
             // setting database connection:
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/measurement.php", form))
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furniture.php", form))
             {
                 yield return www.SendWebRequest();
 
@@ -226,11 +227,11 @@ namespace Assets.Models
                         notificationTxt.gameObject.SetActive(true);
                         notificationTxt.text= message;
                         yield return new WaitForSeconds(1);
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
+                        //UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
                         
                     }
                     else
-                    { //sublime
+                    {
                         message = "" + www.downloadHandler.text;
                         notificationTxt.gameObject.SetActive(true);
                         notificationTxt.text = message;
@@ -248,13 +249,13 @@ namespace Assets.Models
 
         public IEnumerator furnitureNameInsertion()
         {
-            string allFurnitureNames = "bed_1;bed_2;bed_3;cabinet_1;cabinet_1_2;cabinet_1_3;cabinet_2;cabinet_3;PFB_BedsideTable;PFB_BedsideTable_2;PFB_FreestandMirror;Queen_Bed_2;Single_Bed_1;Single_Bed_1_2;armchair_1;armchair_2;armchair_3;coffee_table_1;coffee_table_2;coffee_table_3;dining_chair;kitchen_chair_1(Clone);kitchen_table_1;kitchen_table_2;kitchen_table_3;PFB_TV;rack_5;sofa;sofa_2;sofa_3;torchere_3;tv_table_1;chair_1;chair_2;modular_table_1;modular_table_1_2;rack_1;rack_2;table_1;table_2;table_3;table_3_2;torchere_2;Door(Brown);window1(single)";
+            string allFurnitureNames = "bed_1;bed_2;bed_3;cabinet_1;cabinet_1_2;cabinet_1_3;cabinet_2;cabinet_3;PFB_BedsideTable;PFB_BedsideTable_2;PFB_FreestandMirror;Queen_Bed_2;Single_Bed_1;Single_Bed_1_2;armchair_1;armchair_2;armchair_3;coffee_table_1;coffee_table_2;coffee_table_3;dining_chair;kitchen_chair_1;kitchen_table_1;kitchen_table_2;kitchen_table_3;PFB_TV;rack_5;sofa;sofa_2;sofa_3;torchere_3;tv_table_1;chair_1;chair_2;modular_table_1;modular_table_1_2;rack_1;rack_2;table_1;table_2;table_3;table_3_2;torchere_2;Door(Brown);window1(single)";
             WWWForm form = new WWWForm();
-            form.AddField("unity", "furnitureNameInsertion");
+            form.AddField("unity", "furnitureType");
             form.AddField("allFurnitureNames", allFurnitureNames);
 
             // setting database connection:
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureNameInsertion.php", form))
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureType.php", form))
             {
                 yield return www.SendWebRequest();
 

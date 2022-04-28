@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 507437148280956577}
   - component: {fileID: 3947626900831267967}
   m_Layer: 0
-  m_Name: kitchen_chair_1(Clone)
+  m_Name: kitchen_chair_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

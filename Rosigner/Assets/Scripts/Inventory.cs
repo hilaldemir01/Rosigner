@@ -10,24 +10,18 @@ using UnityEngine.Events;
 using System.Linq;
 public class Inventory : MonoBehaviour
 {
-    //[SerializeField] public GameObject armchair;
     GameObject[] livingRoomPrefabs;
     GameObject[] bedroomPrefabs;
     GameObject[] studyRoomPrefabs;
-    //public Sprite armchair_img;
-    public Image selectedFurnitureImage;
+    public Image selectedFurnitureImage, furnitureImage;
     public List<Slots> slots; 
     public Slots selectedSlot;
     public Transform furnitureBar;
-    public Image furnitureImage; 
-   //public Measurement measurement;
-    public InputField widthInput, heightInput, lengthInput;
+    public InputField widthInput, heightInput, lengthInput; //x_dimension input, y_dimension input, z_dimension input
     GameObject[] mergePrefabs;
     public Button saveButton;
     public Text notificationTxt;
-    public string selectedFurnitureImageName;
-    public string prefabName;
-    public string a;
+    public string selectedFurnitureImageName, prefabName;
     RosignerContext db = new RosignerContext();
 
 
@@ -53,7 +47,6 @@ public class Inventory : MonoBehaviour
     public void CallInventory()
     {
         StartCoroutine(InventoryFunc());
-
     }
 
     IEnumerator InventoryFunc(){
@@ -70,16 +63,13 @@ public class Inventory : MonoBehaviour
             notificationTxt.text = "Please enter positive measure";
         }
         else{
-            //notificationTxt.text = "Measures saved successfully"; contextte
-            Measurement furnitureMeasurement = new Measurement();
-            
-            furnitureMeasurement.furniture_height = heightvalue;
-            furnitureMeasurement.furniture_width = widthvalue;
-            furnitureMeasurement.furniture_length = lengthvalue;
-            furnitureMeasurement.furniture_name = selectedFurnitureImageName;
-            Debug.Log("hello"+selectedFurnitureImageName);
+            Furniture furnitureMeasurement = new Furniture();
+            furnitureMeasurement.Ydimension = heightvalue;
+            furnitureMeasurement.Xdimension = widthvalue;
+            furnitureMeasurement.Zdimension = lengthvalue;
+
             notificationTxt.gameObject.SetActive(true);
-            StartCoroutine(db.Measurement(furnitureMeasurement)) ;
+            StartCoroutine(db.Furniture(furnitureMeasurement,selectedFurnitureImageName)) ;
         }
        
         yield return new WaitForSeconds(1);
@@ -87,19 +77,7 @@ public class Inventory : MonoBehaviour
     
     
     }
-    /*
-     public void GetMeasurement(){
-      
-        int widthvalue= int.Parse(widthInput.text);
-        int heightvalue = int.Parse(heightInput.text);
-        int lengthvalue = int.Parse(lengthInput.text);
-        VerifyMeasurement(widthvalue,heightvalue,lengthvalue);
-        //burda db bilgileri çekip bunun için ayrı fonksiyon yap onclick te o fonksiyonu çağır resetlencek resetfunc
-        Debug.Log("w"+widthvalue);
-        Debug.Log("h"+heightvalue);
-        Debug.Log("l"+lengthvalue);
 
-    }*/
     public void Subscribe(Slots slot){
     //to make a list of slots
         if(slots == null){
@@ -117,7 +95,6 @@ public class Inventory : MonoBehaviour
         selectedSlot.Select();
 
         selectedFurnitureImageName = ShowFurnitureImage(selectedSlot); 
-        Debug.Log("img"+selectedFurnitureImageName);
         return selectedFurnitureImageName;
     }
     public string ShowFurnitureImage(Slots selectedSlot){
@@ -126,16 +103,13 @@ public class Inventory : MonoBehaviour
         furnitureImage  = furnitureBar.gameObject.GetComponent<Image>();
         selectedFurnitureImage.sprite = furnitureImage.sprite;
         selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
-        Debug.Log("bura "+selectedFurnitureImageName);
-
+        Debug.Log("selected furniture name: "+selectedFurnitureImageName);
         for(int i=0; i<mergePrefabs.Length;i++){  
            if(selectedFurnitureImage.sprite.name == mergePrefabs[i].name){
-               Debug.Log("FIND: "+mergePrefabs[i].name);
                prefabName = mergePrefabs[i].name;
                break;
            } 
         }
-        //a = "beyza";
         widthInput.interactable=true;
         heightInput.interactable=true;
         lengthInput.interactable=true; 
@@ -159,7 +133,5 @@ public class Inventory : MonoBehaviour
         {
             saveButton.interactable = true;
         }
-        
-        
     }
 }
