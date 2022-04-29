@@ -23,6 +23,9 @@ public class Resizing : MonoBehaviour
     List<Wall> wallList = new List<Wall>();
 
     float wall1inp, wall2inp, heightinp;
+
+
+
     private void Start()
     {
         Show();

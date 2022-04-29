@@ -22,18 +22,20 @@ public class WallDefiner : MonoBehaviour
     public Button ConfirmButton;
     public Text ErrorMessage;
     public static WallDefiner instance;
+   
     
     private int isTriggered=1;
 
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
-
-
+    Level leve;
 
     private void Start()
     {
-        if (loggedinUser.Email != null)
-        {
+
+        Debug.Log(Level.PreviousLevel);
+        if (Level.PreviousLevel == "Login")
+        { 
             loggedinUser = LoginSystem.instance.loggedinUser;
             Debug.Log(loggedinUser.FirstName + loggedinUser.LastName);
             Debug.Log(loggedinUser.UserId);
@@ -376,15 +378,17 @@ public class WallDefiner : MonoBehaviour
         if (!CanvasDistance.activeSelf && !CanvasWall.activeSelf)
         {
             CanvasGoAddFurniture.SetActive(true);
+            
         }
         else
         {
             CanvasGoAddFurniture.SetActive(false);
+           
         }
     }
 
 
-    /*
+  
     public void backButton()
     {
         if (loggedinUser.Email != null)
@@ -396,5 +400,5 @@ public class WallDefiner : MonoBehaviour
             SceneManager.LoadScene("Menu");
         }
     }
-    */
+
 }
