@@ -31,4 +31,8 @@ public class UserMainPage : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
+    public void tempDesign()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TempDesign");
+    }
 }
