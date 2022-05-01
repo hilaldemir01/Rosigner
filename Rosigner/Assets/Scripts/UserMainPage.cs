@@ -29,7 +29,10 @@ public class UserMainPage : MonoBehaviour
     }
     public void logoutButtonClicked()
     {
+        loggedinUser = null;
+        Level.PreviousLevel = "Menu";
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+        
     }
     public void tempDesign()
     {
