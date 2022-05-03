@@ -290,8 +290,8 @@ namespace Assets.Models
             form.AddField("unity", "wall");
             form.AddField("roomID", wall.RoomID);
             form.AddField("wallName", wall.WallName);
-            form.AddField("wallLength", wall.WallLength.ToString());
-            form.AddField("wallHeight", wall.WallHeight.ToString());
+            form.AddField("wallLength", wall.WallLength.ToString().Replace(",", ".")); //since db accepts "." for values which are not integers we are converting "," to ".".
+            form.AddField("wallHeight", wall.WallHeight.ToString().Replace(",", "."));
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/wall.php", form))
