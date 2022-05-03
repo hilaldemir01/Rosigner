@@ -8,8 +8,10 @@ namespace Assets.Models
 {
     class RosignerContext
     {
+
         public RegisteredUser instance;
         public RegisteredUser currentUser = new RegisteredUser();
+        public int RoomID;
 
         #region Register
         public IEnumerator Register(RegisteredUser newUser)
@@ -189,6 +191,7 @@ namespace Assets.Models
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
+                    RoomID = int.Parse(www.downloadHandler.text);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -312,6 +315,45 @@ namespace Assets.Models
 
             yield return new WaitForSeconds(1);
         }
+        #endregion
+
+        #region Room Structure
+
+        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "roomstructure");
+            form.AddField("StrructureLength", newRoomStructure.StrructureLength.ToString());
+            form.AddField("StrructureWidth", newRoomStructure.StrructureWidth.ToString());
+            form.AddField("RedDotDistance", newRoomStructure.RedDotDistance.ToString());
+            form.AddField("GroundDistance", newRoomStructure.GroundDistance.ToString());
+            form.AddField("StructureName", StructureName);
+            form.AddField("wallName", wallName);
+            form.AddField("roomID", RoomID);
+           
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructures.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                    
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+
+
+
         #endregion
     }
 }

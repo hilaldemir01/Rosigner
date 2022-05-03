@@ -22,10 +22,9 @@ public class WallDefiner : MonoBehaviour
     public Button ConfirmButton;
     public Text ErrorMessage;
     public static WallDefiner instance;
-   
-    
+    RosignerContext db = new RosignerContext();
     private int isTriggered=1;
-
+    RoomStructure newRoomStructure = new RoomStructure();
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
     Level leve;
@@ -185,7 +184,7 @@ public class WallDefiner : MonoBehaviour
             tempScaleWidth=selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
             Vector3 position_distance = new Vector3(position1.x + wallDistance, groundDistance, position1.z);
-            if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance) == true)
+            if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
             }
@@ -201,7 +200,7 @@ public class WallDefiner : MonoBehaviour
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z + wallDistance);
 
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance) == true)
+            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
             }
@@ -216,7 +215,7 @@ public class WallDefiner : MonoBehaviour
             tempScaleWidth = selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
             Vector3 position_distance = new Vector3(position1.x - wallDistance, groundDistance, position1.z);
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance) == true)
+            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
             }
@@ -234,7 +233,7 @@ public class WallDefiner : MonoBehaviour
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
             Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z - wallDistance);
            
-            if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance) == true)
+            if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
             }
@@ -247,7 +246,7 @@ public class WallDefiner : MonoBehaviour
         return true;
     }
 
-    bool RoomStructureSizing(float tempScaleHeight, float tempScaleWidth, float wallDistance,float groundDistance)
+    bool RoomStructureSizing(float tempScaleHeight, float tempScaleWidth, float wallDistance,float groundDistance, string wallName)
     {
         float.TryParse(inputHeight.text, out float result1);
         height = result1/ 100.0f;
@@ -304,6 +303,12 @@ public class WallDefiner : MonoBehaviour
         }
         else
         {
+            newRoomStructure.StrructureLength = height;
+            newRoomStructure.StrructureWidth = width;
+            newRoomStructure.RedDotDistance = wallDistance;
+            newRoomStructure.GroundDistance = groundDistance;
+        
+            StartCoroutine(db.RoomStructure(wallName, tempAsset.name.ToString(),newRoomStructure));
             tempAsset.transform.localScale= new Vector3(width, height, 0.3f);
             ErrorMessage.gameObject.SetActive(false);
             return true;
@@ -325,14 +330,16 @@ public class WallDefiner : MonoBehaviour
         bool hasEroors = RoomStructures();
         if(hasEroors== true)
         {
+
             ClearSelection();
             inputDistanceFromGround.text = "";
             inputDistanceFromWall.text = "";
             inputHeight.text = null;
             inputWidth.text = null;
             DropdownRoomStructure.value = 0;
+        
         }
-      
+       
         selectedObject = null;
 
 
