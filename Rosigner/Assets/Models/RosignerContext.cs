@@ -171,6 +171,54 @@ namespace Assets.Models
         }
         #endregion
 
+        #region Fetch Furniture Information
+         public IEnumerator FurnitureInfo( Furniture furniture, System.Action<Furniture> callback)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "furnitureInformation");
+
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    // storing the fetched user credentials 
+                    string returnedFurniture = www.downloadHandler.text;
+                     Debug.Log("returnedFurniture: "+returnedFurniture);
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    string[] furnitureArray = returnedFurniture.Split(';');
+
+                    Debug.Log("AHSB: "+furnitureArray[0]);
+                    // creating a registereduser object in order to store user credentials
+                    furniture.FurnitureID = int.Parse(furnitureArray[0]);
+                    furniture.Xdimension = int.Parse(furnitureArray[1]);
+                    furniture.Ydimension = int.Parse(furnitureArray[2]);
+                    furniture.Zdimension = int.Parse(furnitureArray[3]);
+                    furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
+
+                    //checking if the returned values are correct
+                    Debug.Log(furniture.Xdimension);
+                    Debug.Log(furniture.Ydimension);
+                    Debug.Log(furniture.Zdimension);
+                    Debug.Log(furniture.FurnitureTypeID);
+
+                    //currentUser = loggedinUser;
+                    callback(furniture);
+                   
+
+                }
+            }
+
+
+        }
+        #endregion
+
+
         #region Room Table Connection
         public IEnumerator Room(int UserID, System.Action<string> callback)
         {

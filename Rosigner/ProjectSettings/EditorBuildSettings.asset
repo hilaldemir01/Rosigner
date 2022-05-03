@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PreviousDesigns.unity
     guid: 7fdb1b98064bc1d43b7aa4bd4a3af31e
+  - enabled: 1
+    path: Assets/Scenes/TempDesign.unity
+    guid: 86b01a9c7827ff1419523495fdaa2619
   m_configObjects: {}

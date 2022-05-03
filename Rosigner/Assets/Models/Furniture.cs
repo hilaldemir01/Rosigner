@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Models
 {
+    [JsonObject,Serializable]
     public partial class Furniture
     {
         public int FurnitureID { get; set; }

@@ -19,9 +19,10 @@ public class Inventory : MonoBehaviour
     public Transform furnitureBar;
     public InputField widthInput, heightInput, lengthInput; //x_dimension input, y_dimension input, z_dimension input
     GameObject[] mergePrefabs;
-    public Button saveButton;
+    public Button saveButton, applyButton;
     public Text notificationTxt;
     public string selectedFurnitureImageName, prefabName;
+    int count=0;
     RosignerContext db = new RosignerContext();
 
 
@@ -36,6 +37,7 @@ public class Inventory : MonoBehaviour
         heightInput.interactable=false;
         lengthInput.interactable=false;
         saveButton.interactable = false;
+        applyButton.interactable = false;
         notificationTxt.gameObject.SetActive(false);
        
         livingRoomPrefabs = Resources.LoadAll<GameObject>("living room prefab");
@@ -74,8 +76,10 @@ public class Inventory : MonoBehaviour
        
         yield return new WaitForSeconds(1);
     
-    
-    
+    }
+
+    public void ApplyButton(){
+           UnityEngine.SceneManagement.SceneManager.LoadScene("TempDesign");
     }
 
     public void Subscribe(Slots slot){
@@ -128,10 +132,18 @@ public class Inventory : MonoBehaviour
    
    
      public async void VerifyInputs(){
+
+         if(count>0){
+            Debug.Log("count"+count);
+            applyButton.interactable = true;
+        }
         // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {
             saveButton.interactable = true;
+            count++;
         }
+       
+       
     }
 }

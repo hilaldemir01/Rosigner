@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Assets.Models;
 
 public class TempScript : MonoBehaviour
 {
@@ -9,9 +11,22 @@ public class TempScript : MonoBehaviour
     public GameObject wallobj3;
     public GameObject wallobj4;
     public GameObject floor;
+    RosignerContext db = new RosignerContext();
+    public Furniture furniture;
+
 
     float wall1inp = 3.0f, wall2inp = 4.0f, heightinp = 3.0f;
-
+    void Start(){
+         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+    }
+    public void fetchFurnitureInformation (Furniture newFurniture)
+    {
+        furniture.FurnitureID=newFurniture.FurnitureID;
+        furniture.FurnitureTypeID = newFurniture.FurnitureTypeID;
+        furniture.Xdimension = newFurniture.Xdimension;
+        furniture.Ydimension = newFurniture.Ydimension;
+        furniture.Zdimension = newFurniture.Zdimension;
+    }
     void Update()
     {
 
