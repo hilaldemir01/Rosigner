@@ -70,7 +70,7 @@ namespace Assets.Models
         #endregion
 
         #region Login
-        public IEnumerator Login(string email, string password)
+        public IEnumerator Login(string email, string password, System.Action<string> callback)
         {
             //Text notificationTxt2 = GameObject.Find("Login/Canvas/notification").GetComponent<Text>();
 
@@ -93,6 +93,7 @@ namespace Assets.Models
                 {
                     // notificationTxt2.gameObject.SetActive(true);
                     //  notificationTxt2.text = "" + www.error;
+                    callback("" + www.error);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
 
                 }
@@ -102,18 +103,15 @@ namespace Assets.Models
 
                     if (www.downloadHandler.text.Contains("Login success!"))
                     {
-
-                        //Debug.Log(www.downloadHandler.text);
-                        //      notificationTxt2.gameObject.SetActive(true);
-                        //      notificationTxt2.text = "" + www.downloadHandler.text;
+                        callback(""+www.downloadHandler.text);
                         yield return new WaitForSeconds(1);
-                        yield return 1;
 
                     }
                     else
                     {
                         //      notificationTxt2.gameObject.SetActive(true);
                         //     notificationTxt2.text = "" + www.downloadHandler.text;
+                        callback("" + www.downloadHandler.text);
                         UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
 
                         //Debug.Log(www.downloadHandler.text);

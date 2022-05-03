@@ -23,7 +23,7 @@ public class Resizing : MonoBehaviour
     List<Wall> wallList = new List<Wall>();
 
     float wall1inp, wall2inp, heightinp;
-
+    Room newRoom = new Room(); 
 
 
     private void Start()
@@ -65,6 +65,7 @@ public class Resizing : MonoBehaviour
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.text = "Please do not enter non positive value";
             return false;
+
         } else if (wall1inp > 10 || wall2inp > 10 || heightinp > 10 )
         {
             ErrorMessage.gameObject.SetActive(true);
@@ -99,11 +100,9 @@ public class Resizing : MonoBehaviour
         bool hasEroors=CreatingWalls();
         if (hasEroors == true) // if there are no errors
         {
-            //StartCoroutine(db.Room(LoginSystem.instance.loggedinUser.UserId, getRoomID)); // generate a new room id and insert those to the db
-            //for (int i=0; i < 4; i++)
-            //{
-            //    StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
-            //}
+            StartCoroutine(db.Room(LoginSystem.instance.loggedinUser.UserId, getRoomID)); // generate a new room id and insert those to the db
+
+
             Hide();
         }
     }
@@ -111,14 +110,19 @@ public class Resizing : MonoBehaviour
     public void getRoomID(string roomID)
     {
         //RoomID = Convert.ToInt32(roomID); 
-        int.TryParse(roomID, out int returnedvalue);
-        RoomID = returnedvalue;
+        newRoom.UserID = LoginSystem.instance.loggedinUser.UserId;
+        newRoom.RoomID = int.Parse(roomID);
 
-        wallList.Add(new Wall() { WallName = "W1", WallLength = wall1inp, WallHeight = heightinp, RoomID = RoomID });
-        wallList.Add(new Wall() { WallName = "W2", WallLength = wall2inp, WallHeight = heightinp, RoomID = RoomID });
-        wallList.Add(new Wall() { WallName = "W3", WallLength = wall1inp, WallHeight = heightinp, RoomID = RoomID });
-        wallList.Add(new Wall() { WallName = "W4", WallLength = wall2inp, WallHeight = heightinp, RoomID = RoomID });
-        Debug.Log("RoomID:" + RoomID);
+        wallList.Add(new Wall() { WallName = "W1", WallLength = wall1inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
+        wallList.Add(new Wall() { WallName = "W2", WallLength = wall2inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
+        wallList.Add(new Wall() { WallName = "W3", WallLength = wall1inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
+        wallList.Add(new Wall() { WallName = "W4", WallLength = wall2inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
+
+        Debug.Log("RoomID:" + newRoom.RoomID);
+        for (int i = 0; i < 4; i++)
+        {
+            StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
+        }
 
     }
     public void getWallID(string WallID)

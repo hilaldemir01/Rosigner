@@ -14,10 +14,16 @@ if($_POST['unity']=="wall")
     $wallLength=$_POST['wallLength'];
     $wallHeight=$_POST['wallHeight'];
 
-    // add the room into the database 
+
+// add the room into the database 
     $query="INSERT INTO wall (WallName, WallLength,WallHeight,RoomID) VALUES ('".$wallName."','".$wallLength."','".$wallHeight."','".$roomID."');";
     $queryResult = mysqli_query($con,$query);
 
-	echo "Success";
+    if($queryResult == true){
+        echo "Success";
+    }else{
+        echo "Fail";
+
+    }
 }
 ?>

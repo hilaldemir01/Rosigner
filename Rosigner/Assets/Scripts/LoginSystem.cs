@@ -44,13 +44,17 @@ public class LoginSystem :  MonoBehaviour
         string email= emailInput.text;
         string password=passwordInput.text;
         
-        StartCoroutine(db.Login(email, password));
+        StartCoroutine(db.Login(email, password, LoginMessage));
         yield return new WaitForSeconds(1);
         //if(SceneManager.GetActiveScene().Equals("PreviousDesigns"))
         //{
             StartCoroutine(db.LoginUserInfo(email,loggedinUser, fetchUserInformation));
 
        // }
+    }
+    public void LoginMessage (string message)
+    {
+        notificationTxt.text = " "+message;
     }
 
     // This is for getting user credentials after the login process is successfully made and storing into the global variable
