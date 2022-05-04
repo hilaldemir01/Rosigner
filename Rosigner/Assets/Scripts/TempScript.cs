@@ -13,11 +13,27 @@ public class TempScript : MonoBehaviour
     public GameObject floor;
     RosignerContext db = new RosignerContext();
     public Furniture furniture;
-
+    public GameObject tempPrefab;
 
     float wall1inp = 3.0f, wall2inp = 4.0f, heightinp = 3.0f;
     void Start(){
-         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        deneme();
+    }
+
+    public void SettingFurniture(GameObject prefab){
+        tempPrefab = prefab;
+        Debug.Log("temp "+tempPrefab);
+    }
+    public void deneme(){
+        tempPrefab = Inventory.prefabDeneme;
+        Debug.Log("TEMP2 "+tempPrefab);
+        tempPrefab.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        Debug.Log("bura "+tempPrefab);
+
+        tempPrefab.transform.position = new Vector3(0.3f, 1, 0.1f);
+        Debug.Log("bura2 "+ tempPrefab.transform.position);
+
     }
     public void fetchFurnitureInformation (Furniture newFurniture)
     {
@@ -26,6 +42,8 @@ public class TempScript : MonoBehaviour
         furniture.Xdimension = newFurniture.Xdimension;
         furniture.Ydimension = newFurniture.Ydimension;
         furniture.Zdimension = newFurniture.Zdimension;
+
+    
     }
     void Update()
     {

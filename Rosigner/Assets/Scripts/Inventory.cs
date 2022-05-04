@@ -18,11 +18,13 @@ public class Inventory : MonoBehaviour
     public Slots selectedSlot;
     public Transform furnitureBar;
     public InputField widthInput, heightInput, lengthInput; //x_dimension input, y_dimension input, z_dimension input
-    GameObject[] mergePrefabs;
+    public static GameObject[] mergePrefabs;
     public Button saveButton, applyButton;
     public Text notificationTxt;
     public string selectedFurnitureImageName, prefabName;
     int count=0;
+    public static GameObject prefabDeneme;
+    TempScript prefab = new TempScript();
     RosignerContext db = new RosignerContext();
 
 
@@ -79,7 +81,7 @@ public class Inventory : MonoBehaviour
     }
 
     public void ApplyButton(){
-           UnityEngine.SceneManagement.SceneManager.LoadScene("TempDesign");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TempDesign");
     }
 
     public void Subscribe(Slots slot){
@@ -111,6 +113,8 @@ public class Inventory : MonoBehaviour
         for(int i=0; i<mergePrefabs.Length;i++){  
            if(selectedFurnitureImage.sprite.name == mergePrefabs[i].name){
                prefabName = mergePrefabs[i].name;
+               prefabDeneme = mergePrefabs[i];
+               prefab.SettingFurniture(mergePrefabs[i]);
                break;
            } 
         }
