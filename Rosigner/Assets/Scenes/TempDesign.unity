@@ -1044,7 +1044,7 @@ MonoBehaviour:
   wallobj3: {fileID: 1352809869}
   wallobj4: {fileID: 1165226428}
   floor: {fileID: 383905785}
-  tempPrefab: {fileID: 6539459475891204135, guid: dd073d4f9ff6b6a4292ec2d8620ea894, type: 3}
+  tempPrefab: {fileID: 0}
 --- !u!4 &1141492891
 Transform:
   m_ObjectHideFlags: 0

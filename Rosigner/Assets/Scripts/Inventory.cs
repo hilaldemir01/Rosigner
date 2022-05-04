@@ -26,6 +26,8 @@ public class Inventory : MonoBehaviour
     public static GameObject prefabDeneme;
     TempScript prefab = new TempScript();
     RosignerContext db = new RosignerContext();
+    Room newRoom = new Room(); 
+    List<Furniture> furnitureList = new List<Furniture>();
 
 
     // Start is called before the first frame update
@@ -123,6 +125,18 @@ public class Inventory : MonoBehaviour
         lengthInput.interactable=true; 
         saveButton.interactable = false; 
         notificationTxt.gameObject.SetActive(false);
+        
+        //newRoom.RoomID = int.Parse(roomID);
+
+        /*furnitureList.Add(new Furniture() { Xdimension = "W1", Ydimension = wall1inp, Zdimension = heightinp, RoomID = newRoom.RoomID });
+        Debug.Log("RoomID:" + newRoom.RoomID);
+        for (int i = 0; i < 4; i++)
+        {
+            StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
+        }*/
+
+
+
         resetMeasurement();
         return selectedFurnitureImage.sprite.name;
     }
@@ -134,7 +148,7 @@ public class Inventory : MonoBehaviour
         lengthInput.text="";
     }
    
-   
+    
      public async void VerifyInputs(){
 
          if(count>0){
