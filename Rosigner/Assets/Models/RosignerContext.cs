@@ -192,6 +192,8 @@ namespace Assets.Models
                 {
                     Debug.Log(www.downloadHandler.text);
                     RoomID = int.Parse(www.downloadHandler.text);
+                    LoginSystem.instance.RoomID = RoomID;
+                    Debug.Log("deneme roomid:" + RoomID);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -323,14 +325,16 @@ namespace Assets.Models
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomstructure");
-            form.AddField("StrructureLength", newRoomStructure.StrructureLength.ToString());
-            form.AddField("StrructureWidth", newRoomStructure.StrructureWidth.ToString());
-            form.AddField("RedDotDistance", newRoomStructure.RedDotDistance.ToString());
-            form.AddField("GroundDistance", newRoomStructure.GroundDistance.ToString());
+            form.AddField("StrructureLength", newRoomStructure.StrructureLength.ToString().Replace(",", "."));
+            form.AddField("StrructureWidth", newRoomStructure.StrructureWidth.ToString().Replace(",", "."));
+            form.AddField("RedDotDistance", newRoomStructure.RedDotDistance.ToString().Replace(",", "."));
+            form.AddField("GroundDistance", newRoomStructure.GroundDistance.ToString().Replace(",", "."));
             form.AddField("StructureName", StructureName);
             form.AddField("wallName", wallName);
-            form.AddField("roomID", RoomID);
-           
+            form.AddField("roomID", LoginSystem.instance.RoomID);
+            Debug.Log(wallName);
+            Debug.Log(LoginSystem.instance.RoomID);
+            Debug.Log(StructureName);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructures.php", form))
