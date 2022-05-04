@@ -9,12 +9,14 @@ public class LoginSystem :  MonoBehaviour
     public InputField passwordInput;
     public Button login;
     public Text notificationTxt;
-
+    
     //Database connection
     RosignerContext db = new RosignerContext();
 
     // to pass user credentials to other scenes
     public RegisteredUser loggedinUser;
+    
+
 
     // https://www.youtube.com/watch?v=BZjmqMd-4vo&ab_channel=CocoCode for passing variables
 
@@ -22,7 +24,8 @@ public class LoginSystem :  MonoBehaviour
 
     // https://forum.unity.com/threads/getting-return-value-of-a-coroutine.837550/ : callbacks from coroutines
     void Start() 
-    {        
+    {
+        Level.PreviousLevel = "Login";
         notificationTxt=GameObject.Find("Canvas/notification").GetComponent<Text>();
         notificationTxt.gameObject.SetActive(false);
     }
@@ -41,13 +44,17 @@ public class LoginSystem :  MonoBehaviour
         string email= emailInput.text;
         string password=passwordInput.text;
         
-        StartCoroutine(db.Login(email, password));
+        StartCoroutine(db.Login(email, password, LoginMessage));
         yield return new WaitForSeconds(1);
         //if(SceneManager.GetActiveScene().Equals("PreviousDesigns"))
         //{
             StartCoroutine(db.LoginUserInfo(email,loggedinUser, fetchUserInformation));
 
        // }
+    }
+    public void LoginMessage (string message)
+    {
+        notificationTxt.text = " "+message;
     }
 
     // This is for getting user credentials after the login process is successfully made and storing into the global variable
