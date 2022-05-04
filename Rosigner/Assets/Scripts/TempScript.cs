@@ -31,7 +31,7 @@ public class TempScript : MonoBehaviour
         Instantiate(tempPrefab, new Vector3(2, 1, 1), Quaternion.identity);
 
     }
-    public void fetchFurnitureInformation (Furniture newFurniture)
+    public void fetchFurnitureInformation(Furniture newFurniture)
     {
         furniture.FurnitureID=newFurniture.FurnitureID;
         furniture.FurnitureTypeID = newFurniture.FurnitureTypeID;
