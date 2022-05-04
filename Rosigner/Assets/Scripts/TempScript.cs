@@ -28,11 +28,7 @@ public class TempScript : MonoBehaviour
     public void deneme(){
         tempPrefab = Inventory.prefabDeneme;
         Debug.Log("TEMP2 "+tempPrefab);
-        tempPrefab.gameObject.transform.localScale = new Vector3(1, 1, 1);
-        Debug.Log("bura "+tempPrefab);
-
-        tempPrefab.transform.position = new Vector3(0.3f, 1, 0.1f);
-        Debug.Log("bura2 "+ tempPrefab.transform.position);
+        Instantiate(tempPrefab, new Vector3(2, 1, 1), Quaternion.identity);
 
     }
     public void fetchFurnitureInformation (Furniture newFurniture)
