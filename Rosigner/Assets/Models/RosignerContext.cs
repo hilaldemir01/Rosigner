@@ -195,9 +195,9 @@ namespace Assets.Models
 
                     // creating a registereduser object in order to store user credentials
                     furniture.FurnitureID = int.Parse(furnitureArray[0]);
-                    furniture.Xdimension = int.Parse(furnitureArray[1]);
-                    furniture.Ydimension = int.Parse(furnitureArray[2]);
-                    furniture.Zdimension = int.Parse(furnitureArray[3]);
+                    furniture.Xdimension = float.Parse(furnitureArray[1]);
+                    furniture.Ydimension = float.Parse(furnitureArray[2]);
+                    furniture.Zdimension = float.Parse(furnitureArray[3]);
                     //furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
                     //furniture.RoomID = int.Parse(furnitureArray[5]);
 
@@ -410,40 +410,40 @@ namespace Assets.Models
         #endregion
 
         #region Fetch Wall Information
-        public IEnumerator WallInformation(System.Action<Wall> callback)
+        public IEnumerator WallInformation(string []allWalls, System.Action<List<Wall>> callback)
         {
-            Wall newWall = new Wall();
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "wallInformation");
-            form.AddField("furnitureID", LoginSystem.instance.FurnitureID);
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
+            List<Wall> wallList = new List<Wall>();
+            for (int i = 0; i < allWalls.Length; i++)
             {
-                yield return www.SendWebRequest();
+                WWWForm form = new WWWForm();
+                form.AddField("unity", "wallInformation");
+                form.AddField("roomID", LoginSystem.instance.RoomID);
+                form.AddField("wallName", allWalls[i].ToString());
 
-                if (www.isNetworkError || www.isHttpError)
+                using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/wallInformation.php", form))
                 {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    // storing the fetched user credentials 
-                    string returnedWall = www.downloadHandler.text;
-                    Debug.Log("returnedWall: " + returnedWall);
-                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    string[] wallArray = returnedWall.Split(';');
-                    newWall.WallID = int.Parse(wallArray[0]);
-                    newWall.WallName = wallArray[1];
-                    newWall.WallLength = float.Parse(wallArray[2]);
-                    newWall.RoomID = int.Parse(wallArray[3]);
+                    yield return www.SendWebRequest();
 
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        // storing the fetched user credentials 
+                        string returnedWall = www.downloadHandler.text;
+                        Debug.Log("returnedWall: " + returnedWall);
+                        // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                        string[] wallArray = returnedWall.Split(';');
 
-                    //currentUser = loggedinUser;
-                    callback(newWall);
+                        wallList.Add(new Wall() { WallID = int.Parse(wallArray[0]), WallName = wallArray[1], WallLength = float.Parse(wallArray[2]), WallHeight = float.Parse(wallArray[3]), RoomID = int.Parse(wallArray[4]) });
 
+                        //currentUser = loggedinUser;
 
+                    }
                 }
             }
-
+            callback(wallList);
 
         }
         #endregion

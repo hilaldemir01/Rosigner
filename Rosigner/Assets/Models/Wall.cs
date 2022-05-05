@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Models
 {
-    class Wall
+    public class Wall
     {
         public int WallID { get; set; }
         public string WallName { get; set; }

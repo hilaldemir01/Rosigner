@@ -14,13 +14,17 @@ public class TempScript : MonoBehaviour
     RosignerContext db = new RosignerContext();
     public Furniture furniture;
     public GameObject tempPrefab;
-    public Wall wall;
+    List<Wall> wallList = new List<Wall>();
 
-    float wall1inp = 3.0f, wall2inp = 4.0f, heightinp = 3.0f;
     void Start(){
-        StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-        StartCoroutine(db.WallInformation(fetchWallInformation));
+
+        string[] allWalls = { "W1", "W2", "W3", "W4" };
+        StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
+     //   StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+
+
         deneme();
+        
     }
 
     public void SettingFurniture(GameObject prefab){
@@ -44,38 +48,34 @@ public class TempScript : MonoBehaviour
 
     
     }
-    void fetchWallInformation(Wall newWall)
+    public void fetchWallInformation(List<Wall> newWall)
     {
-        wall.WallID = newWall.WallID;
-        wall.WallLength = newWall.WallLength;
-        wall.WallHeight = newWall.WallHeight;
-        wall.RoomID = newWall.RoomID;
-    }
-    void Update()
-    {
+        for(int i = 0; i < newWall.Count; i++)
+        {
+            wallList.Add(new Wall() { WallID = newWall[i].WallID, WallName = newWall[i].WallName, WallLength = newWall[i].WallLength, WallHeight = newWall[i].WallHeight, RoomID = newWall[i].RoomID });
+
+        }
 
         CreatingWalls();
+
     }
 
     void CreatingWalls()
     {
-
-
         // This part of the code is used to set the length and width of the walls.
-        wallobj1.gameObject.transform.localScale = new Vector3(wall1inp, heightinp, 0.2f);
-        wallobj2.gameObject.transform.localScale = new Vector3(wall2inp, heightinp, 0.2f);
-        wallobj3.gameObject.transform.localScale = new Vector3(wall1inp, heightinp, 0.2f);
-        wallobj4.gameObject.transform.localScale = new Vector3(wall2inp, heightinp, 0.2f);
-        floor.gameObject.transform.localScale = new Vector3(wall1inp, 0.1f, wall2inp);
+        wallobj1.gameObject.transform.localScale = new Vector3(wallList[0].WallLength, wallList[0].WallHeight, 0.2f);
+        wallobj2.gameObject.transform.localScale = new Vector3(wallList[1].WallLength, wallList[1].WallHeight, 0.2f);
+        wallobj3.gameObject.transform.localScale = new Vector3(wallList[2].WallLength, wallList[2].WallHeight, 0.2f);
+        wallobj4.gameObject.transform.localScale = new Vector3(wallList[3].WallLength, wallList[3].WallHeight, 0.2f);
+        floor.gameObject.transform.localScale = new Vector3(wallList[0].WallLength, 0.1f, wallList[1].WallLength);
 
 
         // This part of the code is used to place walls in a way that they create an enclosed rectangular shape.
         wallobj1.gameObject.transform.position = new Vector3(0, 0, 0);
-        wallobj2.gameObject.transform.position = new Vector3(wall1inp + 0.1f, 0, 0.1f);
-        wallobj3.gameObject.transform.position = new Vector3(wall1inp, 0, wall2inp + 0.2f);
-        wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wall2inp + 0.1f);
-        floor.gameObject.transform.position = new Vector3(wall1inp / 2.0f, -0.05f, (wall2inp / 2.0f) + 0.1f);
-        
+        wallobj2.gameObject.transform.position = new Vector3(wallList[0].WallLength + 0.1f, 0, 0.1f);
+        wallobj3.gameObject.transform.position = new Vector3(wallList[0].WallLength, 0, wallList[1].WallLength + 0.2f);
+        wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wallList[1].WallLength + 0.1f);
+        floor.gameObject.transform.position = new Vector3(wallList[0].WallLength / 2.0f, -0.05f, (wallList[1].WallLength / 2.0f) + 0.1f);
 
     }
 }
