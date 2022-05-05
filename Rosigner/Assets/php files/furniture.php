@@ -13,6 +13,7 @@ if($_POST['unity']=="furniture")
     $XDimension = $_POST['width'];
     $ZDimension = $_POST['length'];
     $furnitureName = $_POST['furnitureName'];
+    $RoomID=$_POST['RoomID'];
 
     
     $searchQuery = "SELECT FurnitureTypeID FROM furnituretype WHERE FurnitureType='".$furnitureName."';";   
@@ -20,7 +21,7 @@ if($_POST['unity']=="furniture")
     $result = $queryResult->fetch_object(); //result is an array, it can be used by column name
     $gettingFurnitureTypeID = "$result->FurnitureTypeID";
 
-    $query="INSERT INTO furniture (YDimension, XDimension, ZDimension,FurnitureTypeID) VALUES ('".$YDimension."','".$XDimension."','".$ZDimension."','".$gettingFurnitureTypeID."');";
+    $query="INSERT INTO furniture (YDimension, XDimension, ZDimension,FurnitureTypeID,RoomID) VALUES ('".$YDimension."','".$XDimension."','".$ZDimension."','".$gettingFurnitureTypeID."','".$RoomID."');";
     $queryResult = mysqli_query($con,$query);
 
     // Print this message if the measures saved successfully
@@ -30,4 +31,4 @@ if($_POST['unity']=="furniture")
         echo "Failed to save";
     }
 }
-?>
+?> 
