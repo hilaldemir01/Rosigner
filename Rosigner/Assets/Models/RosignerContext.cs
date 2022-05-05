@@ -218,7 +218,6 @@ namespace Assets.Models
         }
         #endregion
 
-
         #region Room Table Connection
         public IEnumerator Room(int UserID, System.Action<string> callback)
         {
@@ -255,9 +254,9 @@ namespace Assets.Models
         public IEnumerator Furniture(Furniture furnitureMeasurement, string furnitureName){
         WWWForm form = new WWWForm();
             form.AddField("unity", "furniture");
-            form.AddField("height", furnitureMeasurement.Ydimension);
-            form.AddField("width", furnitureMeasurement.Xdimension);
-            form.AddField("length", furnitureMeasurement.Zdimension);
+            form.AddField("height", furnitureMeasurement.Ydimension.ToString());
+            form.AddField("width", furnitureMeasurement.Xdimension.ToString());
+            form.AddField("length", furnitureMeasurement.Zdimension.ToString());
             form.AddField("furnitureName", furnitureName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
             Debug.Log(LoginSystem.instance.RoomID);
@@ -408,6 +407,45 @@ namespace Assets.Models
 
 
 
+        #endregion
+
+        #region Fetch Wall Information
+        public IEnumerator WallInformation(System.Action<Wall> callback)
+        {
+            Wall newWall = new Wall();
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "wallInformation");
+            form.AddField("furnitureID", LoginSystem.instance.FurnitureID);
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    // storing the fetched user credentials 
+                    string returnedWall = www.downloadHandler.text;
+                    Debug.Log("returnedWall: " + returnedWall);
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    string[] wallArray = returnedWall.Split(';');
+                    newWall.WallID = int.Parse(wallArray[0]);
+                    newWall.WallName = wallArray[1];
+                    newWall.WallLength = float.Parse(wallArray[2]);
+                    newWall.RoomID = int.Parse(wallArray[3]);
+
+
+                    //currentUser = loggedinUser;
+                    callback(newWall);
+
+
+                }
+            }
+
+
+        }
         #endregion
     }
 }

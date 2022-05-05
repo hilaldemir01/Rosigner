@@ -14,10 +14,12 @@ public class TempScript : MonoBehaviour
     RosignerContext db = new RosignerContext();
     public Furniture furniture;
     public GameObject tempPrefab;
+    public Wall wall;
 
     float wall1inp = 3.0f, wall2inp = 4.0f, heightinp = 3.0f;
     void Start(){
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        StartCoroutine(db.WallInformation(fetchWallInformation));
         deneme();
     }
 
@@ -41,6 +43,13 @@ public class TempScript : MonoBehaviour
         furniture.RoomID=newFurniture.RoomID;
 
     
+    }
+    void fetchWallInformation(Wall newWall)
+    {
+        wall.WallID = newWall.WallID;
+        wall.WallLength = newWall.WallLength;
+        wall.WallHeight = newWall.WallHeight;
+        wall.RoomID = newWall.RoomID;
     }
     void Update()
     {
