@@ -170,13 +170,13 @@ namespace Assets.Models
 
         }
         #endregion
-/*
+
         #region Fetch Furniture Information
          public IEnumerator FurnitureInfo( Furniture furniture, System.Action<Furniture> callback)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "furnitureInformation");
-
+            form.AddField("furnitureID", LoginSystem.FurnitureID);
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
             {
                 yield return www.SendWebRequest();
@@ -198,8 +198,8 @@ namespace Assets.Models
                     furniture.Xdimension = int.Parse(furnitureArray[1]);
                     furniture.Ydimension = int.Parse(furnitureArray[2]);
                     furniture.Zdimension = int.Parse(furnitureArray[3]);
-                    furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
-                    furniture.RoomID = int.Parse(furnitureArray[5]);
+                    //furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
+                    //furniture.RoomID = int.Parse(furnitureArray[5]);
 
                     //checking if the returned values are correct
                     Debug.Log(furniture.Xdimension);
@@ -217,7 +217,7 @@ namespace Assets.Models
 
         }
         #endregion
-*/
+
 
         #region Room Table Connection
         public IEnumerator Room(int UserID, System.Action<string> callback)
@@ -262,7 +262,7 @@ namespace Assets.Models
             form.AddField("roomID", LoginSystem.instance.RoomID);
             Debug.Log(LoginSystem.instance.RoomID);
         
-
+            //LoginSystem.instance.furnitureID = furnitureMeasurement.furnitureID;
             string message = "";
             Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
 

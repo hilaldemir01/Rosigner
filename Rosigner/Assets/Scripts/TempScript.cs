@@ -17,8 +17,8 @@ public class TempScript : MonoBehaviour
 
     float wall1inp = 3.0f, wall2inp = 4.0f, heightinp = 3.0f;
     void Start(){
-       // StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-      //  deneme();
+        StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        deneme();
     }
 
     public void SettingFurniture(GameObject prefab){

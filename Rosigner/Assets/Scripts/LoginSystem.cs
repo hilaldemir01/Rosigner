@@ -16,7 +16,7 @@ public class LoginSystem :  MonoBehaviour
     // to pass user credentials to other scenes
     public RegisteredUser loggedinUser;
     public int RoomID;
-
+    public int FurnitureID; //yeni
 
     // https://www.youtube.com/watch?v=BZjmqMd-4vo&ab_channel=CocoCode for passing variables
 
