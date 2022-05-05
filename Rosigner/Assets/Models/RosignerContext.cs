@@ -170,7 +170,7 @@ namespace Assets.Models
 
         }
         #endregion
-
+/*
         #region Fetch Furniture Information
          public IEnumerator FurnitureInfo( Furniture furniture, System.Action<Furniture> callback)
         {
@@ -193,13 +193,13 @@ namespace Assets.Models
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] furnitureArray = returnedFurniture.Split(';');
 
-                    Debug.Log("AHSB: "+furnitureArray[0]);
                     // creating a registereduser object in order to store user credentials
                     furniture.FurnitureID = int.Parse(furnitureArray[0]);
                     furniture.Xdimension = int.Parse(furnitureArray[1]);
                     furniture.Ydimension = int.Parse(furnitureArray[2]);
                     furniture.Zdimension = int.Parse(furnitureArray[3]);
                     furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
+                    furniture.RoomID = int.Parse(furnitureArray[5]);
 
                     //checking if the returned values are correct
                     Debug.Log(furniture.Xdimension);
@@ -217,7 +217,7 @@ namespace Assets.Models
 
         }
         #endregion
-
+*/
 
         #region Room Table Connection
         public IEnumerator Room(int UserID, System.Action<string> callback)
@@ -259,7 +259,9 @@ namespace Assets.Models
             form.AddField("width", furnitureMeasurement.Xdimension);
             form.AddField("length", furnitureMeasurement.Zdimension);
             form.AddField("furnitureName", furnitureName);
-           
+            form.AddField("roomID", LoginSystem.instance.RoomID);
+            Debug.Log(LoginSystem.instance.RoomID);
+        
 
             string message = "";
             Text notificationTxt = GameObject.Find("Canvas/notification").GetComponent<Text>();
