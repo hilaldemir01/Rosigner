@@ -176,7 +176,7 @@ namespace Assets.Models
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "furnitureInformation");
-            form.AddField("furnitureID", LoginSystem.FurnitureID);
+            form.AddField("furnitureID", LoginSystem.instance.FurnitureID);
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
             {
                 yield return www.SendWebRequest();
