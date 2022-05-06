@@ -12,7 +12,7 @@ namespace Assets.Models
         public RegisteredUser instance;
         public RegisteredUser currentUser = new RegisteredUser();
         public int RoomID;
-
+        List<Wall> wallList = new List<Wall>();
         #region Register
         public IEnumerator Register(RegisteredUser newUser)
         {
@@ -412,7 +412,7 @@ namespace Assets.Models
         #region Fetch Wall Information
         public IEnumerator WallInformation(string []allWalls, System.Action<List<Wall>> callback)
         {
-            List<Wall> wallList = new List<Wall>();
+            //List<Wall> wallList = new List<Wall>();
             for (int i = 0; i < allWalls.Length; i++)
             {
                 WWWForm form = new WWWForm();
@@ -446,6 +446,48 @@ namespace Assets.Models
             callback(wallList);
 
         }
+        #endregion
+
+        #region Fetch Room Structure
+
+        public IEnumerator RoomStructuresInformation(string[] allStructures, System.Action<List<RoomStructure>> callback)
+        {
+            List<RoomStructure> structuresList = new List<RoomStructure>();
+            for (int i = 0; i < allStructures.Length; i++)
+            {
+                WWWForm form = new WWWForm();
+                form.AddField("unity", "roomStructuresInformation");
+               // form.AddField("wallName", wallList[i].WallName.ToString());
+                form.AddField("wallID", wallList[i].WallID.ToString());
+
+                using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
+                {
+                    yield return www.SendWebRequest();
+
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        // storing the fetched user credentials 
+                        string returnedStructure = www.downloadHandler.text;
+                        Debug.Log("returnedStructure: " + returnedStructure);
+                        // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                        string[] structuresArray = returnedStructure.Split(';');
+
+                        structuresList.Add(new RoomStructure() { RoomStructureID = int.Parse(structuresArray[0]), FurnitureTypeID = int.Parse(structuresArray[1]), StrructureLength = float.Parse(structuresArray[2]), RedDotDistance = float.Parse(structuresArray[3]), GroundDistance = float.Parse(structuresArray[4]), StrructureWidth = float.Parse(structuresArray[5]), WallID = int.Parse(structuresArray[6]) });
+
+                        //currentUser = loggedinUser;
+
+                    }
+                }
+            }
+            callback(structuresList);
+
+        }
+
+
         #endregion
     }
 }
