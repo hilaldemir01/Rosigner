@@ -151,10 +151,10 @@ public class Inventory : MonoBehaviour
     
      public async void VerifyInputs(){
 
-         if(count>0){
-            Debug.Log("count"+count);
+         //if(count>0){
+           // Debug.Log("count"+count);
             applyButton.interactable = true;
-        }
+        //}
         // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {

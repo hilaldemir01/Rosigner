@@ -9,9 +9,9 @@ namespace Assets.Models
     {
         public int FurnitureID { get; set; }
         public int FurnitureTypeID { get; set; }
-        public int Xdimension { get; set; }
-        public int Ydimension { get; set; }
-        public int Zdimension { get; set; }
+        public float Xdimension { get; set; }
+        public float Ydimension { get; set; }
+        public float Zdimension { get; set; }
         public int RoomID { get; set; }
 
     }
