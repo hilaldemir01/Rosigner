@@ -20,7 +20,7 @@ public class TempScript : MonoBehaviour
 
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
-     //   StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        //   StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
 
 
         deneme();
@@ -57,9 +57,13 @@ public class TempScript : MonoBehaviour
         }
 
         CreatingWalls();
+      //  StartCoroutine(db.RoomStructuresInformation(wallList[0].WallID, fetchRoomStructureInformation));
 
     }
+    //public void fetchRoomStructureInformation(List<RoomStructure> newRoomStructures)
+    //{
 
+    //}
     void CreatingWalls()
     {
         // This part of the code is used to set the length and width of the walls.
@@ -76,6 +80,12 @@ public class TempScript : MonoBehaviour
         wallobj3.gameObject.transform.position = new Vector3(wallList[0].WallLength, 0, wallList[1].WallLength + 0.2f);
         wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wallList[1].WallLength + 0.1f);
         floor.gameObject.transform.position = new Vector3(wallList[0].WallLength / 2.0f, -0.05f, (wallList[1].WallLength / 2.0f) + 0.1f);
+
+        for(int i = 0; i < wallList.Count; i++)
+        {
+            StartCoroutine(db.RoomStructuresInformation(wallList[i].WallID));
+
+        }
 
     }
 }
