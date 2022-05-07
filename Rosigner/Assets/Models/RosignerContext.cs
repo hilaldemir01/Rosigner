@@ -179,6 +179,7 @@ namespace Assets.Models
             WWWForm form = new WWWForm();
             form.AddField("unity", "furnitureInformation");
             form.AddField("FurnitureID", LoginSystem.FurnitureID);
+            form.AddField("RoomID",LoginSystem.instance.RoomID);
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
             {
                 yield return www.SendWebRequest();
@@ -194,23 +195,37 @@ namespace Assets.Models
                     Debug.Log("returnedFurniture: "+returnedFurniture);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] furnitureArray = returnedFurniture.Split(';');
-
+                    int i = 0;
+                    for(int j = 0; j <furnitureArray.Length/6 ;j++){
+                        furniture.FurnitureID = int.Parse(furnitureArray[i]);
+                        furniture.Xdimension = float.Parse(furnitureArray[i+1]);
+                        furniture.Ydimension = float.Parse(furnitureArray[i+2]);
+                        furniture.Zdimension = float.Parse(furnitureArray[i+3]);
+                        furniture.FurnitureTypeID = int.Parse(furnitureArray[i+4]);
+                        furniture.RoomID = int.Parse(furnitureArray[i+5]);
+                        Debug.Log("FurnitureIDA "+furniture.FurnitureID);
+                        Debug.Log("XdimensionA "+furniture.Xdimension);
+                        Debug.Log("YdimensionA "+furniture.Ydimension);
+                        Debug.Log("ZdimensionA "+furniture.Zdimension);
+                        Debug.Log("FurnitureTypeIDA "+furniture.FurnitureTypeID);
+                        Debug.Log("RoomIDA "+furniture.RoomID);
+                        callback(furniture);
+                       i = i+6;
+                    }
+                        
+                    
                     // creating a registereduser object in order to store user credentials
-                    furniture.FurnitureID = int.Parse(furnitureArray[0]);
+                  /*  furniture.FurnitureID = int.Parse(furnitureArray[0]);
                     furniture.Xdimension = float.Parse(furnitureArray[1]);
                     furniture.Ydimension = float.Parse(furnitureArray[2]);
                     furniture.Zdimension = float.Parse(furnitureArray[3]);
                     furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
                     furniture.RoomID = int.Parse(furnitureArray[5]);
-
+*/
                     //checking if the returned values are correct
-                    Debug.Log(furniture.Xdimension);
-                    Debug.Log(furniture.Ydimension);
-                    Debug.Log(furniture.Zdimension);
-                    Debug.Log(furniture.FurnitureTypeID);
-                    Debug.Log(furniture.RoomID);
+                   
                     //currentUser = loggedinUser;
-                    callback(furniture);
+                    
                    
 
                 }

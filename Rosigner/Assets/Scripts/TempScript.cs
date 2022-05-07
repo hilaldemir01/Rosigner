@@ -15,22 +15,20 @@ public class TempScript : MonoBehaviour
     public Furniture furniture;
     public GameObject tempPrefab;
     List<Wall> wallList = new List<Wall>();
+    private float x,y;
+    public float range;
+    public int k =0;
 
     void Start(){
 
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-        gettingPrefab();
+       
         
     }
 
-    public void gettingPrefab(){
-        tempPrefab = Inventory.sendingPrefab;
-        Debug.Log("prefab: "+tempPrefab);
-        Instantiate(tempPrefab, new Vector3(2, 1, 1), Quaternion.identity);
 
-    }
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
         furniture.FurnitureID=newFurniture.FurnitureID;
@@ -39,8 +37,18 @@ public class TempScript : MonoBehaviour
         furniture.Ydimension = newFurniture.Ydimension;
         furniture.Zdimension = newFurniture.Zdimension;
         furniture.RoomID=newFurniture.RoomID;
-
-    
+        Debug.Log("BURAYA NE GELİYOR"+furniture.FurnitureID);
+        
+        x = Random.Range (0, 4);
+        y = Random.Range (0, 4);
+        Debug.Log(Inventory.array.Count);
+        
+        tempPrefab = Inventory.array[k];
+        Debug.Log("PREFABCOUNT: "+k); 
+        Debug.Log("prefab: "+tempPrefab);
+        tempPrefab.gameObject.transform.localScale = new Vector3(furniture.Xdimension*0.01f,furniture.Ydimension*0.01f,furniture.Zdimension*0.01f);
+        Instantiate(Inventory.array[k], new Vector3(x, y, 0), Quaternion.identity);
+        k=k+1;
     }
     public void fetchWallInformation(List<Wall> newWall)
     {
