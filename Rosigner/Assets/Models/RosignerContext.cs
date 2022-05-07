@@ -458,7 +458,6 @@ namespace Assets.Models
  
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomStructuresInformation");
-            // form.AddField("wallName", wallList[i].WallName.ToString());
             form.AddField("wallID", WallID);
 
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
@@ -471,16 +470,34 @@ namespace Assets.Models
                 }
                 else
                 {
-                // storing the fetched user credentials 
-                    List<RoomStructure> newStructure = new List<RoomStructure>();
                     string returnedStructure = www.downloadHandler.text;
                     Debug.Log("returnedStructure: " + returnedStructure + " wallid:" + WallID);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    //   string[] structuresArray = returnedStructure.Split(';');
+                    if(returnedStructure != "")
+                    {
+                        string[] structuresArray = returnedStructure.Split(';');
+                        int i = 0;
+                        while (i < structuresArray.Length)
+                        {
+                            structuresList.Add(new RoomStructure()
+                            {
+                                RoomStructureID = int.Parse(structuresArray[i]),
+                                FurnitureTypeID = int.Parse(structuresArray[i + 5]),
+                                StrructureLength = float.Parse(structuresArray[i + 1]),
+                                RedDotDistance = float.Parse(structuresArray[i + 3]),
+                                GroundDistance = float.Parse(structuresArray[i + 4]),
+                                StrructureWidth = float.Parse(structuresArray[i + 2]),
+                                WallID = int.Parse(structuresArray[i + 6])
+                            });
+                            i += 6;
+                        }
+
+
+                        Debug.Log("başardık mı: " + structuresList[0].FurnitureTypeID);
+                    }
+
 
                     // structuresList.Add(new RoomStructure() { RoomStructureID = int.Parse(structuresArray[0]), FurnitureTypeID = int.Parse(structuresArray[1]), StrructureLength = float.Parse(structuresArray[2]), RedDotDistance = float.Parse(structuresArray[3]), GroundDistance = float.Parse(structuresArray[4]), StrructureWidth = float.Parse(structuresArray[5]), WallID = int.Parse(structuresArray[6]) });
-
-                    //currentUser = loggedinUser;
 
                 }
             }
