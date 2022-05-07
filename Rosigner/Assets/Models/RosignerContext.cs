@@ -477,19 +477,20 @@ namespace Assets.Models
                     {
                         string[] structuresArray = returnedStructure.Split(';');
                         int i = 0;
-                        while (i < structuresArray.Length)
+
+                        while (i < structuresArray.Length/7)
                         {
                             structuresList.Add(new RoomStructure()
                             {
                                 RoomStructureID = int.Parse(structuresArray[i]),
-                                FurnitureTypeID = int.Parse(structuresArray[i + 5]),
                                 StrructureLength = float.Parse(structuresArray[i + 1]),
+                                StrructureWidth = float.Parse(structuresArray[i + 2]),
                                 RedDotDistance = float.Parse(structuresArray[i + 3]),
                                 GroundDistance = float.Parse(structuresArray[i + 4]),
-                                StrructureWidth = float.Parse(structuresArray[i + 2]),
+                                FurnitureTypeID = int.Parse(structuresArray[i + 5]),
                                 WallID = int.Parse(structuresArray[i + 6])
                             });
-                            i += 6;
+                            i += 7;
                         }
 
 
