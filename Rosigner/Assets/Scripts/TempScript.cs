@@ -20,20 +20,14 @@ public class TempScript : MonoBehaviour
 
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
-     //   StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-
-
-        deneme();
+        StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
+        gettingPrefab();
         
     }
 
-    public void SettingFurniture(GameObject prefab){
-        tempPrefab = prefab;
-        Debug.Log("temp "+tempPrefab);
-    }
-    public void deneme(){
-        tempPrefab = Inventory.prefabDeneme;
-        Debug.Log("TEMP2 "+tempPrefab);
+    public void gettingPrefab(){
+        tempPrefab = Inventory.sendingPrefab;
+        Debug.Log("prefab: "+tempPrefab);
         Instantiate(tempPrefab, new Vector3(2, 1, 1), Quaternion.identity);
 
     }
