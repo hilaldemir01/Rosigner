@@ -451,8 +451,7 @@ namespace Assets.Models
 
         #region Fetch Room Structure
 
-      //  public IEnumerator RoomStructuresInformation(int WallID,System.Action<List<RoomStructure>> callback)
-        public IEnumerator RoomStructuresInformation(int WallID)
+        public IEnumerator RoomStructuresInformation(int WallID,System.Action<List<RoomStructure>> callback)
         {
             List<RoomStructure> structuresList = new List<RoomStructure>();
  
@@ -494,16 +493,12 @@ namespace Assets.Models
                         }
 
 
-                        Debug.Log("başardık mı: " + structuresList[0].FurnitureTypeID);
                     }
-
-
-                    // structuresList.Add(new RoomStructure() { RoomStructureID = int.Parse(structuresArray[0]), FurnitureTypeID = int.Parse(structuresArray[1]), StrructureLength = float.Parse(structuresArray[2]), RedDotDistance = float.Parse(structuresArray[3]), GroundDistance = float.Parse(structuresArray[4]), StrructureWidth = float.Parse(structuresArray[5]), WallID = int.Parse(structuresArray[6]) });
 
                 }
             }
             
-         //   callback(structuresList);
+            callback(structuresList);
 
         }
 
