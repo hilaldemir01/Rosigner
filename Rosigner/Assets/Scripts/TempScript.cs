@@ -16,6 +16,7 @@ public class TempScript : MonoBehaviour
     public GameObject tempPrefab;
     [SerializeField] public GameObject doorSpawn;
     [SerializeField] public GameObject windowSpawn;
+    public string tempassetName="";
 
     List<Wall> wallList = new List<Wall>();
     List<RoomStructure> roomStructuresList = new List<RoomStructure>();
@@ -95,9 +96,10 @@ public class TempScript : MonoBehaviour
                 WallID = newroomstructures[i].WallID
             });
             StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
-            StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID, getStructureName));
+            setpositions();
 
-           
+
+
         }
     }
 
@@ -108,17 +110,87 @@ public class TempScript : MonoBehaviour
 
     public void getStructureName(string structureName)
     {
+        Debug.Log(structureName);
         if (structureName == "Door(Brown)")
         {
-            Instantiate(doorSpawn,
-            new Vector3(roomStructureLocation.LocationX / 100, roomStructureLocation.LocationY/100, roomStructureLocation.LocationZ / 100),
-             Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+            this.tempassetName = "Door(Brown)";
+            //Instantiate(doorSpawn, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
         }else if(structureName == "window1(single)")
         {
-            Instantiate(windowSpawn,
-            new Vector3(roomStructureLocation.LocationX/100, roomStructureLocation.LocationY / 100, roomStructureLocation.LocationZ / 100),
-             Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+            this.tempassetName = "window1(single)";
+
+            // Instantiate(windowSpawn, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
         }
+    }
+
+    public void setpositions()
+    {
+        var wallName="";
+        Vector3 position;
+        Vector3 position_distance;
+        GameObject tempasset;
+        for (int i= 0;i < wallList.Count; i++)
+        {
+            for(int j=0; j< roomStructuresList.Count; j++)
+            {
+                if (wallList[i].WallID == roomStructuresList[j].WallID)
+                {
+                    wallName = wallList[i].WallName;
+                    StartCoroutine(db.getFurnitureName(roomStructuresList[j].FurnitureTypeID, getStructureName));
+                    if(tempassetName == "Door(Brown)")
+                    {
+                        tempasset = doorSpawn;
+                    }
+                    else if(tempassetName == "window1(single)")
+                    {
+                        tempasset = windowSpawn;
+                    }
+                    else{
+
+                        tempasset = null;
+                    }
+
+                    if (wallName == "W1" && tempasset!=null)
+                    {
+                        position = wallobj1.gameObject.transform.position;
+                        position_distance = new Vector3(position.x + roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
+                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                    }
+                    else if(wallName == "W2" && tempasset != null)
+                    {
+                        position = wallobj2.gameObject.transform.position;
+                        position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z + roomStructuresList[j].RedDotDistance);
+                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                    }
+                    else if(wallName == "W3" && tempasset != null)
+                    {
+                        position = wallobj3.gameObject.transform.position;
+                        position_distance = new Vector3(position.x - roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
+                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                    }
+                    else if(wallName == "W4" && tempasset != null)
+                    {
+                        position = wallobj4.gameObject.transform.position;
+                        position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z - roomStructuresList[j].RedDotDistance);
+                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                    }
+
+                    wallName = "";
+                    tempassetName = "";
+                    tempasset = null;
+
+                }
+
+            }
+        }
+        
+
+
+        
     }
 
 }
