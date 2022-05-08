@@ -512,7 +512,7 @@ namespace Assets.Models
 
         #endregion
 
-        #region roomStructureLocationFetch
+        #region Room Structure Location Fetch
         public IEnumerator RoomStructureLocationInformation(int roomStructureID, System.Action<RoomStructureLocation> callback)
         {
             WWWForm form = new WWWForm();

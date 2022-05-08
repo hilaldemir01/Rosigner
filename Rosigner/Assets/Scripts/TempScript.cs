@@ -20,6 +20,7 @@ public class TempScript : MonoBehaviour
 
     List<Wall> wallList = new List<Wall>();
     List<RoomStructure> roomStructuresList = new List<RoomStructure>();
+    RoomStructureLocation roomStructureLocation = new RoomStructureLocation();
 
     void Start(){
 
@@ -98,9 +99,9 @@ public class TempScript : MonoBehaviour
         }
     }
 
-    public void fetchRoomStructureLocationInformation(RoomStructureLocation roomStructureLocation)
+    public void fetchRoomStructureLocationInformation(RoomStructureLocation newRoomStructureLocation)
     {
-        Debug.Log(roomStructureLocation.RotationX);
+        roomStructureLocation = newRoomStructureLocation;
     }
 
     public void getFurnitureName(string furnitureName)
