@@ -188,9 +188,9 @@ public class WallDefiner : MonoBehaviour
             if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
-                newRoomStructureLocation.LocationX = position_distance.x;
-                newRoomStructureLocation.LocationY = position_distance.y;
-                newRoomStructureLocation.LocationZ = position_distance.z;
+                newRoomStructureLocation.LocationX = parent.position.x - wallDistance;
+                newRoomStructureLocation.LocationY = parent.position.y;
+                newRoomStructureLocation.LocationZ = -parent.position.z;
                 newRoomStructureLocation.RotationX = 0;
                 newRoomStructureLocation.RotationY = 0;
                 newRoomStructureLocation.RotationZ = 0;
@@ -212,9 +212,9 @@ public class WallDefiner : MonoBehaviour
             if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
-                newRoomStructureLocation.LocationX = position_distance.x;
-                newRoomStructureLocation.LocationY = position_distance.y;
-                newRoomStructureLocation.LocationZ = position_distance.z;
+                newRoomStructureLocation.LocationX = -parent.position.x + wallDistance;
+                newRoomStructureLocation.LocationY = parent.position.y;
+                newRoomStructureLocation.LocationZ = -parent.position.z;
                 newRoomStructureLocation.RotationX = 0;
                 newRoomStructureLocation.RotationY = 270;
                 newRoomStructureLocation.RotationZ = 0;
@@ -235,9 +235,9 @@ public class WallDefiner : MonoBehaviour
             if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
-                newRoomStructureLocation.LocationX = position_distance.x;
-                newRoomStructureLocation.LocationY = position_distance.y;
-                newRoomStructureLocation.LocationZ = position_distance.z;
+                newRoomStructureLocation.LocationX = -parent.position.x + wallDistance;
+                newRoomStructureLocation.LocationY = parent.position.y;
+                newRoomStructureLocation.LocationZ = -parent.position.z;
                 newRoomStructureLocation.RotationX = 0;
                 newRoomStructureLocation.RotationY = 180;
                 newRoomStructureLocation.RotationZ = 0;
@@ -261,9 +261,9 @@ public class WallDefiner : MonoBehaviour
             if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
-                newRoomStructureLocation.LocationX = position_distance.x;
-                newRoomStructureLocation.LocationY = position_distance.y;
-                newRoomStructureLocation.LocationZ = position_distance.z;
+                newRoomStructureLocation.LocationX = -parent.position.x + wallDistance;
+                newRoomStructureLocation.LocationY = parent.position.y;
+                newRoomStructureLocation.LocationZ = -parent.position.z;
                 newRoomStructureLocation.RotationX = 0;
                 newRoomStructureLocation.RotationY = 90;
                 newRoomStructureLocation.RotationZ = 0;

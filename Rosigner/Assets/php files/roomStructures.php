@@ -16,7 +16,12 @@ if($_POST['unity']=="roomstructure")
     $StructureName=$_POST['StructureName'];
     $wallName=$_POST['wallName'];
     $roomID=$_POST['roomID'];
-
+    $LocationX = $_POST['LocationX'];
+    $LocationY = $_POST['LocationY'];
+    $LocationZ = $_POST['LocationZ'];
+    $RotationX = $_POST['RotationX'];
+    $RotationY = $_POST['RotationY'];
+    $RotationZ = $_POST['RotationZ'];
 
     $FurnitureTypeQuery = "SELECT FurnitureTypeID FROM furnituretype WHERE FurnitureType='".$StructureName."';";   
     $FurnitureTypeResult = $con->query($FurnitureTypeQuery);
@@ -33,7 +38,17 @@ if($_POST['unity']=="roomstructure")
     $query="INSERT INTO roomstructure (StrructureLength,StrructureWidth,RedDotDistance,GroundDistance,FurnitureTypeID,WallID) VALUES ('".$StrructureLength."','".$StrructureWidth."','".$RedDotDistance."','".$GroundDistance."','".$FurnitureTypeID."','".$WallID."');";
     $queryResult = mysqli_query($con,$query);
 
-    if($queryResult == true){
+
+    $query2 = "SELECT * FROM roomstructure WHERE RoomStructureID = (SELECT LAST_INSERT_ID());";
+    $queryResult2 = $con->query($query2); // table 
+    $result2 = $queryResult2->fetch_object(); // table is turned into an array and it can be used by column name 
+    $returnvalue = "$result2->RoomStructureID";
+
+    $query3 = "INSERT INTO roomstructurelocation (LocationX,LocationY,LocationZ,RotationX,RotationY,RotationZ,RoomStructureID) VALUES ('".$LocationX."','".$LocationY."','".$LocationZ."','".$RotationX."','".$RotationY."','".$RotationZ."','".$returnvalue."');";
+
+    $queryResult3 = $con->query($query3); // table 
+
+    if($queryResult3 == true){
         echo "Success";
     }else{
         echo "Fail";

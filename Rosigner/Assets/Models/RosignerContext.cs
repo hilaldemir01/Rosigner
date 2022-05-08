@@ -83,9 +83,6 @@ namespace Assets.Models
             form.AddField("email", email);
             form.AddField("password", password);
 
-
-
-
             // database connection is done here:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
             {
@@ -155,12 +152,6 @@ namespace Assets.Models
                     loggedinUser.LastName = userArray[2];
                     loggedinUser.Gender = int.Parse(userArray[3]);
                     loggedinUser.Email = email;
-
-                    //checking if the returned values are correct
-                    Debug.Log(loggedinUser.FirstName);
-                    Debug.Log(loggedinUser.LastName);
-                    Debug.Log(loggedinUser.Gender);
-                    Debug.Log(loggedinUser.Email);
 
                     currentUser = loggedinUser;
                     callback(loggedinUser);
@@ -239,10 +230,8 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     RoomID = int.Parse(www.downloadHandler.text);
                     LoginSystem.instance.RoomID = RoomID;
-                    Debug.Log("deneme roomid:" + RoomID);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -361,7 +350,6 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -440,7 +428,6 @@ namespace Assets.Models
                     {
                         // storing the fetched user credentials 
                         string returnedWall = www.downloadHandler.text;
-                        Debug.Log("returnedWall: " + returnedWall);
                         // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                         string[] wallArray = returnedWall.Split(';');
 
@@ -477,7 +464,6 @@ namespace Assets.Models
                 else
                 {
                     string returnedStructure = www.downloadHandler.text;
-                    Debug.Log("returnedStructure: " + returnedStructure + " wallid:" + WallID);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     if(returnedStructure != "")
                     {
@@ -498,13 +484,9 @@ namespace Assets.Models
                             });
                             i += 7;
                         }
-
-
                     }
-
                 }
             }
-            
             callback(structuresList);
 
         }
@@ -531,7 +513,6 @@ namespace Assets.Models
                 else
                 {
                     string returnedStructure = www.downloadHandler.text;
-                    Debug.Log(returnedStructure);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     if (returnedStructure != "")
                     {
@@ -553,9 +534,10 @@ namespace Assets.Models
 
         #endregion
 
-        #region Get Furniture Name
+        #region Get Structure Name
         public IEnumerator getFurnitureName(int furnitureID,System.Action<string> callback)
         {
+            Debug.Log("Room or window id: " + furnitureID);
             WWWForm form = new WWWForm();
             form.AddField("unity", "getFurnitureType");
             form.AddField("furnitureID", furnitureID);
@@ -572,7 +554,8 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
+                    Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
+                    Debug.Log("Door or window: " + www.downloadHandler.text);
                     callback(www.downloadHandler.text);
 
                 }

@@ -16,7 +16,6 @@ public class TempScript : MonoBehaviour
     public GameObject tempPrefab;
     [SerializeField] public GameObject doorSpawn;
     [SerializeField] public GameObject windowSpawn;
-    [SerializeField] GameObject objectToBeSpawned;
 
     List<Wall> wallList = new List<Wall>();
     List<RoomStructure> roomStructuresList = new List<RoomStructure>();
@@ -96,6 +95,9 @@ public class TempScript : MonoBehaviour
                 WallID = newroomstructures[i].WallID
             });
             StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
+            StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID, getStructureName));
+
+           
         }
     }
 
@@ -104,9 +106,19 @@ public class TempScript : MonoBehaviour
         roomStructureLocation = newRoomStructureLocation;
     }
 
-    public void getFurnitureName(string furnitureName)
+    public void getStructureName(string structureName)
     {
-        objectToBeSpawned = GameObject.Find(furnitureName);
+        if (structureName == "Door(Brown)")
+        {
+            Instantiate(doorSpawn,
+            new Vector3(roomStructureLocation.LocationX / 100, roomStructureLocation.LocationY/100, roomStructureLocation.LocationZ / 100),
+             Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+        }else if(structureName == "window1(single)")
+        {
+            Instantiate(windowSpawn,
+            new Vector3(roomStructureLocation.LocationX/100, roomStructureLocation.LocationY / 100, roomStructureLocation.LocationZ / 100),
+             Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
+        }
     }
 
 }
