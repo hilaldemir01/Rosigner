@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Assets.Models
 {
-    public class Location
+    public class RoomStructureLocation
     {
-        public int LocationID { get; set; }
+        public int RoomStructureLocationID { get; set; }
+        public int RoomStructureID { get; set; }
         public float LocationX { get; set; }
         public float LocationY { get; set; }
         public float LocationZ { get; set; }
-        public int FurnitureID { get; set; }
-        public int DesignID { get; set; }
+        public float RotationX { get; set; }
+        public float RotationY { get; set; }
+        public float RotationZ { get; set; }
     }
 }

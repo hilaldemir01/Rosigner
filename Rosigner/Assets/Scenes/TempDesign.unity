@@ -860,6 +860,9 @@ MonoBehaviour:
   wallobj4: {fileID: 1165226428}
   floor: {fileID: 383905785}
   tempPrefab: {fileID: 0}
+  doorSpawn: {fileID: 5055977843773460383, guid: 770b3d51c67340a49b7a859772fe2100, type: 3}
+  windowSpawn: {fileID: 2335893037393183269, guid: 8ea0b4db6b5c4f24f86ad2c90cb91995, type: 3}
+  objectToBeSpawned: {fileID: 0}
 --- !u!4 &1141492891
 Transform:
   m_ObjectHideFlags: 0

@@ -371,7 +371,7 @@ namespace Assets.Models
 
         #region Room Structure
 
-        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure)
+        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure, RoomStructureLocation newLocation)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomstructure");
@@ -382,6 +382,12 @@ namespace Assets.Models
             form.AddField("StructureName", StructureName);
             form.AddField("wallName", wallName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
+            form.AddField("LocationX",newLocation.LocationX.ToString().Replace(",", "."));
+            form.AddField("LocationY",newLocation.LocationY.ToString().Replace(",", "."));
+            form.AddField("LocationZ",newLocation.LocationZ.ToString().Replace(",", "."));
+            form.AddField("RotationX",newLocation.RotationX.ToString().Replace(",", "."));
+            form.AddField("RotationY", newLocation.RotationY.ToString().Replace(",", "."));
+            form.AddField("RotationZ", newLocation.RotationZ.ToString().Replace(",", "."));
             Debug.Log(wallName);
             Debug.Log(LoginSystem.instance.RoomID);
             Debug.Log(StructureName);
@@ -502,6 +508,35 @@ namespace Assets.Models
 
         }
 
+
+        #endregion
+
+        #region Get Furniture Name
+        public IEnumerator getFurnitureName(int furnitureID,System.Action<string> callback)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "getFurnitureType");
+            form.AddField("furnitureID", furnitureID);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getFurnitureName.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                    callback(www.downloadHandler.text);
+
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
 
         #endregion
     }

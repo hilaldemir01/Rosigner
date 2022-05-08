@@ -25,6 +25,7 @@ public class WallDefiner : MonoBehaviour
     RosignerContext db = new RosignerContext();
     private int isTriggered=1;
     RoomStructure newRoomStructure = new RoomStructure();
+    RoomStructureLocation newRoomStructureLocation = new RoomStructureLocation();
     float height, width;
     RegisteredUser loggedinUser = new RegisteredUser();
     Level leve;
@@ -187,6 +188,14 @@ public class WallDefiner : MonoBehaviour
             if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
+                newRoomStructureLocation.LocationX = tempAsset.transform.position.x;
+                newRoomStructureLocation.LocationY = tempAsset.transform.position.y;
+                newRoomStructureLocation.LocationZ = tempAsset.transform.position.z;
+                newRoomStructureLocation.RotationX = tempAsset.transform.rotation.x;
+                newRoomStructureLocation.RotationY = tempAsset.transform.rotation.y;
+                newRoomStructureLocation.RotationZ = tempAsset.transform.rotation.z;
+
+                StartCoroutine(db.RoomStructure(selectedObject.transform.parent.name, tempAsset.name.ToString(), newRoomStructure, newRoomStructureLocation));
             }
             else
             {
@@ -203,6 +212,14 @@ public class WallDefiner : MonoBehaviour
             if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
+                newRoomStructureLocation.LocationX = tempAsset.transform.position.x;
+                newRoomStructureLocation.LocationY = tempAsset.transform.position.y;
+                newRoomStructureLocation.LocationZ = tempAsset.transform.position.z;
+                newRoomStructureLocation.RotationX = tempAsset.transform.rotation.x;
+                newRoomStructureLocation.RotationY = tempAsset.transform.rotation.y;
+                newRoomStructureLocation.RotationZ = tempAsset.transform.rotation.z;
+
+                StartCoroutine(db.RoomStructure(selectedObject.transform.parent.name, tempAsset.name.ToString(), newRoomStructure, newRoomStructureLocation));
             }
             else
             {
@@ -218,6 +235,14 @@ public class WallDefiner : MonoBehaviour
             if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
+                newRoomStructureLocation.LocationX = tempAsset.transform.position.x;
+                newRoomStructureLocation.LocationY = tempAsset.transform.position.y;
+                newRoomStructureLocation.LocationZ = tempAsset.transform.position.z;
+                newRoomStructureLocation.RotationX = tempAsset.transform.rotation.x;
+                newRoomStructureLocation.RotationY = tempAsset.transform.rotation.y;
+                newRoomStructureLocation.RotationZ = tempAsset.transform.rotation.z;
+
+                StartCoroutine(db.RoomStructure(selectedObject.transform.parent.name, tempAsset.name.ToString(), newRoomStructure, newRoomStructureLocation));
             }
             else
             {
@@ -236,6 +261,14 @@ public class WallDefiner : MonoBehaviour
             if(RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
             {
                 Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
+                newRoomStructureLocation.LocationX = tempAsset.transform.position.x;
+                newRoomStructureLocation.LocationY = tempAsset.transform.position.y;
+                newRoomStructureLocation.LocationZ = tempAsset.transform.position.z;
+                newRoomStructureLocation.RotationX = tempAsset.transform.rotation.x;
+                newRoomStructureLocation.RotationY = tempAsset.transform.rotation.y;
+                newRoomStructureLocation.RotationZ = tempAsset.transform.rotation.z;
+
+                StartCoroutine(db.RoomStructure(selectedObject.transform.parent.name, tempAsset.name.ToString(), newRoomStructure, newRoomStructureLocation));
             }
             else
             {
@@ -307,8 +340,7 @@ public class WallDefiner : MonoBehaviour
             newRoomStructure.StrructureWidth = width;
             newRoomStructure.RedDotDistance = wallDistance;
             newRoomStructure.GroundDistance = groundDistance;
-        
-            StartCoroutine(db.RoomStructure(wallName, tempAsset.name.ToString(),newRoomStructure));
+
             tempAsset.transform.localScale= new Vector3(width, height, 0.3f);
             ErrorMessage.gameObject.SetActive(false);
             return true;

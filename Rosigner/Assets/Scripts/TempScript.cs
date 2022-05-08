@@ -16,8 +16,8 @@ public class TempScript : MonoBehaviour
     public GameObject tempPrefab;
     [SerializeField] public GameObject doorSpawn;
     [SerializeField] public GameObject windowSpawn;
-    [SerializeField] public GameObject objectToBeSpawned;
-    [SerializeField] public Transform parent;
+    [SerializeField] GameObject objectToBeSpawned;
+
     List<Wall> wallList = new List<Wall>();
     List<RoomStructure> roomStructuresList;
 
@@ -82,7 +82,7 @@ public class TempScript : MonoBehaviour
             {
                 if(roomStructuresList[i].WallID == wallList[j].WallID)
                 {
-                    RoomStructures(roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance,wallList[j].WallName);
+                    RoomStructures(roomStructuresList[j],wallList[j].WallName);
                 }
             }
             
@@ -109,18 +109,26 @@ public class TempScript : MonoBehaviour
         for(int i = 0; i < wallList.Count; i++)
         {
             StartCoroutine(db.RoomStructuresInformation(wallList[0].WallID, fetchRoomStructureInformation));
-
         }
 
     }
-
-    bool RoomStructures(float inputDistanceFromWall,float inputDistanceFromGround,string  wallName)
+    public void getFurnitureName(string furnitureName)
     {
+        objectToBeSpawned = GameObject.Find(furnitureName);
+    }
+    bool RoomStructures(RoomStructure roomStructures, string  wallName)
+    {
+        Debug.Log("Room structures a geldik");
         float wallDistance, groundDistance, TempGroundDistance;
-        float tempScaleWidth, tempScaleHeight;
+        float tempScaleWidth = roomStructures.StrructureWidth, tempScaleHeight = roomStructures.StrructureLength;
 
-        wallDistance = inputDistanceFromWall / 100.0f;
-        TempGroundDistance = inputDistanceFromGround / 100.0f;
+        wallDistance = roomStructures.RedDotDistance / 100.0f;
+        TempGroundDistance = roomStructures.GroundDistance / 100.0f;
+
+        StartCoroutine(db.getFurnitureName(roomStructures.FurnitureTypeID, getFurnitureName));
+        GameObject tempAsset = objectToBeSpawned;
+
+        GameObject selectedObject = GameObject.Find(wallName);
 
         // This part assigns the position values of the selected wall to the position1
         Vector3 position1 = selectedObject.transform.parent.position;
@@ -128,14 +136,14 @@ public class TempScript : MonoBehaviour
         // Tag of the parents of the selectedObject is compared, and if one of the walls is clicked and  
         // a distance value is entered, then the door/window will be placed on that wall in the given distance
 
-        if (selectedObject.transform.parent.name == "W1")
+        if (selectedObject.name == "W1")
         {
             tempScaleWidth = selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
-            Vector3 position_distance = new Vector3(position1.x + wallDistance, groundDistance, position1.z);
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
+            Vector3 position_distance = new Vector3(position1.x + wallDistance, TempGroundDistance, position1.z);
+            if (RoomStructureSizing(roomStructures) == true)
             {
-                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), parent);
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)), selectedObject.transform);
             }
             else
             {
@@ -143,15 +151,15 @@ public class TempScript : MonoBehaviour
                 return false;
             }
         }
-        else if (selectedObject.transform.parent.name == "W2")
+        else if (selectedObject.name == "W2")
         {
             tempScaleWidth = selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
-            Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z + wallDistance);
+            Vector3 position_distance = new Vector3(position1.x, TempGroundDistance, position1.z + wallDistance);
 
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
+            if (RoomStructureSizing(roomStructures) == true)
             {
-                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), parent);
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)), selectedObject.transform);
             }
             else
             {
@@ -159,14 +167,14 @@ public class TempScript : MonoBehaviour
                 return false;
             }
         }
-        else if (selectedObject.transform.parent.name == "W3")
+        else if (selectedObject.name == "W3")
         {
             tempScaleWidth = selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
-            Vector3 position_distance = new Vector3(position1.x - wallDistance, groundDistance, position1.z);
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
+            Vector3 position_distance = new Vector3(position1.x - wallDistance, TempGroundDistance, position1.z);
+            if (RoomStructureSizing(roomStructures) == true)
             {
-                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), parent);
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)), selectedObject.transform);
             }
             else
             {
@@ -176,15 +184,15 @@ public class TempScript : MonoBehaviour
 
 
         }
-        else if (selectedObject.transform.parent.name == "W4")
+        else if (selectedObject.name == "W4")
         {
             tempScaleWidth = selectedObject.transform.parent.localScale.x;
             tempScaleHeight = selectedObject.transform.parent.localScale.y;
-            Vector3 position_distance = new Vector3(position1.x, groundDistance, position1.z - wallDistance);
+            Vector3 position_distance = new Vector3(position1.x, TempGroundDistance, position1.z - wallDistance);
 
-            if (RoomStructureSizing(tempScaleHeight, tempScaleWidth, wallDistance, groundDistance, selectedObject.transform.parent.name) == true)
+            if (RoomStructureSizing(roomStructures) == true)
             {
-                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), parent);
+                Instantiate(tempAsset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)), selectedObject.transform);
             }
             else
             {
@@ -195,18 +203,12 @@ public class TempScript : MonoBehaviour
         return true;
     }
 
-    bool RoomStructureSizing(float tempScaleHeight, float tempScaleWidth, float wallDistance, float groundDistance, string wallName)
+    bool RoomStructureSizing(RoomStructure roomStructures)
     {
-        float.TryParse(inputHeight.text, out float result1);
-        height = result1 / 100.0f;
+        var height = roomStructures.StrructureLength / 100.0f;
+        var width = roomStructures.StrructureWidth / 100.0f;
 
-        float.TryParse(inputWidth.text, out float result2);
-        width = result2 / 100.0f;
-
- 
-
-        StartCoroutine(db.RoomStructure(wallName, tempAsset.name.ToString(), newRoomStructure));
-        tempAsset.transform.localScale = new Vector3(width, height, 0.3f);
+        objectToBeSpawned.transform.localScale = new Vector3(width, height, 0.3f);
         return true;
        
 
