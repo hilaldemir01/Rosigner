@@ -13,6 +13,7 @@ namespace Assets.Models
         public RegisteredUser currentUser = new RegisteredUser();
         public int RoomID;
         public int FurnitureID;
+        List<Wall> wallList = new List<Wall>();
 
         #region Register
         public IEnumerator Register(RegisteredUser newUser)
@@ -385,6 +386,44 @@ namespace Assets.Models
             }
 
             yield return new WaitForSeconds(1);
+        }
+        #endregion
+
+        #region Fetch Wall Information
+        public IEnumerator WallInformation(string[] allWalls, System.Action<List<Wall>> callback)
+        {
+            //List<Wall> wallList = new List<Wall>();
+            for (int i = 0; i < allWalls.Length; i++)
+            {
+                WWWForm form = new WWWForm();
+                form.AddField("unity", "wallInformation");
+                form.AddField("roomID", LoginSystem.instance.RoomID);
+                form.AddField("wallName", allWalls[i].ToString());
+
+                using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/wallInformation.php", form))
+                {
+                    yield return www.SendWebRequest();
+
+                    if (www.isNetworkError || www.isHttpError)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        // storing the fetched user credentials 
+                        string returnedWall = www.downloadHandler.text;
+                        // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                        string[] wallArray = returnedWall.Split(';');
+
+                        wallList.Add(new Wall() { WallID = int.Parse(wallArray[0]), WallName = wallArray[1], WallLength = float.Parse(wallArray[2]), WallHeight = float.Parse(wallArray[3]), RoomID = int.Parse(wallArray[4]) });
+
+                        //currentUser = loggedinUser;
+
+                    }
+                }
+            }
+            callback(wallList);
+
         }
         #endregion
 
