@@ -566,7 +566,7 @@ namespace Assets.Models
         #endregion
 
         #region Get Structure Name
-        public IEnumerator getFurnitureName(int furnitureID, System.Action<string> callback)
+        public IEnumerator getFurnitureName(int furnitureID,int RoomStructureID, System.Action<string> callback)
         {
             Debug.Log("Room or window id: " + furnitureID);
             WWWForm form = new WWWForm();
@@ -587,7 +587,8 @@ namespace Assets.Models
                 {
                     Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
                     Debug.Log("Door or window: " + www.downloadHandler.text);
-                    callback(www.downloadHandler.text);
+                    var retunvalue = RoomStructureID.ToString() + ";" + www.downloadHandler.text;
+                    callback(retunvalue);
 
                 }
             }
