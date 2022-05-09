@@ -390,7 +390,7 @@ namespace Assets.Models
 
         #region Room Structure
 
-        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure)
+        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure, RoomStructureLocation newLocation)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomstructure");
@@ -401,6 +401,12 @@ namespace Assets.Models
             form.AddField("StructureName", StructureName);
             form.AddField("wallName", wallName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
+            form.AddField("LocationX", newLocation.LocationX.ToString().Replace(",", "."));
+            form.AddField("LocationY", newLocation.LocationY.ToString().Replace(",", "."));
+            form.AddField("LocationZ", newLocation.LocationZ.ToString().Replace(",", "."));
+            form.AddField("RotationX", newLocation.RotationX.ToString().Replace(",", "."));
+            form.AddField("RotationY", newLocation.RotationY.ToString().Replace(",", "."));
+            form.AddField("RotationZ", newLocation.RotationZ.ToString().Replace(",", "."));
             Debug.Log(wallName);
             Debug.Log(LoginSystem.instance.RoomID);
             Debug.Log(StructureName);
@@ -418,7 +424,7 @@ namespace Assets.Models
                 else
                 {
                     Debug.Log(www.downloadHandler.text);
-                    
+
                 }
             }
 
@@ -429,43 +435,127 @@ namespace Assets.Models
 
         #endregion
 
-        #region Fetch Wall Information
-        public IEnumerator WallInformation(string []allWalls, System.Action<List<Wall>> callback)
+        #region Room Structure Location Fetch
+        public IEnumerator RoomStructureLocationInformation(int roomStructureID, System.Action<RoomStructureLocation> callback)
         {
-            List<Wall> wallList = new List<Wall>();
-            for (int i = 0; i < allWalls.Length; i++)
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "roomStructuresLocationFetch");
+            form.AddField("roomStructureID", roomStructureID);
+            RoomStructureLocation newRoomStructureLocation = new RoomStructureLocation();
+
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructureLocationFetch.php", form))
             {
-                WWWForm form = new WWWForm();
-                form.AddField("unity", "wallInformation");
-                form.AddField("roomID", LoginSystem.instance.RoomID);
-                form.AddField("wallName", allWalls[i].ToString());
+                yield return www.SendWebRequest();
 
-                using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/wallInformation.php", form))
+                if (www.isNetworkError || www.isHttpError)
                 {
-                    yield return www.SendWebRequest();
-
-                    if (www.isNetworkError || www.isHttpError)
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    string returnedStructure = www.downloadHandler.text;
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    if (returnedStructure != "")
                     {
-                        Debug.Log(www.error);
-                    }
-                    else
-                    {
-                        // storing the fetched user credentials 
-                        string returnedWall = www.downloadHandler.text;
-                        Debug.Log("returnedWall: " + returnedWall);
-                        // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                        string[] wallArray = returnedWall.Split(';');
+                        string[] structuresArray = returnedStructure.Split(';');
 
-                        wallList.Add(new Wall() { WallID = int.Parse(wallArray[0]), WallName = wallArray[1], WallLength = float.Parse(wallArray[2]), WallHeight = float.Parse(wallArray[3]), RoomID = int.Parse(wallArray[4]) });
-
-                        //currentUser = loggedinUser;
-
+                        newRoomStructureLocation.LocationX = float.Parse(structuresArray[0]);
+                        newRoomStructureLocation.LocationY = float.Parse(structuresArray[1]);
+                        newRoomStructureLocation.LocationZ = float.Parse(structuresArray[2]);
+                        newRoomStructureLocation.RotationX = float.Parse(structuresArray[3]);
+                        newRoomStructureLocation.RotationY = float.Parse(structuresArray[4]);
+                        newRoomStructureLocation.RotationZ = float.Parse(structuresArray[5]);
+                        newRoomStructureLocation.RoomStructureID = int.Parse(structuresArray[6]);
+                        newRoomStructureLocation.RoomStructureLocationID = int.Parse(structuresArray[7]);
                     }
                 }
             }
-            callback(wallList);
+            callback(newRoomStructureLocation);
+        }
+
+        #endregion
+
+        #region Fetch Room Structure
+
+        public IEnumerator RoomStructuresInformation(int WallID, System.Action<List<RoomStructure>> callback)
+        {
+            List<RoomStructure> structuresList = new List<RoomStructure>();
+
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "roomStructuresInformation");
+            form.AddField("wallID", WallID);
+
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    string returnedStructure = www.downloadHandler.text;
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    if (returnedStructure != "")
+                    {
+                        string[] structuresArray = returnedStructure.Split(';');
+                        int i = 0;
+
+                        while (i < structuresArray.Length / 7)
+                        {
+                            structuresList.Add(new RoomStructure()
+                            {
+                                RoomStructureID = int.Parse(structuresArray[i]),
+                                StrructureLength = float.Parse(structuresArray[i + 1]),
+                                StrructureWidth = float.Parse(structuresArray[i + 2]),
+                                RedDotDistance = float.Parse(structuresArray[i + 3]),
+                                GroundDistance = float.Parse(structuresArray[i + 4]),
+                                FurnitureTypeID = int.Parse(structuresArray[i + 5]),
+                                WallID = int.Parse(structuresArray[i + 6])
+                            });
+                            i += 7;
+                        }
+                    }
+                }
+            }
+            callback(structuresList);
 
         }
+
+
         #endregion
+
+        #region Get Structure Name
+        public IEnumerator getFurnitureName(int furnitureID, System.Action<string> callback)
+        {
+            Debug.Log("Room or window id: " + furnitureID);
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "getFurnitureType");
+            form.AddField("furnitureID", furnitureID);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getFurnitureName.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
+                    Debug.Log("Door or window: " + www.downloadHandler.text);
+                    callback(www.downloadHandler.text);
+
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
+
+        #endregion
+
     }
 }
