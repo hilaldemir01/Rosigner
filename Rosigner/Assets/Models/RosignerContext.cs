@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,7 +12,7 @@ namespace Assets.Models
         public RegisteredUser instance;
         public RegisteredUser currentUser = new RegisteredUser();
         public int RoomID;
-        List<Wall> wallList = new List<Wall>();
+        public int FurnitureID;
 
         #region Register
         public IEnumerator Register(RegisteredUser newUser)
@@ -83,6 +82,9 @@ namespace Assets.Models
             form.AddField("email", email);
             form.AddField("password", password);
 
+
+
+
             // database connection is done here:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
             {
@@ -145,6 +147,7 @@ namespace Assets.Models
 
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] userArray = returnedUser.Split(';');
+                    
 
                     // creating a registereduser object in order to store user credentials
                     loggedinUser.UserId = int.Parse(userArray[0]);
@@ -153,6 +156,12 @@ namespace Assets.Models
                     loggedinUser.Gender = int.Parse(userArray[3]);
                     loggedinUser.Email = email;
 
+                    //checking if the returned values are correct
+                    Debug.Log(loggedinUser.FirstName);
+                    Debug.Log(loggedinUser.LastName);
+                    Debug.Log(loggedinUser.Gender);
+                    Debug.Log(loggedinUser.Email);
+                    
                     currentUser = loggedinUser;
                     callback(loggedinUser);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("PreviousDesigns");
@@ -169,7 +178,8 @@ namespace Assets.Models
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "furnitureInformation");
-            form.AddField("furnitureID", LoginSystem.instance.FurnitureID);
+            form.AddField("FurnitureID", LoginSystem.FurnitureID);
+            form.AddField("RoomID",LoginSystem.instance.RoomID);
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureInformation.php", form))
             {
                 yield return www.SendWebRequest();
@@ -180,32 +190,47 @@ namespace Assets.Models
                 }
                 else
                 {
-                    // storing the fetched user credentials 
+
                     string returnedFurniture = www.downloadHandler.text;
-                     Debug.Log("returnedFurniture: "+returnedFurniture);
+                    Debug.Log("returnedFurniture: "+returnedFurniture);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] furnitureArray = returnedFurniture.Split(';');
-
+                    int i = 0;
+                    for(int j = 0; j <furnitureArray.Length/6 ;j++){
+                        furniture.FurnitureID = int.Parse(furnitureArray[i]);
+                        furniture.Xdimension = float.Parse(furnitureArray[i+1]);
+                        furniture.Ydimension = float.Parse(furnitureArray[i+2]);
+                        furniture.Zdimension = float.Parse(furnitureArray[i+3]);
+                        furniture.FurnitureTypeID = int.Parse(furnitureArray[i+4]);
+                        furniture.RoomID = int.Parse(furnitureArray[i+5]);
+                        Debug.Log("FurnitureIDA "+furniture.FurnitureID);
+                        Debug.Log("XdimensionA "+furniture.Xdimension);
+                        Debug.Log("YdimensionA "+furniture.Ydimension);
+                        Debug.Log("ZdimensionA "+furniture.Zdimension);
+                        Debug.Log("FurnitureTypeIDA "+furniture.FurnitureTypeID);
+                        Debug.Log("RoomIDA "+furniture.RoomID);
+                        callback(furniture);
+                       i = i+6;
+                    }
+                        
+                    
                     // creating a registereduser object in order to store user credentials
-                    furniture.FurnitureID = int.Parse(furnitureArray[0]);
+                  /*  furniture.FurnitureID = int.Parse(furnitureArray[0]);
                     furniture.Xdimension = float.Parse(furnitureArray[1]);
                     furniture.Ydimension = float.Parse(furnitureArray[2]);
                     furniture.Zdimension = float.Parse(furnitureArray[3]);
-                    //furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
-                    //furniture.RoomID = int.Parse(furnitureArray[5]);
-
+                    furniture.FurnitureTypeID = int.Parse(furnitureArray[4]);
+                    furniture.RoomID = int.Parse(furnitureArray[5]);
+*/
                     //checking if the returned values are correct
-                    Debug.Log(furniture.Xdimension);
-                    Debug.Log(furniture.Ydimension);
-                    Debug.Log(furniture.Zdimension);
-                    Debug.Log(furniture.FurnitureTypeID);
-
+                   
                     //currentUser = loggedinUser;
-                    callback(furniture);
+                    
                    
 
                 }
             }
+            yield return new WaitForSeconds(1);
 
 
         }
@@ -230,8 +255,10 @@ namespace Assets.Models
                 }
                 else
                 {
+                    Debug.Log(www.downloadHandler.text);
                     RoomID = int.Parse(www.downloadHandler.text);
                     LoginSystem.instance.RoomID = RoomID;
+                    Debug.Log("deneme roomid:" + RoomID);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -242,8 +269,8 @@ namespace Assets.Models
         #endregion
 
         #region Furniture
-        public IEnumerator Furniture(Furniture furnitureMeasurement, string furnitureName){
-        WWWForm form = new WWWForm();
+        public IEnumerator Furniture(Furniture furnitureMeasurement, string furnitureName, System.Action<string> callback){
+            WWWForm form = new WWWForm();
             form.AddField("unity", "furniture");
             form.AddField("height", furnitureMeasurement.Ydimension.ToString());
             form.AddField("width", furnitureMeasurement.Xdimension.ToString());
@@ -273,22 +300,24 @@ namespace Assets.Models
                 {
                     // if there are no errors then user account is created:
 
-                    if (www.downloadHandler.text.Contains("Measures saved successfully"))
-                    {
-                        message = "" + www.downloadHandler.text;
-                 
-                
-                        notificationTxt.gameObject.SetActive(true);
-                        notificationTxt.text= message;
-                        yield return new WaitForSeconds(1);
-                        //UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
-                        
-                    }
-                    else
+                    if (www.downloadHandler.text.Contains("Failed to save"))
                     {
                         message = "" + www.downloadHandler.text;
                         notificationTxt.gameObject.SetActive(true);
                         notificationTxt.text = message;
+                       
+                        
+                    }
+                    else
+                    {
+                        message = "Measures saved successfully";
+                        FurnitureID = int.Parse(www.downloadHandler.text);
+                        LoginSystem.FurnitureID = FurnitureID;
+                        notificationTxt.gameObject.SetActive(true);
+                        notificationTxt.text= message;
+                        callback(www.downloadHandler.text);
+                        yield return new WaitForSeconds(1);
+                        //UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
                     }
                 }
             }
@@ -350,6 +379,7 @@ namespace Assets.Models
                 }
                 else
                 {
+                    Debug.Log(www.downloadHandler.text);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -360,7 +390,7 @@ namespace Assets.Models
 
         #region Room Structure
 
-        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure, RoomStructureLocation newLocation)
+        public IEnumerator RoomStructure(string wallName, string StructureName, RoomStructure newRoomStructure)
         {
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomstructure");
@@ -371,12 +401,6 @@ namespace Assets.Models
             form.AddField("StructureName", StructureName);
             form.AddField("wallName", wallName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
-            form.AddField("LocationX",newLocation.LocationX.ToString().Replace(",", "."));
-            form.AddField("LocationY",newLocation.LocationY.ToString().Replace(",", "."));
-            form.AddField("LocationZ",newLocation.LocationZ.ToString().Replace(",", "."));
-            form.AddField("RotationX",newLocation.RotationX.ToString().Replace(",", "."));
-            form.AddField("RotationY", newLocation.RotationY.ToString().Replace(",", "."));
-            form.AddField("RotationZ", newLocation.RotationZ.ToString().Replace(",", "."));
             Debug.Log(wallName);
             Debug.Log(LoginSystem.instance.RoomID);
             Debug.Log(StructureName);
@@ -408,7 +432,7 @@ namespace Assets.Models
         #region Fetch Wall Information
         public IEnumerator WallInformation(string []allWalls, System.Action<List<Wall>> callback)
         {
-            //List<Wall> wallList = new List<Wall>();
+            List<Wall> wallList = new List<Wall>();
             for (int i = 0; i < allWalls.Length; i++)
             {
                 WWWForm form = new WWWForm();
@@ -428,6 +452,7 @@ namespace Assets.Models
                     {
                         // storing the fetched user credentials 
                         string returnedWall = www.downloadHandler.text;
+                        Debug.Log("returnedWall: " + returnedWall);
                         // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                         string[] wallArray = returnedWall.Split(';');
 
@@ -441,128 +466,6 @@ namespace Assets.Models
             callback(wallList);
 
         }
-        #endregion
-
-        #region Fetch Room Structure
-
-        public IEnumerator RoomStructuresInformation(int WallID,System.Action<List<RoomStructure>> callback)
-        {
-            List<RoomStructure> structuresList = new List<RoomStructure>();
- 
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "roomStructuresInformation");
-            form.AddField("wallID", WallID);
-
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    string returnedStructure = www.downloadHandler.text;
-                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    if(returnedStructure != "")
-                    {
-                        string[] structuresArray = returnedStructure.Split(';');
-                        int i = 0;
-
-                        while (i < structuresArray.Length/7)
-                        {
-                            structuresList.Add(new RoomStructure()
-                            {
-                                RoomStructureID = int.Parse(structuresArray[i]),
-                                StrructureLength = float.Parse(structuresArray[i + 1]),
-                                StrructureWidth = float.Parse(structuresArray[i + 2]),
-                                RedDotDistance = float.Parse(structuresArray[i + 3]),
-                                GroundDistance = float.Parse(structuresArray[i + 4]),
-                                FurnitureTypeID = int.Parse(structuresArray[i + 5]),
-                                WallID = int.Parse(structuresArray[i + 6])
-                            });
-                            i += 7;
-                        }
-                    }
-                }
-            }
-            callback(structuresList);
-
-        }
-
-
-        #endregion
-
-        #region Room Structure Location Fetch
-        public IEnumerator RoomStructureLocationInformation(int roomStructureID, System.Action<RoomStructureLocation> callback)
-        {
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "roomStructuresLocationFetch");
-            form.AddField("roomStructureID", roomStructureID);
-            RoomStructureLocation newRoomStructureLocation = new RoomStructureLocation();
-
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructureLocationFetch.php", form))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    string returnedStructure = www.downloadHandler.text;
-                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    if (returnedStructure != "")
-                    {
-                        string[] structuresArray = returnedStructure.Split(';');
-
-                        newRoomStructureLocation.LocationX = float.Parse(structuresArray[0]);
-                        newRoomStructureLocation.LocationY = float.Parse(structuresArray[1]);
-                        newRoomStructureLocation.LocationZ = float.Parse(structuresArray[2]);
-                        newRoomStructureLocation.RotationX = float.Parse(structuresArray[3]);
-                        newRoomStructureLocation.RotationY = float.Parse(structuresArray[4]);
-                        newRoomStructureLocation.RotationZ = float.Parse(structuresArray[5]);
-                        newRoomStructureLocation.RoomStructureID = int.Parse(structuresArray[6]);
-                        newRoomStructureLocation.RoomStructureLocationID = int.Parse(structuresArray[7]);
-                    }
-                }
-            }
-            callback(newRoomStructureLocation);
-        }
-
-        #endregion
-
-        #region Get Structure Name
-        public IEnumerator getFurnitureName(int furnitureID,System.Action<string> callback)
-        {
-            Debug.Log("Room or window id: " + furnitureID);
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "getFurnitureType");
-            form.AddField("furnitureID", furnitureID);
-
-            // setting database connection:
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getFurnitureName.php", form))
-            {
-                yield return www.SendWebRequest();
-
-                // This part of the code checks whether there exists a network or connection error with the database.
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
-                    Debug.Log("Door or window: " + www.downloadHandler.text);
-                    callback(www.downloadHandler.text);
-
-                }
-            }
-            yield return new WaitForSeconds(1);
-        }
-
         #endregion
     }
 }

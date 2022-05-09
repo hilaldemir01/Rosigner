@@ -33,9 +33,15 @@ if($_POST['unity']=="furniture")
     $query="INSERT INTO furniture (YDimension, XDimension, ZDimension,FurnitureTypeID, RoomID) VALUES ('".$YDimension."','".$XDimension."','".$ZDimension."','".$gettingFurnitureTypeID."','".$returnvalue."');";
     $queryResult = mysqli_query($con,$query);
 
+    $idQuery="SELECT FurnitureID FROM furniture WHERE RoomID = '".$roomID."';";
+    $idQueryResult = $con->query($idQuery); // table 
+    $result3 = $idQueryResult->fetch_object(); // table is turned into an array and it can be used by column name 
+    $returnid = "$result3->FurnitureID";
+
+
     // Print this message if the measures saved successfully
-    if(1){
-        echo "Measures saved successfully";
+    if($queryResult){
+        echo  $returnid;
     }else{
         echo "Failed to save";
     }
