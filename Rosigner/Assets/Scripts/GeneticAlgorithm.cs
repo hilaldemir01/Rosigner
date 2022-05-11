@@ -46,6 +46,7 @@ namespace Assets.Models
 			furnitureFronts = new List<List<string>>();
 			lastGenerationGenomes = new List<Genome>();
 		}
+		// creating a matrix for the purpose of creating designs on it
 		public void startMatrix()
 		{
 			coordinate1 = (int)wallList[0].WallLength;
