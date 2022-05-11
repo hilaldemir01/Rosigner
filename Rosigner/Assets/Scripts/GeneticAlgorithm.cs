@@ -73,14 +73,14 @@ namespace Assets.Models
 
 			for (int i = 0; i < populationSize; i++)
 			{ // iterate through 10
-				Genome baby = new Genome(furnitureList,coordinate1,coordinate2, floorPlan); // chromosomeLength = 5
-				genomes.Add(baby);
+				//Genome baby = new Genome(furnitureList,coordinate1,coordinate2, floorPlan); // chromosomeLength = 5
+				//genomes.Add(baby);
 			}
 		}
 
 		// 4 directions:
 		public Vector2 Move(Vector2 position, int direction)
-		{
+		{/*
 			switch (direction)
 			{
 				case 0: // North
@@ -123,8 +123,8 @@ namespace Assets.Models
 						position.x -= 1;
 					}
 					break;
-			}
-			return position;
+			} */
+			return position; 
 		}
 		// it basically tests how far away we are from the exit by the end of the snake
 

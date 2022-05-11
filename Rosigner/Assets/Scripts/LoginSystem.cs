@@ -28,6 +28,7 @@ public class LoginSystem :  MonoBehaviour
         Level.PreviousLevel = "Login";
         notificationTxt=GameObject.Find("Canvas/notification").GetComponent<Text>();
         notificationTxt.gameObject.SetActive(false);
+
     }
     private void Awake()
     {
@@ -50,7 +51,12 @@ public class LoginSystem :  MonoBehaviour
         //{
             StartCoroutine(db.LoginUserInfo(email,loggedinUser, fetchUserInformation));
 
-       // }
+        // }
+        Genome newOne = new Genome();
+        string[,] floorPlan;
+        floorPlan = new string[20, 30];
+        newOne.GenomeInit(20, 30, floorPlan);
+
     }
     public void LoginMessage (string message)
     {
