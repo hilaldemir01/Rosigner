@@ -50,8 +50,6 @@ public class TempScript : MonoBehaviour
         Debug.Log(Inventory.array.Count);
 
         tempPrefab = Inventory.array[k];
-        Debug.Log("PREFABCOUNT: " + k);
-        Debug.Log("prefab: " + tempPrefab);
         tempPrefab.gameObject.transform.localScale = new Vector3(furniture.Xdimension * 0.01f, furniture.Ydimension * 0.01f, furniture.Zdimension * 0.01f);
         Instantiate(Inventory.array[k], new Vector3(x, y, 0), Quaternion.identity);
         k = k + 1;
@@ -95,7 +93,6 @@ public class TempScript : MonoBehaviour
     }
     public void fetchRoomStructureInformation(List<RoomStructure> newroomstructures)
     {
-        Debug.Log("asdddddddddddddddddddd");
         Debug.Log("newroomstructures.Count"+ newroomstructures.Count);
 
         for (int i = 0; i < newroomstructures.Count; i++)
@@ -119,11 +116,7 @@ public class TempScript : MonoBehaviour
         StartCoroutine(db.getFurnitureName(roomStructuresList, getStructureName));
         
     }
-   /* public void fetchRoomStructureLocationInformation(RoomStructureLocation newRoomStructureLocation)
-    {
-        roomStructureLocation = newRoomStructureLocation;
-    }
-   */
+
     public void getStructureName(List<RoomStructureName> newroomstructuresNames)
     {
 
@@ -154,23 +147,15 @@ public class TempScript : MonoBehaviour
         Vector3 position;
         Vector3 position_distance;
         // GameObject tempasset;
-        Debug.Log("wallList.Count " + wallList.Count);
         for (int i = 0; i < wallList.Count; i++)
         {
-            Debug.Log("a");
-            Debug.Log(" roomStructuresList.Count: " + roomStructuresList.Count);
             for (int j = 0; j < roomStructuresList.Count; j++)
             {
-                Debug.Log("b");
-                Debug.Log("wallList[i].WallID): " + wallList[i].WallID);
-                Debug.Log("roomStructuresList[j].WallID): " + roomStructuresList[j].WallID);
                 if (wallList[i].WallID == roomStructuresList[j].WallID)
                 {
-                    //Debug.Log("w+l: "+ roomStructuresList[j].StrructureWidth + roomStructuresList[j].StrructureLength);
-                    Debug.Log("c");
+
                     wallName = wallList[i].WallName;
 
-                    Debug.Log("tempasswtname set" + roomStructureNames[j].RoomStrucuteName);
 
                     if (roomStructureNames[j].RoomStrucuteName == "Door(Brown)")
                     {
@@ -220,10 +205,6 @@ public class TempScript : MonoBehaviour
                         Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                         //Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                     }
-
-                    //wallName = "";
-                    
-                   
 
                 }
 

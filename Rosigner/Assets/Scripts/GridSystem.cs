@@ -43,9 +43,7 @@ public class GridSystem : MonoBehaviour
     {
         // This part of the code is used to set the length of the walls.
         int wallX = (int)(wallList[1].WallLength);
-        Debug.Log("vertical length : " + wallX);
         int wallY = (int)(wallList[0].WallLength);
-        Debug.Log("horizontal length: " + wallY);
         createGrid(wallX, wallY);
     }
     public class GridObject

@@ -527,16 +527,11 @@ namespace Assets.Models
             
             }
 
-
-
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomStructuresInformation");
             form.AddField("wallID", IDstring);
-            Debug.Log("giriyoz mu deneme1");
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
             {
-                Debug.Log("giriyoz mu deneme2");
-
                 yield return www.SendWebRequest();
 
                 if (www.isNetworkError || www.isHttpError)
@@ -547,17 +542,10 @@ namespace Assets.Models
                 {
                     string returnedStructure = www.downloadHandler.text;
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    Debug.Log("returnedStructure: " + returnedStructure);
                     if (returnedStructure != "")
                     {
                         string[] structuresArray = returnedStructure.Split(';');
                         int i = 0;
-                        Debug.Log("structuresArray.Length"+ structuresArray.Length);
-                        
-                        for(int j=0; j<structuresArray.Length; j++)
-                        {
-                            Debug.Log("------------------: "+ structuresArray[j]);
-                        }
                         
                         while (i < structuresArray.Length-1)
                         {
@@ -573,7 +561,6 @@ namespace Assets.Models
                                 FurnitureTypeID = int.Parse(structuresArray[i + 5]),
                                 WallID = int.Parse(structuresArray[i + 6])
                             });
-                            //Debug.Log("context str id+ w+ l: "+structuresList[i].RoomStructureID+structuresList[i].StrructureWidth+structuresList[i].StrructureLength+" " +structuresArray[i + 4]);
                             i += 7;
                         }
                     }
@@ -615,20 +602,11 @@ namespace Assets.Models
                 else
                 {
                     string returnedFurnitureType = www.downloadHandler.text;
-                    Debug.Log("returnedFurnitureType:   " + returnedFurnitureType);
 
                     if (returnedFurnitureType != "")
                     {
                         string[] FurnitureTypeArray = returnedFurnitureType.Split(';');
                         int i = 0;
-                        for(int k =0;k< FurnitureTypeArray.Length; k++)
-                        {
-                              Debug.Log("FurnitureTypeArray:   " + FurnitureTypeArray[k]);
-                        }
-                 
-
-                        
-
                         while (i < FurnitureTypeArray.Length-1)
                         {
 
@@ -641,20 +619,10 @@ namespace Assets.Models
                              
                             });
 
-                            Debug.Log("///////////////: " + structureNamesList[i].RoomStructureID + "   " + structureNamesList[i].RoomStrucuteName);
-
-                            //Debug.Log("context str id+ w+ l: "+structuresList[i].RoomStructureID+structuresList[i].StrructureWidth+structuresList[i].StrructureLength+" " +structuresArray[i + 4]);
                             i++;
                         }
                     }
-
-
-
-
-                    // Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
-                    Debug.Log("Door or window: " + www.downloadHandler.text);
                     
-                   // var retunvalue = RoomStructureID.ToString() + ";" + www.downloadHandler.text;     //idle furnitureyi eşliyoz
                     callback(structureNamesList);
 
                 }

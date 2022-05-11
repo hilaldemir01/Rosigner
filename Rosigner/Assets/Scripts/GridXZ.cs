@@ -28,8 +28,7 @@ public class GridXZ<TGridObject>
         this.originPosition = originPosition;
 
         gridArray = new TGridObject[height, width];
-        Debug.Log("Array 0. index Length:" + gridArray.GetLength(0)); //vertical wall 
-        Debug.Log("Array 1. index Length:" + gridArray.GetLength(1)); //horizontal wall 
+
 
         //To create Grid Array depends on wall measurement
         for (int x = 0; x < gridArray.GetLength(0); x++)
@@ -37,7 +36,6 @@ public class GridXZ<TGridObject>
             for (int z = 0; z < gridArray.GetLength(1); z++)
             {
                 gridArray[x, z] = createGridObject(this, x, z);
-                Debug.Log("Grid Array Index "+gridArray[x, z]);
             }
         }
 
