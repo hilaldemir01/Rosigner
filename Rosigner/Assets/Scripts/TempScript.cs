@@ -25,9 +25,7 @@ public class TempScript : MonoBehaviour
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
        
-        
     }
-
 
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
@@ -37,7 +35,6 @@ public class TempScript : MonoBehaviour
         furniture.Ydimension = newFurniture.Ydimension;
         furniture.Zdimension = newFurniture.Zdimension;
         furniture.RoomID=newFurniture.RoomID;
-        Debug.Log("BURAYA NE GELİYOR"+furniture.FurnitureID);
         
         x = Random.Range (0, 4);
         y = Random.Range (0, 4);
