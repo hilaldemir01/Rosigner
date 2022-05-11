@@ -33,19 +33,8 @@ public class TempScript : MonoBehaviour
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-
-
-    }
-
-    void Update()
-    {
-       /* if (isFinished == 2)
-        {
-            setpositions();
-        }*/
        
     }
-
 
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
@@ -54,11 +43,10 @@ public class TempScript : MonoBehaviour
         furniture.Xdimension = newFurniture.Xdimension;
         furniture.Ydimension = newFurniture.Ydimension;
         furniture.Zdimension = newFurniture.Zdimension;
-        furniture.RoomID = newFurniture.RoomID;
-        Debug.Log("BURAYA NE GELÄ°YOR" + furniture.FurnitureID);
-
-        x = Random.Range(0, 4);
-        y = Random.Range(0, 4);
+        furniture.RoomID=newFurniture.RoomID;
+        
+        x = Random.Range (0, 4);
+        y = Random.Range (0, 4);
         Debug.Log(Inventory.array.Count);
 
         tempPrefab = Inventory.array[k];
@@ -123,7 +111,7 @@ public class TempScript : MonoBehaviour
                 WallID = newroomstructures[i].WallID
             });
 
-            Debug.Log("dÃ¶nen deÄŸerlerrr: "+ roomStructuresList[i].RoomStructureID + "" + roomStructuresList[i].StrructureLength + " " + roomStructuresList[i].StrructureWidth);
+            Debug.Log("dönen deðerlerrr: "+ roomStructuresList[i].RoomStructureID + "" + roomStructuresList[i].StrructureLength + " " + roomStructuresList[i].StrructureWidth);
             //StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
             
            // StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID,roomStructuresList[i].RoomStructureID, getStructureName));
