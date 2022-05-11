@@ -987,11 +987,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d2f9f73f3505849bcebe81ced3a7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testTransform: {fileID: 1919792586340358409, guid: 8124a79adb0009540b6822ade64e5b33, type: 3}
   wallX: 0
   wallY: 0
-  a: 0
-  b: 0
+  fur: {fileID: 3463229138126234326, guid: 3e7cd4d1e2fb92e4ab5e6f8c62951cd6, type: 3}
 --- !u!1 &1885065149
 GameObject:
   m_ObjectHideFlags: 0
