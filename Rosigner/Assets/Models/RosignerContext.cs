@@ -415,7 +415,7 @@ namespace Assets.Models
                         // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                         string[] wallArray = returnedWall.Split(';');
 
-                        wallList.Add(new Wall() { WallID = int.Parse(wallArray[0]), WallName = wallArray[1], WallLength = float.Parse(wallArray[2]), WallHeight = float.Parse(wallArray[3]), RoomID = int.Parse(wallArray[4]) });
+                        wallList.Add(new Wall() { WallID = int.Parse(wallArray[0]), WallName = wallArray[1], WallLength = float.Parse(wallArray[2], System.Globalization.CultureInfo.InvariantCulture.NumberFormat), WallHeight = float.Parse(wallArray[3], System.Globalization.CultureInfo.InvariantCulture.NumberFormat), RoomID = int.Parse(wallArray[4]) });
 
                         //currentUser = loggedinUser;
 
@@ -516,16 +516,27 @@ namespace Assets.Models
 
         #region Fetch Room Structure
 
-        public IEnumerator RoomStructuresInformation(int WallID, System.Action<List<RoomStructure>> callback)
+        public IEnumerator RoomStructuresInformation(List<Wall> wallinfo, System.Action<List<RoomStructure>> callback)
         {
             List<RoomStructure> structuresList = new List<RoomStructure>();
 
+            string IDstring="";
+            for(int i=0; i< wallinfo.Count; i++)
+            {
+                IDstring= IDstring+ wallinfo[i].WallID.ToString()+";";
+            
+            }
+
+
+
             WWWForm form = new WWWForm();
             form.AddField("unity", "roomStructuresInformation");
-            form.AddField("wallID", WallID);
-
+            form.AddField("wallID", IDstring);
+            Debug.Log("giriyoz mu deneme1");
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructuresInformation.php", form))
             {
+                Debug.Log("giriyoz mu deneme2");
+
                 yield return www.SendWebRequest();
 
                 if (www.isNetworkError || www.isHttpError)
@@ -536,23 +547,33 @@ namespace Assets.Models
                 {
                     string returnedStructure = www.downloadHandler.text;
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    Debug.Log("returnedStructure: " + returnedStructure);
                     if (returnedStructure != "")
                     {
                         string[] structuresArray = returnedStructure.Split(';');
                         int i = 0;
-
-                        while (i < structuresArray.Length / 7)
+                        Debug.Log("structuresArray.Length"+ structuresArray.Length);
+                        
+                        for(int j=0; j<structuresArray.Length; j++)
                         {
+                            Debug.Log("------------------: "+ structuresArray[j]);
+                        }
+                        
+                        while (i < structuresArray.Length-1)
+                        {
+                            
                             structuresList.Add(new RoomStructure()
                             {
+                                
                                 RoomStructureID = int.Parse(structuresArray[i]),
-                                StrructureLength = float.Parse(structuresArray[i + 1]),
-                                StrructureWidth = float.Parse(structuresArray[i + 2]),
-                                RedDotDistance = float.Parse(structuresArray[i + 3]),
-                                GroundDistance = float.Parse(structuresArray[i + 4]),
+                                StrructureLength = float.Parse(structuresArray[i + 1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                                StrructureWidth = float.Parse(structuresArray[i + 2], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                                RedDotDistance = float.Parse(structuresArray[i + 3], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                                GroundDistance = float.Parse(structuresArray[i + 4], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
                                 FurnitureTypeID = int.Parse(structuresArray[i + 5]),
                                 WallID = int.Parse(structuresArray[i + 6])
                             });
+                            //Debug.Log("context str id+ w+ l: "+structuresList[i].RoomStructureID+structuresList[i].StrructureWidth+structuresList[i].StrructureLength+" " +structuresArray[i + 4]);
                             i += 7;
                         }
                     }
@@ -566,12 +587,20 @@ namespace Assets.Models
         #endregion
 
         #region Get Structure Name
-        public IEnumerator getFurnitureName(int furnitureID,int RoomStructureID, System.Action<string> callback)
+        public IEnumerator getFurnitureName(List<RoomStructure> roomStructuresList, System.Action<List<RoomStructureName>> callback)
         {
-            Debug.Log("Room or window id: " + furnitureID);
+            List<RoomStructureName> structureNamesList = new List<RoomStructureName>();
+
+            string FurnitureIDstring = "";
+            for (int i = 0; i < roomStructuresList.Count; i++)
+            {
+                FurnitureIDstring = FurnitureIDstring + roomStructuresList[i].FurnitureTypeID.ToString() + ";";
+
+            }
+           
             WWWForm form = new WWWForm();
             form.AddField("unity", "getFurnitureType");
-            form.AddField("furnitureID", furnitureID);
+            form.AddField("furnitureID", FurnitureIDstring);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getFurnitureName.php", form))
@@ -585,10 +614,48 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
+                    string returnedFurnitureType = www.downloadHandler.text;
+                    Debug.Log("returnedFurnitureType:   " + returnedFurnitureType);
+
+                    if (returnedFurnitureType != "")
+                    {
+                        string[] FurnitureTypeArray = returnedFurnitureType.Split(';');
+                        int i = 0;
+                        for(int k =0;k< FurnitureTypeArray.Length; k++)
+                        {
+                              Debug.Log("FurnitureTypeArray:   " + FurnitureTypeArray[k]);
+                        }
+                 
+
+                        
+
+                        while (i < FurnitureTypeArray.Length-1)
+                        {
+
+                            structureNamesList.Add(new RoomStructureName()
+                            {
+
+                                RoomStructureID = roomStructuresList[i].RoomStructureID,
+                                RoomStrucuteName = FurnitureTypeArray[i]
+                                
+                             
+                            });
+
+                            Debug.Log("///////////////: " + structureNamesList[i].RoomStructureID + "   " + structureNamesList[i].RoomStrucuteName);
+
+                            //Debug.Log("context str id+ w+ l: "+structuresList[i].RoomStructureID+structuresList[i].StrructureWidth+structuresList[i].StrructureLength+" " +structuresArray[i + 4]);
+                            i++;
+                        }
+                    }
+
+
+
+
+                    // Debug.Log("bağlantı kurulduktan sonra" + furnitureID);
                     Debug.Log("Door or window: " + www.downloadHandler.text);
-                    var retunvalue = RoomStructureID.ToString() + ";" + www.downloadHandler.text;
-                    callback(retunvalue);
+                    
+                   // var retunvalue = RoomStructureID.ToString() + ";" + www.downloadHandler.text;     //idle furnitureyi eşliyoz
+                    callback(structureNamesList);
 
                 }
             }

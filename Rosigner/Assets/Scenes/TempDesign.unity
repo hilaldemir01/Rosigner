@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -858,11 +858,15 @@ MonoBehaviour:
   wallobj2: {fileID: 1136419621}
   wallobj3: {fileID: 1352809869}
   wallobj4: {fileID: 1165226428}
+  parent: {fileID: 1141492891}
   floor: {fileID: 383905785}
   tempPrefab: {fileID: 0}
+  range: 0
+  k: 0
   doorSpawn: {fileID: 5055977843773460383, guid: 770b3d51c67340a49b7a859772fe2100, type: 3}
-  windowSpawn: {fileID: 2335893037393183269, guid: 8ea0b4db6b5c4f24f86ad2c90cb91995, type: 3}
-  objectToBeSpawned: {fileID: 0}
+  windowSpawn: {fileID: 6072458684956423321, guid: 5a11c5133e0f26f429aa82d34bccc66d, type: 3}
+  tempassetName: 
+  isFinished: 0
 --- !u!4 &1141492891
 Transform:
   m_ObjectHideFlags: 0

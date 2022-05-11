@@ -10,6 +10,7 @@ public class TempScript : MonoBehaviour
     public GameObject wallobj2;
     public GameObject wallobj3;
     public GameObject wallobj4;
+    [SerializeField] public Transform parent;
     public GameObject floor;
     RosignerContext db = new RosignerContext();
     public Furniture furniture;
@@ -25,7 +26,7 @@ public class TempScript : MonoBehaviour
     List<RoomStructure> roomStructuresList = new List<RoomStructure>();
     RoomStructureLocation roomStructureLocation = new RoomStructureLocation();
     public int isFinished = 0;
-
+    GameObject tempasset;
     void Start()
     {
 
@@ -38,10 +39,10 @@ public class TempScript : MonoBehaviour
 
     void Update()
     {
-        if (isFinished == 2)
+       /* if (isFinished == 2)
         {
             setpositions();
-        }
+        }*/
        
     }
 
@@ -74,7 +75,7 @@ public class TempScript : MonoBehaviour
             wallList.Add(new Wall() { WallID = newWall[i].WallID, WallName = newWall[i].WallName, WallLength = newWall[i].WallLength, WallHeight = newWall[i].WallHeight, RoomID = newWall[i].RoomID });
 
         }
-
+      
         CreatingWalls();
 
     }
@@ -97,13 +98,18 @@ public class TempScript : MonoBehaviour
         wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wallList[1].WallLength + 0.1f);
         floor.gameObject.transform.position = new Vector3(wallList[0].WallLength / 2.0f, -0.05f, (wallList[1].WallLength / 2.0f) + 0.1f);
 
-        for (int i = 0; i < 4; i++)
-        {
-            StartCoroutine(db.RoomStructuresInformation(wallList[i].WallID, fetchRoomStructureInformation));
-        }
+       
+        
+           
+        StartCoroutine(db.RoomStructuresInformation(wallList, fetchRoomStructureInformation));
+        
+       
     }
     public void fetchRoomStructureInformation(List<RoomStructure> newroomstructures)
     {
+        Debug.Log("asdddddddddddddddddddd");
+        Debug.Log("newroomstructures.Count"+ newroomstructures.Count);
+
         for (int i = 0; i < newroomstructures.Count; i++)
         {
             roomStructuresList.Add(new RoomStructure()
@@ -116,55 +122,67 @@ public class TempScript : MonoBehaviour
                 FurnitureTypeID = newroomstructures[i].FurnitureTypeID,
                 WallID = newroomstructures[i].WallID
             });
-            StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
-            StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID,roomStructuresList[i].RoomStructureID, getStructureName));
+
+            Debug.Log("dönen değerlerrr: "+ roomStructuresList[i].RoomStructureID + "" + roomStructuresList[i].StrructureLength + " " + roomStructuresList[i].StrructureWidth);
+            //StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
+            
+           // StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID,roomStructuresList[i].RoomStructureID, getStructureName));
         }
-
-      
-
+        StartCoroutine(db.getFurnitureName(roomStructuresList, getStructureName));
+        
     }
-    public void fetchRoomStructureLocationInformation(RoomStructureLocation newRoomStructureLocation)
+   /* public void fetchRoomStructureLocationInformation(RoomStructureLocation newRoomStructureLocation)
     {
         roomStructureLocation = newRoomStructureLocation;
     }
-
-    public void getStructureName(string structureName)
+   */
+    public void getStructureName(List<RoomStructureName> newroomstructuresNames)
     {
-        string[] structuresArray = structureName.Split(';');
 
-        roomStructureNames.Add(new RoomStructureName()
+        roomStructureNames = newroomstructuresNames;
+
+        for(int i = 0; i < roomStructureNames.Count; i++)
         {
-            RoomStructureID = int.Parse(structuresArray[0]),
-            RoomStrucuteName = structuresArray[1]
-        });
+          // Debug.Log("///////////////: "+roomStructureNames[i].RoomStructureID+"   "+ roomStructureNames[i].RoomStrucuteName);
+            
+        }
+      
 
-        Debug.Log("structurename getst: " + structureName);
-
-        isFinished = 2;
+        //setpositions();
+        //isFinished = 2;
         //Debug.Log("tempassetname getst: " + roomStructureNames.);
 
+        
+        setpositions();
+
     }
+
 
     public void setpositions()
     {
         Debug.Log("d");
         var wallName = "";
+        //Vector3 position= new Vector3(roomStructureLocation.LocationX/100, roomStructureLocation.LocationY/100, roomStructureLocation.LocationZ/100);
         Vector3 position;
         Vector3 position_distance;
-        GameObject tempasset;
+        // GameObject tempasset;
+        Debug.Log("wallList.Count " + wallList.Count);
         for (int i = 0; i < wallList.Count; i++)
         {
             Debug.Log("a");
+            Debug.Log(" roomStructuresList.Count: " + roomStructuresList.Count);
             for (int j = 0; j < roomStructuresList.Count; j++)
             {
                 Debug.Log("b");
+                Debug.Log("wallList[i].WallID): " + wallList[i].WallID);
+                Debug.Log("roomStructuresList[j].WallID): " + roomStructuresList[j].WallID);
                 if (wallList[i].WallID == roomStructuresList[j].WallID)
                 {
-
+                    //Debug.Log("w+l: "+ roomStructuresList[j].StrructureWidth + roomStructuresList[j].StrructureLength);
                     Debug.Log("c");
                     wallName = wallList[i].WallName;
 
-                    Debug.Log("tempasswtname set"+ roomStructureNames[j].RoomStrucuteName);
+                    Debug.Log("tempasswtname set" + roomStructureNames[j].RoomStrucuteName);
 
                     if (roomStructureNames[j].RoomStrucuteName == "Door(Brown)")
                     {
@@ -174,49 +192,55 @@ public class TempScript : MonoBehaviour
                     {
                         tempasset = windowSpawn;
                     }
-                    else
+                   /* else
                     {
 
                         tempasset = null;
-                    }
+                    }*/
 
                     if (wallName == "W1" && tempasset != null)
                     {
                         position = wallobj1.gameObject.transform.position;
                         position_distance = new Vector3(position.x + roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
-                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
-                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0,0,0)));
+                        //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                     }
                     else if (wallName == "W2" && tempasset != null)
                     {
                         position = wallobj2.gameObject.transform.position;
                         position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z + roomStructuresList[j].RedDotDistance);
-                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
-                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        GameObject Go=Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)));
+                        //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+
                     }
                     else if (wallName == "W3" && tempasset != null)
                     {
                         position = wallobj3.gameObject.transform.position;
                         position_distance = new Vector3(position.x - roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
-                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
-                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        GameObject Go= Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)));
+                        //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+
                     }
                     else if (wallName == "W4" && tempasset != null)
                     {
                         position = wallobj4.gameObject.transform.position;
                         position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z - roomStructuresList[j].RedDotDistance);
-                        Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(roomStructureLocation.RotationX, roomStructureLocation.RotationY, roomStructureLocation.RotationZ)));
-                        tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        GameObject Go=Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)));
+                        Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
+                        //Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                     }
 
-                    wallName = "";
-                    tempassetName = "";
-                    tempasset = null;
+                    //wallName = "";
+                    
+                   
 
                 }
 
             }
         }
-        isFinished = 0;
+        
     }
 }
