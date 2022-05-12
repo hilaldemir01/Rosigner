@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Models;
+using static GridSystem;
 
 public class TempScript : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class TempScript : MonoBehaviour
     public Furniture furniture;
     public GameObject tempPrefab;
     List<Wall> wallList = new List<Wall>();
-    private float x, y;
+    public static List<Furniture> FurniturList = new List<Furniture>();
+    private float x, z;
     public float range;
     public int k = 0;
     [SerializeField] public GameObject doorSpawn;
@@ -45,6 +47,20 @@ public class TempScript : MonoBehaviour
     }
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
+        FurniturList.Add(new Furniture()
+        {
+            FurnitureID = newFurniture.FurnitureID,
+            FurnitureTypeID = newFurniture.FurnitureTypeID,
+            Xdimension = newFurniture.Xdimension,
+            Ydimension = newFurniture.Ydimension,
+            Zdimension = newFurniture.Zdimension,
+            RoomID = newFurniture.RoomID
+        });  
+  
+        //Debug.Log(Inventory.array.Count);
+
+       
+        /*
         furniture.FurnitureID = newFurniture.FurnitureID;
         furniture.FurnitureTypeID = newFurniture.FurnitureTypeID;
         furniture.Xdimension = newFurniture.Xdimension;
@@ -53,12 +69,14 @@ public class TempScript : MonoBehaviour
         furniture.RoomID=newFurniture.RoomID;
         
         x = Random.Range (0, 4);
-        y = Random.Range (0, 4);
-        Debug.Log(Inventory.array.Count);
+        z = Random.Range (0, 4);
 
+        //Debug.Log(Inventory.array.Count);
+        
         tempPrefab = Inventory.array[k];
         tempPrefab.gameObject.transform.localScale = new Vector3(furniture.Xdimension * 0.01f, furniture.Ydimension * 0.01f, furniture.Zdimension * 0.01f);
-        Instantiate(Inventory.array[k], new Vector3(x, y, 0), Quaternion.identity);
+        Instantiate(Inventory.array[k], new Vector3(0, 0, 0), Quaternion.identity);
+       */
         k = k + 1;
     }
     public void fetchWallInformation(List<Wall> newWall)
@@ -91,12 +109,8 @@ public class TempScript : MonoBehaviour
         wallobj4.gameObject.transform.position = new Vector3(-0.1f, 0, wallList[1].WallLength + 0.1f);
         floor.gameObject.transform.position = new Vector3(wallList[0].WallLength / 2.0f, -0.05f, (wallList[1].WallLength / 2.0f) + 0.1f);
 
-       
-        
-           
         StartCoroutine(db.RoomStructuresInformation(wallList, fetchRoomStructureInformation));
-        
-       
+            
     }
     public void fetchRoomStructureInformation(List<RoomStructure> newroomstructures)
     {
