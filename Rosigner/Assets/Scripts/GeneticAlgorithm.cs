@@ -217,34 +217,109 @@ namespace Assets.Models
 			}
 			return genomes[selectedGenome];
 		}
-		// step number 2
-		// rank fitness
+		//	// step number 2
+		//	// rank fitness
+		public void distanceFromWalls(int startX, int startY, int finishX, int finishY)
+		{
+			int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
+			int roomCenterX = 50, roomCenterY = 50;
+			int centerX = finishX + startX / 2;
+			int centerY = finishY + startY / 2;
+
+			// checking the distance of the furniture to y axis
+			value1 = (int)(centerY / Math.Sqrt(2));
+
+			// checking the distance of the furniture to x axis
+			value2 = (int)(centerX / Math.Sqrt(2));
+
+			// checking the distance of the furniture to x-y axis (y is in the upper part)
+			value3 = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
+
+			// checking the distance of the furniture to x-y axis (x is in the upper part)
+			value4 = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
+
+			int selectedFormula = -900;
+			int formulaNum = 0;
+
+			int[] myNum = { value1, value2, value3, value4 };
+
+			for (int i = 0; i < myNum.Length; i++)
+			{
+				if (selectedFormula < myNum[i])
+				{
+					selectedFormula = myNum[i];
+					formulaNum = i + 1;
+				}
+			}
+			Console.WriteLine("Value1: " + value1 + " Value2: " + value2 + " Value3: " + value3 + " Value4 :" + value4);
+			Console.WriteLine("SelectedFormula: " + selectedFormula + " formulaNum: " + formulaNum);
+			FindFitnessScoreWallDistance(centerX, centerY, selectedFormula, formulaNum, roomCenterX, roomCenterY);
+		}
+
+		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
+		public int FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
+		{
+			int fitnessScore;
+			double rate = 0.0;
+			if (formulaNum == 1)
+			{
+				fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
+			}
+			else if (formulaNum == 2)
+			{
+				fitnessScore = (int)(centerX / Math.Sqrt(2));
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
+
+			}
+			else if (formulaNum == 3)
+			{
+				fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
+			}
+			else
+			{
+				fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
+			}
+			Console.WriteLine("FitnessScore: " + fitnessScore + " Rate = " + rate.ToString());
+			return fitnessScore;
+		}
 		public void UpdateFitnessScores()
 		{
+			// what I want to do in this function is that, I want to check the distance of 
 			fittestGenome = 0;
 			bestFitnessScore = 0;
 			totalFitnessScore = 0;
 
-			for (int i = 0; i < populationSize; i++)
-			{
-				List<int> directions = Decode(genomes[i].bits);
-				// using the method from the mazeController
-				genomes[i].fitness = TestRoute(directions);
+			// getting start and finish positions of the furniture that the cost value will be updated
+			int startX = 20;
+			int finishX = 30;
+			int startY = 20;
+			int finishY = 30;
+			distanceFromWalls(startX, startY, finishX, finishY);
 
-				totalFitnessScore += genomes[i].fitness;
+			//for (int i = 0; i < populationSize; i++)
+			//{
+			////    List<int> directions = Decode(genomes[i].bits);
+			//    // using the method from the mazeController
+			////    genomes[i].fitness = TestRoute(directions);
 
-				if (genomes[i].fitness > bestFitnessScore)
-				{
-					bestFitnessScore = genomes[i].fitness;
-					fittestGenome = i;
-					// Has chromosome found the exit?
-					if (genomes[i].fitness == 1)
-					{
-						busy = false; // stop the run
-						return;
-					}
-				}
-			}
+			//    totalFitnessScore += genomes[i].fitness;
+
+			//    if (genomes[i].fitness > bestFitnessScore)
+			//    {
+			//        bestFitnessScore = genomes[i].fitness;
+			//        fittestGenome = i;
+			//        // Has chromosome found the exit?
+			//        if (genomes[i].fitness == 1)
+			//        {
+			//            busy = false; // stop the run
+			//            return;
+			//        }
+			//    }
+			//}
+
 		}
 
 		//---------------------------Decode-------------------------------------
@@ -293,15 +368,16 @@ namespace Assets.Models
 		// step number 3
 		public void Epoch()
 		{
-			if (!busy) return;
+			//if (!busy) return;
+			// evolve the fitness function of all population
 			UpdateFitnessScores();
 
-			if (!busy)
-			{
-				lastGenerationGenomes.Clear();
-				lastGenerationGenomes.AddRange(genomes);
-				return;
-			}
+			//if (!busy)
+			//{
+			//	lastGenerationGenomes.Clear();
+			//	lastGenerationGenomes.AddRange(genomes);
+			//	return;
+			//}
 
 			int numberOfNewBabies = 0;
 

@@ -27,6 +27,7 @@ public class TempScript : MonoBehaviour
     RoomStructureLocation roomStructureLocation = new RoomStructureLocation();
     public int isFinished = 0;
     GameObject tempasset;
+    int canGeneticBeApplied = 0;
     void Start()
     {
 
@@ -35,7 +36,13 @@ public class TempScript : MonoBehaviour
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
        
     }
-
+    private void Update()
+    {
+        if(canGeneticBeApplied == 1)
+        {
+            GeneticConnection();
+        }
+    }
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
         furniture.FurnitureID = newFurniture.FurnitureID;
@@ -210,6 +217,13 @@ public class TempScript : MonoBehaviour
 
             }
         }
-        
+        canGeneticBeApplied = 1;
+    } 
+    public void GeneticConnection()
+    {
+        Genome newOne = new Genome();
+        string[,] floorPlan;
+        floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
+        newOne.GenomeInit((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan);
     }
 }

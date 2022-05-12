@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using Random = System.Random;
 
@@ -18,8 +20,7 @@ namespace Assets.Models
 
 
 		// we need to create random matrix 
-		//	public Genome(List<Furniture> furnitureList,int coordinate1, int coordinate2, string[][] floorPlan)
-		public void  GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan)
+		public void GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList)
 		{
 			//	Initialize();
 			List<Furniture> newOne = new List<Furniture>();
@@ -118,18 +119,51 @@ namespace Assets.Models
 					i++;
 				}
 			}
-			string bastir = "";
-			for (int k = 0; k < coordinate1; k++)
-			{
-				for(int j = 0; j < coordinate2; j++)
+            string bastir = "";
+            for (int k = 0; k < coordinate1; k++)
+            {
+                for (int j = 0; j < coordinate2; j++)
                 {
-					bastir += floorPlan[k,j];
+                    bastir += floorPlan[k, j];
 
+                }
+                bastir += "\n";
+            }
+            //Debug.Log(bastir);
+
+            Debug.Log("Inserted");
+			string fileName = @"D:\matrix.txt";
+
+			try
+			{
+				// Check if file already exists. If yes, delete it.     
+				if (File.Exists(fileName))
+				{
+					File.Delete(fileName);
 				}
-				bastir += "\n";
-			}
-			Debug.Log(bastir);
 
+				// Create a new file     
+				using (FileStream fs = File.Create(fileName))
+				{
+					// Add some text to file    
+					Byte[] title = new UTF8Encoding(true).GetBytes(bastir);
+					fs.Write(title, 0, title.Length);
+				}
+
+				// Open the stream and read it back.    
+				using (StreamReader sr = File.OpenText(fileName))
+				{
+					string s = "";
+					while ((s = sr.ReadLine()) != null)
+					{
+						Console.WriteLine(s);
+					}
+				}
+			}
+			catch (Exception Ex)
+			{
+				Console.WriteLine(Ex.ToString());
+			}
 		}
 
 		private void Initialize()

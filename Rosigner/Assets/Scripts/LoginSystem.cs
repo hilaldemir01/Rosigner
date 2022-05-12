@@ -52,10 +52,6 @@ public class LoginSystem :  MonoBehaviour
             StartCoroutine(db.LoginUserInfo(email,loggedinUser, fetchUserInformation));
 
         // }
-        //Genome newOne = new Genome();
-        //string[,] floorPlan;
-        //floorPlan = new string[20, 30];
-        //newOne.GenomeInit(20, 30, floorPlan);
 
     }
     public void LoginMessage (string message)
