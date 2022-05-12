@@ -53,13 +53,13 @@ namespace Assets.Models
 
 				Debug.Log("random X Y:" + xcoordinate + " , " + ycoordinate);
 
-				howManyCellsX = (int)newOne[i].Xdimension / 10;
-				howManyCellsY = (int)newOne[i].Ydimension / 10;
+				howManyCellsX = (int)newOne[i].Xdimension ;
+				howManyCellsY = (int)newOne[i].Ydimension ;
 
 				Debug.Log("howManyCells X Y:" + howManyCellsX + " , "+ howManyCellsY);
 
 				// checking whether the furniture can fit into the random generated positions
-				if (howManyCellsX + xcoordinate < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
+				if (howManyCellsX + xcoordinate + 61 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
 					Debug.Log("İlk if");
 					startPosX = xcoordinate;
@@ -76,9 +76,9 @@ namespace Assets.Models
 						for (int k = startPosY; k <= finishPosY; k++)
 						{
 							// if the position is not empty, then quit the loop
-							if (floorPlan[j,k] != "")
+							if (floorPlan[j,k] != "T")
 							{
-								canBePlaced = 1;
+								canBePlaced = 1; // cannot be placed
 								Console.WriteLine("Dolu mu");
 								break;
 							}
