@@ -237,12 +237,12 @@ public class TempScript : MonoBehaviour
     {
         Genome newOne = new Genome();
         string[,] floorPlan;
-        floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
+        floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
         Debug.Log("Furniture Id to be replaced: " + FurniturList[0].FurnitureID);
 
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;
 
-        newOne.GenomeInit((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan, roomStructuresList, FurniturList);
+        newOne.GenomeInit((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList,wallList);
     }
 }
