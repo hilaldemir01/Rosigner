@@ -632,5 +632,62 @@ namespace Assets.Models
 
         #endregion
 
+        #region Insert Temp Furniture Location from Genetic Algorithm
+
+        public IEnumerator TempFurnitureLocation(List<FurnitureGeneticLocation> furnitureGeneticLocations)
+        {
+            string FurnitureIDString = "";
+            string StartXString = "";
+            string FinishXString = "";
+            string CenterXString = "";
+            string StartYString = "";
+            string FinishYString = "";
+            string CenterYString = "";
+            string FitnessScoreString = "";
+
+            for (int i=0; i < furnitureGeneticLocations.Count; i++)
+            {
+                FurnitureIDString += furnitureGeneticLocations[i].FurnitureID.ToString()+";";
+                StartXString += furnitureGeneticLocations[i].StartX.ToString() + ";";
+                FinishXString += furnitureGeneticLocations[i].FinishX.ToString() + ";";
+                CenterXString += furnitureGeneticLocations[i].CenterX.ToString() + ";";
+                StartYString +=  furnitureGeneticLocations[i].StartY.ToString() + ";";
+                FinishYString += furnitureGeneticLocations[i].FinishY.ToString() + ";";
+                CenterYString += furnitureGeneticLocations[i].CenterY.ToString() + ";";
+                FitnessScoreString += furnitureGeneticLocations[i].FitnessScore.ToString() + ";";
+            }
+
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "tempFurnitureLocation");
+            form.AddField("FurnitureID", FurnitureIDString);
+            form.AddField("StartX", StartXString);
+            form.AddField("FinishX", FinishXString);
+            form.AddField("CenterX", CenterXString);
+            form.AddField("StartY", StartYString);
+            form.AddField("FinishY", FinishYString);
+            form.AddField("CenterY", CenterYString);
+            form.AddField("FitnessScore", FitnessScoreString);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/tempFurnitureLocation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+
+                }
+            }
+
+            yield return new WaitForSeconds(1);
+        }
+
+        #endregion
     }
 }

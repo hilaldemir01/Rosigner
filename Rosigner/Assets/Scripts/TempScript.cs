@@ -243,6 +243,7 @@ public class TempScript : MonoBehaviour
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;
 
-        newOne.GenomeInit((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan, roomStructuresList, FurniturList);
+        List<FurnitureGeneticLocation> furnitureGeneticLocations = newOne.GenomeInit((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan, roomStructuresList, FurniturList);
+        StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
     }
 }

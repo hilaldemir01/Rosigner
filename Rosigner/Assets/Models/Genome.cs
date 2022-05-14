@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Assets.Models
 		public List<int> bits;
 		public double fitness;
 		private Random random = new Random();
+		public List<FurnitureGeneticLocation> locationList = new List<FurnitureGeneticLocation>();
+		RosignerContext db = new RosignerContext();
 
 		public Genome()
 		{
@@ -20,7 +23,7 @@ namespace Assets.Models
 
 
 		// we need to create random matrix 
-		public void GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
+		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
 		{
 			//	Initialize();
 			// this part is to test:
@@ -49,6 +52,7 @@ namespace Assets.Models
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < furnitureList.Capacity - 1)
 			{
+				Debug.Log("Furniture IDs : " + furnitureList[i].FurnitureID);
 				// genenating random positions for 
 				xcoordinate = random.Next(0, coordinate1);
 				ycoordinate = random.Next(0, coordinate2);
@@ -116,12 +120,15 @@ namespace Assets.Models
 							for (int j = startPosY; j < finishPosY; j++)
 								floorPlan[k, j] = "Y";
 						}
+						int centerX = (startPosX + finishPosX) / 2;
+						int centerY = (startPosY + finishPosY) / 2;
+						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX= finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY});
+
 						i++;
 					}
 				}
-
 			}
-            string bastir = "";
+			string bastir = "";
             for (int k = 0; k < coordinate1; k++)
             {
                 for (int j = 0; j < coordinate2; j++)
@@ -166,6 +173,8 @@ namespace Assets.Models
 			{
 				Console.WriteLine(Ex.ToString());
 			}
+			return locationList;
+
 		}
 
 		private void Initialize()
