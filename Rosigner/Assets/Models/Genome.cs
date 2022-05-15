@@ -15,15 +15,29 @@ namespace Assets.Models
 		private Random random = new Random();
 		public List<FurnitureGeneticLocation> locationList = new List<FurnitureGeneticLocation>();
 		RosignerContext db = new RosignerContext();
+		public List<Furniture> newOne;
+		public int xcoordinate, ycoordinate;
+		public List<Furniture> babyFurniture;
+		public List<int> xCoordinateList;
+		public List<int> yCoordinateList;
+
+		public List<int> xcoordinatebaby;
+		public List<int> ycoordinatebaby;
+		public List<Furniture> furnitureListGenom;
 
 		public Genome()
 		{
 			Initialize();
+			xcoordinatebaby = new List<int>();
+			ycoordinatebaby = new List<int>();
+			newOne = new List<Furniture>();
+			furnitureListGenom=new List<Furniture>();
+
 		}
 
 
 		// we need to create random matrix 
-		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
+		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList,List<Furniture> furnitureList)
 		{
 			//	Initialize();
 			// this part is to test:
@@ -32,12 +46,19 @@ namespace Assets.Models
 			//newOne.Add(new Furniture() { Xdimension = 50.0f, Ydimension = 40.0f, FurnitureID = 5 });
 			//newOne.Add(new Furniture() { Xdimension = 20.0f, Ydimension = 30.0f, FurnitureID = 7 });
 			//newOne.Add(new Furniture() { Xdimension = 10.0f, Ydimension = 30.0f, FurnitureID = 8 });
+			//newOne.AddRange(furnitureList);
+			Debug.Log("count:"+furnitureList.Count);
+			furnitureListGenom.AddRange(furnitureList);
+						Debug.Log("counget:"+furnitureListGenom.Count);
 
-			var canBePlaced = 0;
+			Debug.Log("NewOne:"+newOne);
+			xCoordinateList = new List<int>();
+			yCoordinateList = new List<int>();
+			var canBePlaced=0;
 			int xcoordinate, ycoordinate;
 			int howManyCellsX, howManyCellsY;
 			int i = 0;
-			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
+			int startPosX , finishPosX , startPosY, finishPosY ;
 
 			//creating a new empty design
 
@@ -52,6 +73,11 @@ namespace Assets.Models
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < furnitureList.Capacity - 1)
 			{
+				startPosX = 0;
+				finishPosX = 0;
+				startPosY = 0;
+				finishPosY = 0;
+				canBePlaced = 0;
 				Debug.Log("Furniture IDs : " + furnitureList[i].FurnitureID);
 				// genenating random positions for 
 				xcoordinate = random.Next(0, coordinate1);
@@ -59,8 +85,8 @@ namespace Assets.Models
 
 				Debug.Log("random X Y:" + xcoordinate + " , " + ycoordinate);
 
-				howManyCellsX = (int)furnitureList[i].Xdimension ;
-				howManyCellsY = (int)furnitureList[i].Zdimension ;
+				howManyCellsX = (int)furnitureList[i].Xdimension /10;
+				howManyCellsY = (int)furnitureList[i].Zdimension/10 ;
 
 				Debug.Log("howManyCells X Y:" + howManyCellsX + " , "+ howManyCellsY);
 
@@ -69,10 +95,14 @@ namespace Assets.Models
 				{
 					Debug.Log("İlk if");
 					startPosX = xcoordinate;
+					xCoordinateList.Add(startPosX);
 					finishPosX = xcoordinate + howManyCellsX;
 
 					startPosY = ycoordinate;
+					yCoordinateList.Add(startPosY);
 					finishPosY = ycoordinate + howManyCellsY;
+
+					Debug.Log("PARENT fınısh X Y:"+finishPosX + ","+finishPosY);
 
 					Debug.Log("positions: x s"+ startPosX + " x f"+ finishPosX + " y s" + startPosY + "y f:" + finishPosY);
 					// now, I will check whether the selected cells are empty or not
@@ -141,14 +171,14 @@ namespace Assets.Models
             //Debug.Log(bastir);
 
             Debug.Log("Inserted");
-			string fileName = @"D:\matrix.txt";
+			string fileName = @"D:\mom.txt";
 
 			try
 			{
 				// Check if file already exists. If yes, delete it.     
 				if (File.Exists(fileName))
 				{
-					File.Delete(fileName);
+					fileName=@"D:\dad.txt";
 				}
 
 				// Create a new file     

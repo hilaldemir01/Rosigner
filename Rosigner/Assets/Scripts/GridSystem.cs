@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Models;
@@ -33,7 +33,7 @@ public class GridSystem : MonoBehaviour
      
         for (int i = 0; i < Inventory.array.Count; i++)
         {
-            Vector3 tempPosition = grid.GetWorldPosition(350, tempwall-350);  //dbdeb çekilecek olarak deðiþekecek
+            Vector3 tempPosition = grid.GetWorldPosition(350, tempwall-350);  //dbdeb ï¿½ekilecek olarak deï¿½iï¿½ekecek
             tempPrefab = Inventory.array[i];
             tempPrefab.gameObject.transform.localScale = new Vector3(TempScript.FurniturList[i].Xdimension * 0.01f, TempScript.FurniturList[i].Ydimension * 0.01f, TempScript.FurniturList[i].Zdimension * 0.01f);
             Instantiate(Inventory.array[i], new Vector3(tempPosition.x,0,tempPosition.z), Quaternion.identity);
@@ -79,3 +79,4 @@ public class GridSystem : MonoBehaviour
     }
 
 }
+*/
