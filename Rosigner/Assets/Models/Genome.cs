@@ -12,7 +12,7 @@ namespace Assets.Models
 		public List<int> bits;
 		public double fitness;
 		private Random random = new Random();
-
+		private string RoomStructureLetter="D";
 
 		public Genome()
 		{
@@ -49,84 +49,111 @@ namespace Assets.Models
 			}
 
 			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
-			/*
+			
+	
 			for(int j=0; j < roomStructureList.Count; j++)
             {
-				Debug.Log("wallname: " + wallList[j].WallName);
-				if (wallList[j].WallName == "W1")
-				{
-				
-
-					redDotDistance = (int)roomStructureList[j].RedDotDistance * 100;
-					roomStructureWidth =(int)roomStructureList[j].StrructureWidth * 100;
-					for (int a= redDotDistance; a< redDotDistance + roomStructureWidth; a++)
-                    {
-
-						for (int b= coordinate1-1; b> coordinate1-100; b--)
+				for(int k=0; k < wallList.Count; k++)
+                {
+					if (roomStructureList[j].WallID == wallList[k].WallID)
+					{
+                        if (roomStructureList[j].FurnitureTypeID == 44) //Door
                         {
-							Debug.Log("444");
-
-							floorPlan[b, a]= "D";
+							RoomStructureLetter = "D";
                         }
-						
-                    }
-
-				}
-				else if (wallList[j].WallName == "W2")
-				{
-					redDotDistance = (int)roomStructureList[j].RedDotDistance * 100;
-					roomStructureWidth = (int)roomStructureList[j].StrructureWidth * 100;
-					for (int a = coordinate1 - redDotDistance; a < (coordinate1 - redDotDistance) - roomStructureWidth; a++)
-					{
-						for (int b = coordinate2 - 1; b > coordinate2 - 100; b--)
+                        else if(roomStructureList[j].FurnitureTypeID== 45) //Window
+                        {
+							RoomStructureLetter = "W";
+                        }
+									
+																								//Setting Room strucutr letters on matrix.
+						Debug.Log("wallname: " + wallList[k].WallName);
+						if (wallList[k].WallName == "W1")
 						{
-							floorPlan[a, b] = "D";
+							redDotDistance = (int) (roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+
+							Debug.Log("redDotDistance " + redDotDistance);
+							Debug.Log("roomStructureWidth " + roomStructureWidth);
+
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+
+								for (int b = coordinate1-1; b > coordinate1 - 61; b--)
+								{
+									Debug.Log("444");
+
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W2")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance ; a++)
+							{
+								for (int b = coordinate2-1; b > coordinate2 - 61; b--)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W3")
+						{
+							Debug.Log("111");
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
+							{
+								Debug.Log("222");
+								for (int b = 0; b < 60; b++)
+								{
+									Debug.Log("333");
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+
+							Debug.Log("3334");
+
+						}
+						else if (wallList[k].WallName == "W4")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+								for (int b = 0; b < 60; b++)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
 						}
 
-					}
+						Debug.Log("555");
 
-				}
-				else if (wallList[j].WallName == "W3")
-				{
-					Debug.Log("111");
-					redDotDistance = (int)roomStructureList[j].RedDotDistance * 100;
-					roomStructureWidth = (int)roomStructureList[j].StrructureWidth * 100;
-					for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
-					{
-						Debug.Log("222");
-						for (int b = 0; b < 100; b++)
-						{
-							Debug.Log("333");
-							floorPlan[b, a] = "D";
-						}
-
-					}
-
-					Debug.Log("3334");
-
-				}
-				else if (wallList[j].WallName == "W4")
-				{
-					redDotDistance = (int)roomStructureList[j].RedDotDistance * 100;
-					roomStructureWidth = (int)roomStructureList[j].StrructureWidth * 100;
-					for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
-					{
-						for (int b = 0; b < 100; b++)
-						{
-							floorPlan[a, b] = "D";
-						}
 
 					}
 				}
+                
+				
+				
+			}
 
 				Debug.Log("555");
 
 
-			}
+			
 
 			Debug.Log("666");
 
-			*/
+			
 
 
 
