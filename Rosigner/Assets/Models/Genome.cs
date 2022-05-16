@@ -18,8 +18,6 @@ namespace Assets.Models
 		public List<Furniture> newOne;
 		public int xcoordinate, ycoordinate;
 		public List<Furniture> babyFurniture;
-		public List<int> xCoordinateList;
-		public List<int> yCoordinateList;
 
 		public List<int> xcoordinatebaby;
 		public List<int> ycoordinatebaby;
@@ -52,8 +50,7 @@ namespace Assets.Models
 						Debug.Log("counget:"+furnitureListGenom.Count);
 
 			Debug.Log("NewOne:"+newOne);
-			xCoordinateList = new List<int>();
-			yCoordinateList = new List<int>();
+			
 			var canBePlaced=0;
 			int xcoordinate, ycoordinate;
 			int howManyCellsX, howManyCellsY;
@@ -69,10 +66,12 @@ namespace Assets.Models
 					floorPlan[k, j] = "T";
 				}
 			}
-
+			Debug.Log("CAPACITY"+furnitureList.Capacity);
+			int capacityminusone = (int)furnitureList.Capacity -1;
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
-			while (i < furnitureList.Capacity - 1)
+			while (i < capacityminusone)
 			{
+				
 				startPosX = 0;
 				finishPosX = 0;
 				startPosY = 0;
@@ -95,12 +94,10 @@ namespace Assets.Models
 				{
 					Debug.Log("İlk if");
 					startPosX = xcoordinate;
-					xCoordinateList.Add(startPosX);
 					finishPosX = xcoordinate + howManyCellsX;
-
 					startPosY = ycoordinate;
-					yCoordinateList.Add(startPosY);
 					finishPosY = ycoordinate + howManyCellsY;
+					Debug.Log("Gerçek startposX"+startPosX+ "Gerçek startposY"+ startPosY);
 
 					Debug.Log("PARENT fınısh X Y:"+finishPosX + ","+finishPosY);
 
@@ -153,11 +150,28 @@ namespace Assets.Models
 						int centerX = (startPosX + finishPosX) / 2;
 						int centerY = (startPosY + finishPosY) / 2;
 						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX= finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY});
-
+					
+						Debug.Log("id"+locationList);
+						//Debug.Log("StartX"+locationList[1]);
+						//Debug.Log("FinishX"+locationList[2]);
+						/*Debug.Log("CenterX"+locationList[3]);
+						Debug.Log("StartY"+locationList[4]);
+						Debug.Log("FinishY"+locationList[5]);
+						Debug.Log("CenterY"+locationList[6]);
+						*/
 						i++;
 					}
 				}
+				
 			}
+			Debug.Log("COUNT"+ locationList.Count);
+			Debug.Log("StartX"+locationList[0].StartX);
+						//Debug.Log("FinishX"+locationList[2]);
+						/*Debug.Log("CenterX"+locationList[3]);
+						Debug.Log("StartY"+locationList[4]);
+						Debug.Log("FinishY"+locationList[5]);
+						Debug.Log("CenterY"+locationList[6]);
+						*/
 			string bastir = "";
             for (int k = 0; k < coordinate1; k++)
             {

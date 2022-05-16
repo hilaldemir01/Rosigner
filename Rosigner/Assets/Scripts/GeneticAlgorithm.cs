@@ -41,6 +41,11 @@ namespace Assets.Models
         public int dadFitnessScore = 0;
         public int xcoordinate = 0;
         public int ycoordinate = 0;
+		public int count = -1;
+		List<FurnitureGeneticLocation> momFurnitureGeneticLocations;
+		List<FurnitureGeneticLocation> dadFurnitureGeneticLocations;
+		List<FurnitureGeneticLocation> baby1FurnitureGeneticLocations;
+		List<FurnitureGeneticLocation> baby2FurnitureGeneticLocations;
 		public GeneticAlgorithm()
 		{
 			busy = false;
@@ -52,6 +57,10 @@ namespace Assets.Models
 			furnitureList = new List<Furniture>();
 			furnitureFronts = new List<List<string>>();
 			lastGenerationGenomes = new List<Genome>();
+			momFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
+			dadFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
+			baby1FurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
+			baby2FurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 		}
 		// creating a matrix for the purpose of creating designs on it
 		public void startMatrix()
@@ -80,30 +89,20 @@ namespace Assets.Models
 			genomes.Clear(); // clear out any genomes at first
 			
 			for (int i = 0; i < populationSize / 2; i++)
-            { // iterate through 10
+            { // iterate through 10, for now it is 1
               //Genome baby = new Genome(furnitureList,coordinate1,coordinate2, floorPlan); // chromosomeLength = 5
               //genomes.Add(baby);
                 Genome momGenome = new Genome();
-                //momGenome.GenomeInit(100, 100, floorPlan);
-				List<FurnitureGeneticLocation> furnitureGeneticLocations = momGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
-               // StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
-				momFitnessScore = UpdateFitnessScores();
-                Debug.Log("score in momFitnessScore " + momFitnessScore);
-                for(int m=0; m < momGenome.xCoordinateList.Count; m++)
-                {
-                    Debug.Log("LIST" + momGenome.xCoordinateList[m]);
-
-                }
-
-                Genome dadGenome = new Genome();
-                //dadGenome.GenomeInit(100, 100, floorPlan);
-				furnitureGeneticLocations = dadGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
+				momFurnitureGeneticLocations = momGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
+				UpdateFitnessScores(furnitureList);//to calculate mom's furniture's fitness scores
+ 				// StartCoroutine(db.TempFurnitureLocation(momFurnitureGeneticLocations));
+                
+				Genome dadGenome = new Genome();
+				dadFurnitureGeneticLocations = dadGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
+				UpdateFitnessScores(furnitureList); //to calculate dad's furniture's fitness scores
+                // StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
 
 				
-				
-                // StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
-				dadFitnessScore = UpdateFitnessScores();
-                Debug.Log("score in dadFitnessScore " + dadFitnessScore);
 
                 //  Genome mom = RouletteWheelSelection ();
                 //  Genome dad = RouletteWheelSelection();
@@ -111,9 +110,11 @@ namespace Assets.Models
                 Genome baby1 = new Genome(); // chromosomeLength = 5
                 Genome baby2 = new Genome(); // chromosomeLength = 5
                 Crossover(momGenome, dadGenome, baby1, baby2,furnitureList);
-                Console.WriteLine("MOMGENOX " + momGenome.xcoordinate);
                 genomes.Add(baby1);
                 genomes.Add(baby2);
+
+				// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
+				// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
 
                 for (int k = 0; k < 100; k++)
                 {
@@ -122,8 +123,8 @@ namespace Assets.Models
                         floorPlan[k, j] = "T";
                     }
                 }
-
-                while (i < 3)
+				int capacityminusone =(int) furnitureList.Capacity -1;
+                while (i < capacityminusone)
                 {
                     int startPosX = 0;
                     int finishPosX = 0;
@@ -145,8 +146,6 @@ namespace Assets.Models
 
                         startPosY = ycoordinate;
                         finishPosY = ycoordinate + howManyCellsY;
-						Debug.Log("CHILD fınısh X Y:"+finishPosX + ","+finishPosY);
-
                         // now, I will check whether the selected cells are empty or not
 
                         for (int j = startPosX; j <= finishPosX; j++)
@@ -254,45 +253,67 @@ namespace Assets.Models
             }
 		}
 		public void Crossover(Genome mom, Genome dad, Genome baby1, Genome baby2,List<Furniture> furnitureList) {
-			Console.WriteLine("scoreX2 in dadFitnessScore " + dadFitnessScore);
-			Console.WriteLine("mom.newOne.Capacity " +mom.furnitureListGenom.Capacity);
-			Console.WriteLine("MOMGENOXCROSS " + mom.xcoordinate);
-            for (int i = 0; i < mom.furnitureListGenom.Capacity-1; i++)
+			Debug.Log("mom.furnitureList genom size"+ mom.furnitureListGenom.Capacity);
+            for (int i = 0; i <mom.furnitureListGenom.Capacity-1; i++)
                 {
                     for(int j = 0; j < mom.furnitureListGenom.Capacity-1; j++)
                     {
                         if(mom.furnitureListGenom[i].FurnitureID == dad.furnitureListGenom[j].FurnitureID)
                         {
-                            Console.WriteLine("mom.furnitureListGenom[i].FurnitureID " + mom.furnitureListGenom[i].FurnitureID);
 							Debug.Log("mom.furnitureListGenom[i].XD " + mom.furnitureListGenom[i].Xdimension);
 							Debug.Log("mom.furnitureListGenom[i].YD" + mom.furnitureListGenom[i].Zdimension);
-                            
-                            if (momFitnessScore >= dadFitnessScore) //We will assign the location of the furniture to the baby, whichever parent has the greatest fitness score.
-                            {
-                                 baby1.newOne.Add(new Furniture() { Xdimension = mom.furnitureListGenom[i].Xdimension, Zdimension = mom.furnitureListGenom[i].Zdimension, FurnitureID = mom.furnitureListGenom[i].FurnitureID });
 
+                            Debug.Log("dadFurnitureGeneticLocations[j]"+dadFurnitureGeneticLocations[j].FitnessScore);
+                            if (momFurnitureGeneticLocations[i].FitnessScore >= dadFurnitureGeneticLocations[j].FitnessScore) //We will assign the location of the furniture to the baby, whichever parent has the greatest fitness score.
+                            {
+                                baby1.newOne.Add(new Furniture() { FurnitureID = mom.furnitureListGenom[i].FurnitureID,Xdimension = mom.furnitureListGenom[i].Xdimension, Zdimension = mom.furnitureListGenom[i].Zdimension });
                             //baby1 will have the furniture with the highest score.
                             //baby2 will have the furniture with the lowest score.
-                                baby1.xcoordinatebaby.Add(mom.xCoordinateList[i]);
-                                Console.WriteLine("mom.xcoordinate IF" + mom.xCoordinateList[i]);
-                                baby1.ycoordinatebaby.Add(mom.yCoordinateList[i]);
-                                Console.WriteLine("baby1.xcoordinate" + baby1.xcoordinatebaby[i]);
-                                Console.WriteLine("baby1.ycoordinate" + baby1.ycoordinatebaby[i]);
-                                baby2.xcoordinatebaby.Add(dad.xCoordinateList[i]);
-                                baby2.ycoordinatebaby.Add(dad.yCoordinateList[i]);
+                                
+								//these 2 lines for babies' Genome type
+								baby1.xcoordinatebaby.Add(momFurnitureGeneticLocations[i].StartX);
+								baby1.ycoordinatebaby.Add(momFurnitureGeneticLocations[i].StartY);
+								//these 2 lines for babies' FurnitureGenetic Location type
+								
+								
+							
+								baby1FurnitureGeneticLocations.Add(new FurnitureGeneticLocation(){FurnitureID = momFurnitureGeneticLocations[i].FurnitureID,StartX=momFurnitureGeneticLocations[i].StartX,
+									StartY = momFurnitureGeneticLocations[i].StartY, FinishX= momFurnitureGeneticLocations[i].FinishX,FinishY =momFurnitureGeneticLocations[i].FinishY,
+								 	CenterX =momFurnitureGeneticLocations[i].CenterX, CenterY = momFurnitureGeneticLocations[i].CenterY, FitnessScore =  momFurnitureGeneticLocations[i].FitnessScore});
+                               	Debug.Log("furID"+baby1FurnitureGeneticLocations[i].FurnitureID);
+								Debug.Log("deneme coordinate mom startx "+momFurnitureGeneticLocations[i].StartX+"starty"+momFurnitureGeneticLocations[i].StartY);
+								
+                                baby2.xcoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartX);
+                                baby2.ycoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartY);
+
+								baby2FurnitureGeneticLocations.Add(new FurnitureGeneticLocation(){FurnitureID = dadFurnitureGeneticLocations[j].FurnitureID,StartX = dadFurnitureGeneticLocations[j].StartX,
+								StartY = dadFurnitureGeneticLocations[j].StartY, FinishX = dadFurnitureGeneticLocations[j].FinishX,FinishY= dadFurnitureGeneticLocations[j].FinishY, CenterX = dadFurnitureGeneticLocations[j].CenterX,
+								CenterY=dadFurnitureGeneticLocations[j].CenterY,FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore });
+
 
                             }
                             else
                             {
-                                baby1.newOne.Add(new Furniture() { Xdimension = dad.furnitureListGenom[i].Xdimension, Zdimension = dad.furnitureListGenom[i].Zdimension, FurnitureID = dad.furnitureListGenom[i].FurnitureID });
+                                baby1.newOne.Add(new Furniture() {FurnitureID = dad.furnitureListGenom[j].FurnitureID, Xdimension = dad.furnitureListGenom[j].Xdimension, Zdimension = dad.furnitureListGenom[j].Zdimension });
 
-                                baby2.xcoordinatebaby.Add(mom.xCoordinateList[i]);
-                                baby2.ycoordinatebaby.Add(mom.yCoordinateList[i]);
-                                Console.WriteLine("baby2.xcoordinate" + baby2.xcoordinatebaby[i]);
-                                Console.WriteLine("baby2.ycoordinate" + baby2.ycoordinatebaby[i]);
-                                baby1.xcoordinatebaby.Add(dad.xCoordinateList[i]);
-                                baby1.ycoordinatebaby.Add(dad.yCoordinateList[i]);
+                                baby2.xcoordinatebaby.Add(momFurnitureGeneticLocations[i].StartX);
+                                baby2.ycoordinatebaby.Add(momFurnitureGeneticLocations[i].StartY);
+								
+								baby2FurnitureGeneticLocations.Add(new FurnitureGeneticLocation(){FurnitureID = momFurnitureGeneticLocations[i].FurnitureID,StartX = momFurnitureGeneticLocations[i].StartX, StartY = momFurnitureGeneticLocations[i].StartY,
+								FinishX = momFurnitureGeneticLocations[i].FinishX, FinishY = momFurnitureGeneticLocations[i].FinishY, CenterX= momFurnitureGeneticLocations[i].CenterX,CenterY=momFurnitureGeneticLocations[i].CenterY,
+								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore});
+							
+								
+								baby1FurnitureGeneticLocations.Add(new FurnitureGeneticLocation(){FurnitureID = dadFurnitureGeneticLocations[j].FurnitureID,StartX = dadFurnitureGeneticLocations[j].StartX,
+								StartY = dadFurnitureGeneticLocations[j].StartY, FinishX = dadFurnitureGeneticLocations[j].FinishX,FinishY= dadFurnitureGeneticLocations[j].FinishY, CenterX = dadFurnitureGeneticLocations[j].CenterX,
+								CenterY=dadFurnitureGeneticLocations[j].CenterY,FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore });
+
+                                baby1.xcoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartX);
+                                baby1.ycoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartY);
+								Debug.Log("DAD deneme coordinate startx"+dadFurnitureGeneticLocations[j].StartX+"DAD startY"+dadFurnitureGeneticLocations[j].StartY);
+
                         	}
+						
                     	}
                     }
                 }
@@ -508,9 +529,35 @@ namespace Assets.Models
             Console.WriteLine("FitnessScore: " + fitnessScore + " Rate = " + rate.ToString());
             return fitnessScore;
         }
-		public int UpdateFitnessScores()
+		public void UpdateFitnessScores(List<Furniture> furnitureList)
         {
             int score = 0;
+			count++;
+			Debug.Log("count"+count);
+			int startX, finishX ,startY,finishY;
+			Debug.Log("furnitureList count:"+furnitureList.Count);
+
+			for(int i = 0; i <furnitureList.Count; i++){
+				if(count % 2 == 0){
+					Debug.Log("startx"+ momFurnitureGeneticLocations[0].StartX);
+					startX = momFurnitureGeneticLocations[i].StartX;
+					finishX =  momFurnitureGeneticLocations[i].FinishX;
+					startY = momFurnitureGeneticLocations[i].StartY;
+					finishY =  momFurnitureGeneticLocations[i].FinishY;
+
+					momFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
+					Debug.Log("mom fitness score"+momFurnitureGeneticLocations[i].FitnessScore);
+				}else{
+					startX = dadFurnitureGeneticLocations[i].StartX;
+					finishX =  dadFurnitureGeneticLocations[i].FinishX;
+					startY = dadFurnitureGeneticLocations[i].StartY;
+					finishY =  dadFurnitureGeneticLocations[i].FinishY;
+					dadFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
+					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
+
+				}
+			}
+			
             // what I want to do in this function is that, I want to check the distance of 
             fittestGenome = 0;
             bestFitnessScore = 0;
@@ -522,8 +569,8 @@ namespace Assets.Models
             //int startY = 20;
             //int finishY = 30;
             //Random random = new Random();
-            int num = Random.Range(0, 100);
-            int startX = num;
+          /*  int num = Random.Range(0, 100);
+            int startX = momFurnitureGeneticLocations[i].StartX;
 
             num = Random.Range(0, 100);
             int finishX = num;
@@ -533,10 +580,9 @@ namespace Assets.Models
 
             num = Random.Range(0, 100);
             int finishY = num;
-
-            score = distanceFromWalls(startX, startY, finishX, finishY);
-            Console.WriteLine("score in upd " + score);
-            return score;
+			*/
+            // score = distanceFromWalls(startX, startY, finishX, finishY);
+            
 
 			//for (int i = 0; i < populationSize; i++)
 			//{
@@ -609,7 +655,7 @@ namespace Assets.Models
 		{
 			//if (!busy) return;
 			// evolve the fitness function of all population
-			UpdateFitnessScores();
+			//UpdateFitnessScores();
 
 			//if (!busy)
 			//{
