@@ -82,7 +82,7 @@ namespace Assets.Models
 								for (int b = coordinate1-1; b > coordinate1 - 61; b--)
 								{
 									Debug.Log("444");
-
+									
 									floorPlan[b, a] = RoomStructureLetter;
 								}
 
@@ -189,7 +189,7 @@ namespace Assets.Models
 						for (int k = startPosY; k <= finishPosY; k++)
 						{
 							// if the position is not empty, then quit the loop
-							if (floorPlan[j,k] != "T")
+							if (floorPlan[j,k] != "T" && floorPlan[j, k] != "D" && floorPlan[j, k] != "W")
 							{
 								canBePlaced = 1; // cannot be placed
 								Console.WriteLine("Dolu mu");
