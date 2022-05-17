@@ -52,8 +52,8 @@ namespace Assets.Models
 		// creating a matrix for the purpose of creating designs on it
 		public void startMatrix()
 		{
-			coordinate1 = (int)wallList[0].WallLength;
-			coordinate2 = (int)wallList[1].WallLength;
+			coordinate1 = (int)wallList[0].WallLength*100;
+			coordinate2 = (int)wallList[1].WallLength*100;
 			floorPlan = new string[coordinate1, coordinate2];
 
 		}
