@@ -15,6 +15,7 @@ namespace Assets.Models
 		private Random random = new Random();
 		public List<FurnitureGeneticLocation> locationList = new List<FurnitureGeneticLocation>();
 		RosignerContext db = new RosignerContext();
+		private string RoomStructureLetter="D";
 
 		public Genome()
 		{
@@ -23,6 +24,7 @@ namespace Assets.Models
 
 
 		// we need to create random matrix 
+		public void GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
 		{
 			//	Initialize();
@@ -38,7 +40,8 @@ namespace Assets.Models
 			int howManyCellsX, howManyCellsY;
 			int i = 0;
 			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
-
+			int redDotDistance;
+			int roomStructureWidth;
 			//creating a new empty design
 
 			for (int k = 0; k < coordinate1; k++)
@@ -48,6 +51,115 @@ namespace Assets.Models
 					floorPlan[k, j] = "T";
 				}
 			}
+
+			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
+			
+	
+			for(int j=0; j < roomStructureList.Count; j++)
+            {
+				for(int k=0; k < wallList.Count; k++)
+                {
+					if (roomStructureList[j].WallID == wallList[k].WallID)
+					{
+                        if (roomStructureList[j].FurnitureTypeID == 44) //Door
+                        {
+							RoomStructureLetter = "D";
+                        }
+                        else if(roomStructureList[j].FurnitureTypeID== 45) //Window
+                        {
+							RoomStructureLetter = "W";
+                        }
+									
+																								//Setting Room strucutr letters on matrix.
+						Debug.Log("wallname: " + wallList[k].WallName);
+						if (wallList[k].WallName == "W1")
+						{
+							redDotDistance = (int) (roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+
+							Debug.Log("redDotDistance " + redDotDistance);
+							Debug.Log("roomStructureWidth " + roomStructureWidth);
+
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+
+								for (int b = coordinate1-1; b > coordinate1 - 61; b--)
+								{
+									Debug.Log("444");
+									
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W2")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance ; a++)
+							{
+								for (int b = coordinate2-1; b > coordinate2 - 61; b--)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W3")
+						{
+							Debug.Log("111");
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
+							{
+								Debug.Log("222");
+								for (int b = 0; b < 60; b++)
+								{
+									Debug.Log("333");
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+
+							Debug.Log("3334");
+
+						}
+						else if (wallList[k].WallName == "W4")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+								for (int b = 0; b < 60; b++)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
+						}
+
+						Debug.Log("555");
+
+
+					}
+				}
+                
+				
+				
+			}
+
+				Debug.Log("555");
+
+
+			
+
+			Debug.Log("666");
+
+			
+
+
 
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < furnitureList.Capacity - 1)
@@ -82,7 +194,7 @@ namespace Assets.Models
 						for (int k = startPosY; k <= finishPosY; k++)
 						{
 							// if the position is not empty, then quit the loop
-							if (floorPlan[j,k] != "T")
+							if (floorPlan[j,k] != "T" && floorPlan[j, k] != "D" && floorPlan[j, k] != "W")
 							{
 								canBePlaced = 1; // cannot be placed
 								Console.WriteLine("Dolu mu");
