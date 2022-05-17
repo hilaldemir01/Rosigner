@@ -17,5 +17,10 @@ namespace Assets.Models
         public int FinishY { get; set; }
         public int CenterY { get; set; }
         public int FitnessScore { get; set; }
+        public string WallName { get; set; }
+        public string XPositionStart { get; set; }
+        public string XPositionFinish { get; set; }
+        public string YPositionStart { get; set; }
+        public string YPositionFinish { get; set; }
     }
 }

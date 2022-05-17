@@ -245,5 +245,7 @@ public class TempScript : MonoBehaviour
 
         List<FurnitureGeneticLocation> furnitureGeneticLocations = newOne.GenomeInit((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan, roomStructuresList, FurniturList);
         StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
+        GeneticAlgorithm genetic = new GeneticAlgorithm();
+        genetic.
     }
 }
