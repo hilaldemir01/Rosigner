@@ -84,8 +84,6 @@ namespace Assets.Models
 
 								for (int b = coordinate1-1; b > coordinate1 - 61; b--)
 								{
-									Debug.Log("444");
-									
 									floorPlan[b, a] = RoomStructureLetter;
 								}
 
@@ -108,22 +106,16 @@ namespace Assets.Models
 						}
 						else if (wallList[k].WallName == "W3")
 						{
-							Debug.Log("111");
 							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
 							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
 							{
-								Debug.Log("222");
 								for (int b = 0; b < 60; b++)
 								{
-									Debug.Log("333");
 									floorPlan[b, a] = RoomStructureLetter;
 								}
 
 							}
-
-							Debug.Log("3334");
-
 						}
 						else if (wallList[k].WallName == "W4")
 						{
@@ -139,24 +131,9 @@ namespace Assets.Models
 							}
 						}
 
-						Debug.Log("555");
-
-
 					}
 				}
-                
-				
-				
 			}
-
-				Debug.Log("555");
-
-
-			
-
-			Debug.Log("666");
-
-			
 
 
 
@@ -193,11 +170,13 @@ namespace Assets.Models
 						for (int k = startPosY; k <= finishPosY; k++)
 						{
 							// if the position is not empty, then quit the loop
-							if (floorPlan[j,k] != "T" && floorPlan[j, k] != "D" && floorPlan[j, k] != "W")
+							if (floorPlan[j,k] != "T")
 							{
-								canBePlaced = 1; // cannot be placed
-								Console.WriteLine("Dolu mu");
-								break;
+								if(floorPlan[j,k] == "D")
+                                {
+									canBePlaced = 1; // cannot be placed
+									break;
+								}
 							}
 						}
 

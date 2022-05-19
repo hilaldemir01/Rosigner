@@ -52,8 +52,8 @@ namespace Assets.Models
 		// creating a matrix for the purpose of creating designs on it
 		public void startMatrix()
 		{
-			coordinate1 = (int)wallList[0].WallLength*100;
-			coordinate2 = (int)wallList[1].WallLength*100;
+			coordinate1 = (int)wallList[1].WallLength*100;
+			coordinate2 = (int)wallList[0].WallLength*100;
 			floorPlan = new string[coordinate1, coordinate2];
 
 		}
@@ -62,14 +62,6 @@ namespace Assets.Models
 			CreateStartPopulation();
 			busy = true;
 		}
-		// this function will be used to define the front part of furniture 
-		public void defineFrontPart()
-        {
-			for(int i = 0; i < furnitureList.Count; i++)
-            {
-				// first, we are going to divide the measurements of a furniture 
-            }
-        }
 		// step number 1
 		public void CreateStartPopulation()
 		{
