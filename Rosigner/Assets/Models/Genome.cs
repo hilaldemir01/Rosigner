@@ -69,7 +69,7 @@ namespace Assets.Models
 							RoomStructureLetter = "W";
                         }
 									
-																								//Setting Room strucutr letters on matrix.
+						//Setting Room strucutr letters on matrix.
 						Debug.Log("wallname: " + wallList[k].WallName);
 						if (wallList[k].WallName == "W1")
 						{
@@ -134,8 +134,6 @@ namespace Assets.Models
 					}
 				}
 			}
-
-
 
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < furnitureList.Capacity - 1)
@@ -212,7 +210,10 @@ namespace Assets.Models
 						}
 						int centerX = (startPosX + finishPosX) / 2;
 						int centerY = (startPosY + finishPosY) / 2;
-						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX= finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY});
+						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
+							XPositionStartX = finishPosX , XPositionFinishX = finishPosX+1, XPositionFinishY = finishPosY, XPositionStartY = startPosY,
+							YPositionStartX = finishPosX + 1, YPositionFinishX = finishPosX + 6, 
+							YPositionStartY = startPosY, YPositionFinishY = finishPosY}) ;
 
 						i++;
 					}
@@ -263,6 +264,9 @@ namespace Assets.Models
 			{
 				Console.WriteLine(Ex.ToString());
 			}
+			GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+
+			geneticAlgorithm.rotateRandomFurniture(locationList, floorPlan, coordinate1, coordinate2);
 			return locationList;
 
 		}
