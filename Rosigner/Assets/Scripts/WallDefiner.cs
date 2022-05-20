@@ -32,13 +32,9 @@ public class WallDefiner : MonoBehaviour
 
     private void Start()
     {
-
-        Debug.Log(Level.PreviousLevel);
         if (Level.PreviousLevel == "Login")
         { 
             loggedinUser = LoginSystem.instance.loggedinUser;
-            Debug.Log(loggedinUser.FirstName + loggedinUser.LastName);
-            Debug.Log(loggedinUser.UserId);
         }
 
     }
@@ -199,7 +195,6 @@ public class WallDefiner : MonoBehaviour
             }
             else
             {
-                Debug.Log("Asti Boyu w1");
                 return false;
             }
         }
@@ -223,7 +218,6 @@ public class WallDefiner : MonoBehaviour
             }
             else
             {
-                Debug.Log("Asti Boyu w2");
                 return false;
             }
         }
@@ -246,7 +240,6 @@ public class WallDefiner : MonoBehaviour
             }
             else
             {
-                Debug.Log("Asti Boyu w3");
                 return false;
             }
          
@@ -272,7 +265,6 @@ public class WallDefiner : MonoBehaviour
             }
             else
             {
-                Debug.Log("Asti Boyu w4");
                 return false;
             }
         }

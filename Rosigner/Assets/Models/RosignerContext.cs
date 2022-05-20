@@ -83,9 +83,6 @@ namespace Assets.Models
             form.AddField("email", email);
             form.AddField("password", password);
 
-
-
-
             // database connection is done here:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
             {
@@ -157,12 +154,6 @@ namespace Assets.Models
                     loggedinUser.Gender = int.Parse(userArray[3]);
                     loggedinUser.Email = email;
 
-                    //checking if the returned values are correct
-                    Debug.Log(loggedinUser.FirstName);
-                    Debug.Log(loggedinUser.LastName);
-                    Debug.Log(loggedinUser.Gender);
-                    Debug.Log(loggedinUser.Email);
-                    
                     currentUser = loggedinUser;
                     callback(loggedinUser);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("PreviousDesigns");
@@ -204,12 +195,6 @@ namespace Assets.Models
                         furniture.Zdimension = float.Parse(furnitureArray[i+3]);
                         furniture.FurnitureTypeID = int.Parse(furnitureArray[i+4]);
                         furniture.RoomID = int.Parse(furnitureArray[i+5]);
-                        Debug.Log("FurnitureIDA "+furniture.FurnitureID);
-                        Debug.Log("XdimensionA "+furniture.Xdimension);
-                        Debug.Log("YdimensionA "+furniture.Ydimension);
-                        Debug.Log("ZdimensionA "+furniture.Zdimension);
-                        Debug.Log("FurnitureTypeIDA "+furniture.FurnitureTypeID);
-                        Debug.Log("RoomIDA "+furniture.RoomID);
                         callback(furniture);
                        i = i+6;
                     }
@@ -256,10 +241,8 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     RoomID = int.Parse(www.downloadHandler.text);
                     LoginSystem.instance.RoomID = RoomID;
-                    Debug.Log("deneme roomid:" + RoomID);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -380,7 +363,6 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -446,9 +428,6 @@ namespace Assets.Models
             form.AddField("RotationX", newLocation.RotationX.ToString().Replace(",", "."));
             form.AddField("RotationY", newLocation.RotationY.ToString().Replace(",", "."));
             form.AddField("RotationZ", newLocation.RotationZ.ToString().Replace(",", "."));
-            Debug.Log(wallName);
-            Debug.Log(LoginSystem.instance.RoomID);
-            Debug.Log(StructureName);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructures.php", form))

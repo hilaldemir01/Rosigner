@@ -9,9 +9,4 @@ public class Level : MonoBehaviour
     {
         PreviousLevel = gameObject.scene.name;
     }
-
-    private void Start()
-    {
-        Debug.Log(Level.PreviousLevel);  // use this in any level to get the last level.
-    }
 }

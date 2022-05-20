@@ -31,7 +31,6 @@ public class Resizing : MonoBehaviour
         Show();
     }
 
-
     void Update()
     {
 
@@ -118,7 +117,6 @@ public class Resizing : MonoBehaviour
         wallList.Add(new Wall() { WallName = "W3", WallLength = wall1inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
         wallList.Add(new Wall() { WallName = "W4", WallLength = wall2inp, WallHeight = heightinp, RoomID = newRoom.RoomID });
 
-        Debug.Log("RoomID:" + newRoom.RoomID);
         for (int i = 0; i < 4; i++)
         {
             StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
@@ -127,9 +125,7 @@ public class Resizing : MonoBehaviour
     }
     public void getWallID(string WallID)
     {
-        Debug.Log("WallID:" + WallID);
+        //Debug.Log("WallID:" + WallID);
     }
-
-
 
 }

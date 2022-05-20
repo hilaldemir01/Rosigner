@@ -128,11 +128,6 @@ public class TempScript : MonoBehaviour
                 FurnitureTypeID = newroomstructures[i].FurnitureTypeID,
                 WallID = newroomstructures[i].WallID
             });
-
-            Debug.Log("dönen deðerlerrr: "+ roomStructuresList[i].RoomStructureID + "" + roomStructuresList[i].StrructureLength + " " + roomStructuresList[i].StrructureWidth);
-            //StartCoroutine(db.RoomStructureLocationInformation(roomStructuresList[i].RoomStructureID, fetchRoomStructureLocationInformation));
-            
-           // StartCoroutine(db.getFurnitureName(roomStructuresList[i].FurnitureTypeID,roomStructuresList[i].RoomStructureID, getStructureName));
         }
         StartCoroutine(db.getFurnitureName(roomStructuresList, getStructureName));
         
@@ -162,7 +157,6 @@ public class TempScript : MonoBehaviour
 
     public void setpositions()
     {
-        Debug.Log("d");
         var wallName = "";
         //Vector3 position= new Vector3(roomStructureLocation.LocationX/100, roomStructureLocation.LocationY/100, roomStructureLocation.LocationZ/100);
         Vector3 position;
@@ -238,7 +232,6 @@ public class TempScript : MonoBehaviour
         Genome newOne = new Genome();
         string[,] floorPlan;
         floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
-        Debug.Log("Furniture Id to be replaced: " + FurniturList[0].FurnitureID);
 
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;

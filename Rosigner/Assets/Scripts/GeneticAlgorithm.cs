@@ -191,10 +191,9 @@ namespace Assets.Models
 		}
 		public void rotateRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2)
         {
-			Debug.Log("rotate random furniture");
-			int furnitureID  = random.Next(0, furnitureGeneticLocations.Count);
+			int furnitureID  = random.Next(0, furnitureGeneticLocations.Count - 1);
 			int canBeRotated = 0;
-			furnitureGeneticLocations[furnitureID].WallName = "W2";
+			furnitureGeneticLocations[furnitureID].WallName = "W4";
 			if (furnitureGeneticLocations[furnitureID].WallName == "W1") // wall on the bottom
             {
 				emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
@@ -243,33 +242,55 @@ namespace Assets.Models
 			}
 			else if(furnitureGeneticLocations[furnitureID].WallName == "W2") // right-side wall
             {
-				// in this part of the code, we are changing the x and y values in order to change the rotation of the object by 90 degrees
-				int tempStartY, tempFinishY;
+				// Start positions of poth x and y will stay the same, later their finish positions will change according to their width
 
-				tempStartY = furnitureGeneticLocations[furnitureID].StartY;
-				tempFinishY = furnitureGeneticLocations[furnitureID].FinishY;
+				int XValue = furnitureGeneticLocations[furnitureID].StartX + (furnitureGeneticLocations[furnitureID].FinishY - furnitureGeneticLocations[furnitureID].StartY);
+				int YValue = furnitureGeneticLocations[furnitureID].StartY + (furnitureGeneticLocations[furnitureID].FinishX - furnitureGeneticLocations[furnitureID].StartX);
+				
+				if (XValue < coordinate1 && YValue < coordinate2)
+                {
+					// first empty the area that it currently allocates
+					emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
 
-				furnitureGeneticLocations[furnitureID].StartX = furnitureGeneticLocations[furnitureID].StartY;
-				furnitureGeneticLocations[furnitureID].FinishX = furnitureGeneticLocations[furnitureID].FinishY;
+					int newFinishX, newFinishY;
 
-				furnitureGeneticLocations[furnitureID].StartY = tempStartY;
-				furnitureGeneticLocations[furnitureID].FinishY = tempFinishY;
+					newFinishX = XValue;
+					newFinishY = YValue;
 
-				// now we are going to place x and y values 
-				// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
-				emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
-				for (int j = furnitureGeneticLocations[furnitureID].StartX; j < furnitureGeneticLocations[furnitureID].FinishX; j++)
-				{
-					floorPlan[j, furnitureGeneticLocations[furnitureID].StartY - 1] = "X";
-				}
-				// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
-				// for now, every object will have 30cm space in front of them
-				for (int k = furnitureGeneticLocations[furnitureID].StartX; k < furnitureGeneticLocations[furnitureID].FinishX; k++)
-				{
-					for (int j = furnitureGeneticLocations[furnitureID].StartY - 6 ; j < furnitureGeneticLocations[furnitureID].StartY - 2; j++)
+					furnitureGeneticLocations[furnitureID].FinishX = newFinishX;
+					furnitureGeneticLocations[furnitureID].FinishY = newFinishY;
+
+					for (int i = furnitureGeneticLocations[furnitureID].StartX; i < furnitureGeneticLocations[furnitureID].FinishX; i++)
 					{
-						floorPlan[k, j] = "Y";
+						for (int j = furnitureGeneticLocations[furnitureID].StartY; j < furnitureGeneticLocations[furnitureID].FinishY; j++)
+						{
+							floorPlan[i,j] = "" + furnitureGeneticLocations[furnitureID].FurnitureID.ToString();
+						}
 					}
+					// now we are going to place x and y values 
+					// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+					for (int j = furnitureGeneticLocations[furnitureID].StartX; j < furnitureGeneticLocations[furnitureID].FinishX; j++)
+					{
+						floorPlan[j, furnitureGeneticLocations[furnitureID].StartY - 1] = "X";
+					}
+					// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+					// for now, every object will have 30cm space in front of them
+					for (int k = furnitureGeneticLocations[furnitureID].StartX; k < furnitureGeneticLocations[furnitureID].FinishX; k++)
+					{
+						for (int j = furnitureGeneticLocations[furnitureID].StartY - 6; j < furnitureGeneticLocations[furnitureID].StartY - 1; j++)
+						{
+							floorPlan[k, j] = "Y";
+						}
+					}
+					furnitureGeneticLocations[furnitureID].XPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].XPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].XPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 1;
+					furnitureGeneticLocations[furnitureID].XPositionFinishY = furnitureGeneticLocations[furnitureID].StartY;
+					furnitureGeneticLocations[furnitureID].YPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].YPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
+					furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
+
 				}
 			}
 			else if(furnitureGeneticLocations[furnitureID].WallName == "W3") // wall on the top
@@ -278,34 +299,55 @@ namespace Assets.Models
 			}
 			else if(furnitureGeneticLocations[furnitureID].WallName == "W4") // wall on the left side
             {
-				// in this part of the code, we are changing the x and y values in order to change the rotation of the object by 90 degrees
-				int tempStartY, tempFinishY;
+				// Start positions of poth x and y will stay the same, later their finish positions will change according to their width
 
-				tempStartY = furnitureGeneticLocations[furnitureID].StartY;
-				tempFinishY = furnitureGeneticLocations[furnitureID].FinishY;
+				int XValue = furnitureGeneticLocations[furnitureID].StartX + (furnitureGeneticLocations[furnitureID].FinishY - furnitureGeneticLocations[furnitureID].StartY);
+				int YValue = furnitureGeneticLocations[furnitureID].StartY + (furnitureGeneticLocations[furnitureID].FinishX - furnitureGeneticLocations[furnitureID].StartX);
 
-				furnitureGeneticLocations[furnitureID].StartX = furnitureGeneticLocations[furnitureID].StartY;
-				furnitureGeneticLocations[furnitureID].FinishX = furnitureGeneticLocations[furnitureID].FinishY;
-
-				furnitureGeneticLocations[furnitureID].StartY = tempStartY;
-				furnitureGeneticLocations[furnitureID].FinishY = tempFinishY;
-
-				// now we are going to place x and y values 
-				// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
-				emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
-
-				for (int j = furnitureGeneticLocations[furnitureID].StartX; j < furnitureGeneticLocations[furnitureID].FinishX; j++)
+				if (XValue < coordinate1 && YValue < coordinate2)
 				{
-					floorPlan[j, furnitureGeneticLocations[furnitureID].FinishY] = "X";
-				}
-				// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
-				// for now, every object will have 30cm space in front of them
-				for (int k = furnitureGeneticLocations[furnitureID].StartX; k < furnitureGeneticLocations[furnitureID].FinishX; k++)
-				{
-					for (int j = furnitureGeneticLocations[furnitureID].FinishY + 1; j < furnitureGeneticLocations[furnitureID].FinishY + 6; j++)
+					// first empty the area that it currently allocates
+					emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
+
+					int newFinishX, newFinishY;
+
+					newFinishX = XValue;
+					newFinishY = YValue;
+
+					furnitureGeneticLocations[furnitureID].FinishX = newFinishX;
+					furnitureGeneticLocations[furnitureID].FinishY = newFinishY;
+
+					for (int i = furnitureGeneticLocations[furnitureID].StartX; i < furnitureGeneticLocations[furnitureID].FinishX; i++)
 					{
-						floorPlan[k, j] = "Y";
+						for (int j = furnitureGeneticLocations[furnitureID].StartY; j < furnitureGeneticLocations[furnitureID].FinishY; j++)
+						{
+							floorPlan[i, j] = "" + furnitureGeneticLocations[furnitureID].FurnitureID.ToString();
+						}
 					}
+					// now we are going to place x and y values 
+					// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+					for (int j = furnitureGeneticLocations[furnitureID].StartX; j < furnitureGeneticLocations[furnitureID].FinishX; j++)
+					{
+						floorPlan[j, furnitureGeneticLocations[furnitureID].FinishY] = "X";
+					}
+					// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+					// for now, every object will have 30cm space in front of them
+					for (int k = furnitureGeneticLocations[furnitureID].StartX; k < furnitureGeneticLocations[furnitureID].FinishX; k++)
+					{
+						for (int j = furnitureGeneticLocations[furnitureID].FinishY + 1; j < furnitureGeneticLocations[furnitureID].FinishY + 6; j++)
+						{
+							floorPlan[k, j] = "Y";
+						}
+					}
+					furnitureGeneticLocations[furnitureID].XPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].XPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].XPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 1;
+					furnitureGeneticLocations[furnitureID].XPositionFinishY = furnitureGeneticLocations[furnitureID].StartY;
+					furnitureGeneticLocations[furnitureID].YPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].YPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
+					furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
+
 				}
 			}
 			
