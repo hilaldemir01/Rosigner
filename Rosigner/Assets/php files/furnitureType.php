@@ -6,7 +6,7 @@ if ($con -> connect_errno) {
   echo "Failed to connect to database: " . $con -> connect_error;
 }
 // Check if the called method is register or not
-if($_POST['unity']=="furnitureNameInsertion")
+if($_POST['unity']=="furnitureType")
 {
     // to check if the database table is empty
     $isEmptyCheck = "SELECT COUNT(*) FROM furnituretype;";

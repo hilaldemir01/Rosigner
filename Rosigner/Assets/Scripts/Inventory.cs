@@ -10,26 +10,27 @@ using UnityEngine.Events;
 using System.Linq;
 public class Inventory : MonoBehaviour
 {
-    //[SerializeField] public GameObject armchair;
     GameObject[] livingRoomPrefabs;
     GameObject[] bedroomPrefabs;
     GameObject[] studyRoomPrefabs;
-    //public Sprite armchair_img;
-    public Image selectedFurnitureImage;
+    public Image selectedFurnitureImage, furnitureImage;
     public List<Slots> slots; 
     public Slots selectedSlot;
     public Transform furnitureBar;
-    public Image furnitureImage; 
-   //public Measurement measurement;
-    public InputField widthInput, heightInput, lengthInput;
-    GameObject[] mergePrefabs;
-    public Button saveButton;
+    public InputField widthInput, heightInput, lengthInput; //x_dimension input, y_dimension input, z_dimension input
+    public static GameObject[] mergePrefabs;
+    
+    public static List<GameObject> array = new List<GameObject>();
+    public Button saveButton, applyButton;
     public Text notificationTxt;
-    public string selectedFurnitureImageName;
-    public string prefabName;
-    public string a;
+    public string selectedFurnitureImageName, prefabName;
+    int count=0;
+    public static GameObject sendingPrefab;
+    TempScript prefab = new TempScript();
     RosignerContext db = new RosignerContext();
-
+    Room newRoom = new Room(); 
+    Furniture furnitureMeasurement = new Furniture();
+    List<Furniture> furnitureList = new List<Furniture>();
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class Inventory : MonoBehaviour
         heightInput.interactable=false;
         lengthInput.interactable=false;
         saveButton.interactable = false;
+        applyButton.interactable = false;
         notificationTxt.gameObject.SetActive(false);
        
         livingRoomPrefabs = Resources.LoadAll<GameObject>("living room prefab");
@@ -53,7 +55,6 @@ public class Inventory : MonoBehaviour
     public void CallInventory()
     {
         StartCoroutine(InventoryFunc());
-
     }
 
     IEnumerator InventoryFunc(){
@@ -62,7 +63,15 @@ public class Inventory : MonoBehaviour
         int lengthvalue = int.Parse(lengthInput.text);
        
         selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
-        
+       
+        for(int i=0; i<mergePrefabs.Length;i++){  
+           if(selectedFurnitureImage.sprite.name == mergePrefabs[i].name){
+               prefabName = mergePrefabs[i].name;
+               sendingPrefab = mergePrefabs[i];
+               array.Add(sendingPrefab);
+               break;
+           } 
+        }
         //to check user's measurement inputs 
         if(widthvalue <= 0 || heightvalue <= 0 || lengthvalue <= 0 )
         {
@@ -70,36 +79,26 @@ public class Inventory : MonoBehaviour
             notificationTxt.text = "Please enter positive measure";
         }
         else{
-            //notificationTxt.text = "Measures saved successfully"; contextte
-            Measurement furnitureMeasurement = new Measurement();
-            
-            furnitureMeasurement.furniture_height = heightvalue;
-            furnitureMeasurement.furniture_width = widthvalue;
-            furnitureMeasurement.furniture_length = lengthvalue;
-            furnitureMeasurement.furniture_name = selectedFurnitureImageName;
-            Debug.Log("hello"+selectedFurnitureImageName);
+
+            furnitureMeasurement.Ydimension = heightvalue;
+            furnitureMeasurement.Xdimension = widthvalue;
+            furnitureMeasurement.Zdimension = lengthvalue;
+
             notificationTxt.gameObject.SetActive(true);
-            StartCoroutine(db.Measurement(furnitureMeasurement)) ;
+            StartCoroutine(db.Furniture(furnitureMeasurement,selectedFurnitureImageName, FetchFurnitureInfo)) ;
         }
        
         yield return new WaitForSeconds(1);
     
-    
-    
     }
-    /*
-     public void GetMeasurement(){
-      
-        int widthvalue= int.Parse(widthInput.text);
-        int heightvalue = int.Parse(heightInput.text);
-        int lengthvalue = int.Parse(lengthInput.text);
-        VerifyMeasurement(widthvalue,heightvalue,lengthvalue);
-        //burda db bilgileri çekip bunun için ayrı fonksiyon yap onclick te o fonksiyonu çağır resetlencek resetfunc
-        Debug.Log("w"+widthvalue);
-        Debug.Log("h"+heightvalue);
-        Debug.Log("l"+lengthvalue);
+    public void FetchFurnitureInfo(string furnitureID){
+        furnitureMeasurement.FurnitureID = int.Parse(furnitureID);
 
-    }*/
+    }
+    public void ApplyButton(){
+        UnityEngine.SceneManagement.SceneManager.LoadScene("TempDesign");
+    }
+
     public void Subscribe(Slots slot){
     //to make a list of slots
         if(slots == null){
@@ -117,7 +116,6 @@ public class Inventory : MonoBehaviour
         selectedSlot.Select();
 
         selectedFurnitureImageName = ShowFurnitureImage(selectedSlot); 
-        Debug.Log("img"+selectedFurnitureImageName);
         return selectedFurnitureImageName;
     }
     public string ShowFurnitureImage(Slots selectedSlot){
@@ -126,21 +124,25 @@ public class Inventory : MonoBehaviour
         furnitureImage  = furnitureBar.gameObject.GetComponent<Image>();
         selectedFurnitureImage.sprite = furnitureImage.sprite;
         selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
-        Debug.Log("bura "+selectedFurnitureImageName);
-
-        for(int i=0; i<mergePrefabs.Length;i++){  
-           if(selectedFurnitureImage.sprite.name == mergePrefabs[i].name){
-               Debug.Log("FIND: "+mergePrefabs[i].name);
-               prefabName = mergePrefabs[i].name;
-               break;
-           } 
-        }
-        //a = "beyza";
+        Debug.Log("selected furniture name: "+selectedFurnitureImageName);
+        
         widthInput.interactable=true;
         heightInput.interactable=true;
         lengthInput.interactable=true; 
         saveButton.interactable = false; 
         notificationTxt.gameObject.SetActive(false);
+        
+        //newRoom.RoomID = int.Parse(roomID);
+
+        /*furnitureList.Add(new Furniture() { Xdimension = "W1", Ydimension = wall1inp, Zdimension = heightinp, RoomID = newRoom.RoomID });
+        Debug.Log("RoomID:" + newRoom.RoomID);
+        for (int i = 0; i < 4; i++)
+        {
+            StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
+        }*/
+
+
+
         resetMeasurement();
         return selectedFurnitureImage.sprite.name;
     }
@@ -152,14 +154,20 @@ public class Inventory : MonoBehaviour
         lengthInput.text="";
     }
    
-   
+    
      public async void VerifyInputs(){
+
+         //if(count>0){
+           // Debug.Log("count"+count);
+            applyButton.interactable = true;
+        //}
         // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {
             saveButton.interactable = true;
+            count++;
         }
-        
-        
+       
+       
     }
 }

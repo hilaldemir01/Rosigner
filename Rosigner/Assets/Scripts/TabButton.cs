@@ -11,8 +11,8 @@ public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
     
     public TabAreaGroup tabAreaGroup;
     public Image background;
-    public UnityEvent onTabSelected;
-    public UnityEvent onTabDeselected;
+    public UnityEvent onTabSelected, onTabDeselected;
+
 
     // Start is called before the first frame update
      void Start()

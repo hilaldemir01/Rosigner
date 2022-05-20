@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Models
 {
-    class Location
+    public class Location
     {
         public int LocationID { get; set; }
         public float LocationX { get; set; }

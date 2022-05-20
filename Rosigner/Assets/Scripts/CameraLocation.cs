@@ -22,40 +22,23 @@ public class CameraLocation : MonoBehaviour
 
         // This part of the code is used to fix the distance between the floor and camera. Also, the camera is focused on the center of the room
 
-        if (wall1_length>=wall2_length)
+
+        if (wall1_length >= wall2_length)
         {
-            if (wall1_length < 15)
-            {
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, wall1_length * 1.5f, wall2_length / 2);
-                Light_object.transform.position = new Vector3(wall1_length / 2, wall1_length * 1.5f, wall2_length / 2);
+
+                float camposition1= (wall1_length / 2) * Mathf.Sqrt(5) + wall_height;
+                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, (wall2_length / 2)+0.1f);
+                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, wall2_length / 2);
+
             
-            }
-            else
-            {
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, wall1_length * 1.10f, wall2_length / 2);
-                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, wall1_length * 1.10f, wall2_length / 2);
-            
-            }
         }
-        else if (wall1_length < wall2_length)
+        else 
         {
-            if (wall2_length < 15)
-            {
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 1.5f, wall2_length / 2);
-                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 1.5f, wall2_length / 2);
-                if (wall2_length < 5)
-                {
-                    Camera.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 2.0f, wall2_length / 2);
-                    Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 2.0f, wall2_length / 2);
-                }
-
-            }
-            else
-            {
-                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 1.25f, wall2_length / 2);
-                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, wall2_length * 1.25f, wall2_length / 2);
-            }
-
+                float camposition2 = (wall2_length / 2) * Mathf.Sqrt(5) + wall_height;
+                Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, (wall2_length / 2) + 0.1f);
+                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, wall2_length / 2);
+  
+           
         }
 
 
