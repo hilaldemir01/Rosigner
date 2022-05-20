@@ -689,5 +689,132 @@ namespace Assets.Models
         }
 
         #endregion
+
+        #region Fetch Furniture Locations
+
+        public IEnumerator FurnitureLocationsFetch(List<FurnitureGeneticLocation> furnitureinfo, System.Action<List<FurnitureGeneticLocation>> callback)
+        {
+            List<FurnitureGeneticLocation> furnitureLocationList = new List<FurnitureGeneticLocation>();
+
+            string IDstring = "";
+            for (int i = 0; i < furnitureinfo.Count; i++)
+            {
+                IDstring = IDstring + furnitureinfo[i].FurnitureID.ToString() + ";";
+
+            }
+            Debug.Log("IDstring: " + IDstring);
+
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "furnitureLocationInformation");
+            form.AddField("furnitureID", IDstring);
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureLocationInformation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    string returnedFurnitureLocation = www.downloadHandler.text;
+                    Debug.Log("------------returnedFurnitureLocation " + returnedFurnitureLocation);
+
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    if (returnedFurnitureLocation != "")
+                    {
+                        string[] structuresArray = returnedFurnitureLocation.Split(';');
+                        int i = 0;
+
+                        while (i < structuresArray.Length - 1)
+                        {
+
+                            furnitureLocationList.Add(new FurnitureGeneticLocation()
+                            {
+                                GeneticLocationID = int.Parse(structuresArray[i]),
+                                FurnitureID = int.Parse(structuresArray[i + 1]),
+                                StartX = int.Parse(structuresArray[i + 2]),
+                                FinishX = int.Parse(structuresArray[i + 3]),
+                                CenterX = int.Parse(structuresArray[i + 4]),
+                                StartY = int.Parse(structuresArray[i + 5]),
+                                FinishY = int.Parse(structuresArray[i + 6]),
+                                CenterY = int.Parse(structuresArray[i + 7]),
+                                
+                            });
+                            i += 8;
+                        }
+                    }
+                }
+            }
+            callback(furnitureLocationList);
+
+        }
+
+        #endregion
+
+
+
+        #region Fetch All Furniture Name
+
+        public IEnumerator fetchAllFurnitureName(List<FurnitureGeneticLocation> furnitureGeneticLocation, System.Action<List<FurnitureGeneticInformation>> callback)
+        {
+            List<FurnitureGeneticInformation> furnitureGeneticInformationList = new List<FurnitureGeneticInformation>();
+
+            string GeneticFurnitureIDstring = "";
+            for (int i = 0; i < furnitureGeneticLocation.Count; i++)
+            {
+                
+                GeneticFurnitureIDstring = GeneticFurnitureIDstring + furnitureGeneticLocation[i].FurnitureID.ToString() + ";";
+
+            }
+            Debug.Log("/////////LİSTEEEEEE: "+GeneticFurnitureIDstring);
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "getAllFurnitureType");
+            form.AddField("furnitureID", GeneticFurnitureIDstring);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getAllFurnitureNames.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    
+                    string returnedFurnitureName = www.downloadHandler.text;
+                    Debug.Log("+++++++++++++++returnedFurnitureName " + returnedFurnitureName);
+                    if (returnedFurnitureName != "")
+                    {
+                        string[] FurnitureNameArray = returnedFurnitureName.Split(';');
+                        int i = 0;
+                        while (i < FurnitureNameArray.Length - 1)
+                        {
+
+                            furnitureGeneticInformationList.Add(new FurnitureGeneticInformation()
+                            {
+
+                                FurnitureName = FurnitureNameArray[i],
+                                FurnitureID = furnitureGeneticLocation[i].FurnitureID,
+                                GeneticLocationID = furnitureGeneticLocation[i].GeneticLocationID
+                            });
+
+                            i++;
+                        }
+                    }
+
+                    callback(furnitureGeneticInformationList);
+
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
+
+        #endregion
+
+
     }
 }

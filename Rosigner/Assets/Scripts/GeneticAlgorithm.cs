@@ -40,7 +40,7 @@ namespace Assets.Models
 		public GeneticAlgorithm()
 		{
 			busy = false;
-			startMatrix();
+			//startMatrix();
 			//initializng all lists that we are going to use
 			genomes = new List<Genome>();
 			wallList = new List<Wall>();
@@ -50,6 +50,7 @@ namespace Assets.Models
 			lastGenerationGenomes = new List<Genome>();
 		}
 		// creating a matrix for the purpose of creating designs on it
+		/*
 		public void startMatrix()
 		{
 			coordinate1 = (int)wallList[1].WallLength*100;
@@ -57,6 +58,7 @@ namespace Assets.Models
 			floorPlan = new string[coordinate1, coordinate2];
 
 		}
+		*/
 		public void Run()
 		{
 			CreateStartPopulation();
