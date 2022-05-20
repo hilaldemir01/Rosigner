@@ -78,16 +78,9 @@ namespace Assets.Models
 			busy = true;
 		}
 		*/
-		// this function will be used to define the front part of furniture 
-		public void defineFrontPart()
-        {
-			for(int i = 0; i < furnitureList.Count; i++)
-            {
-				// first, we are going to divide the measurements of a furniture 
-            }
-        }
+
 		// step number 1
-		public void CreateStartPopulation(int coordinate1,int coordinate2,string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
+		public void CreateStartPopulation(int coordinate1,int coordinate2,string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		{
 			genomes.Clear(); // clear out any genomes at first
 			
@@ -139,8 +132,8 @@ namespace Assets.Models
                  
                     xcoordinate = baby1.xcoordinatebaby[i];
                     ycoordinate = baby1.ycoordinatebaby[i];
-                    int howManyCellsX = (int)baby1.newOne[i].Xdimension/10;
-                    int howManyCellsY = (int)baby1.newOne[i].Zdimension/10;
+                    int howManyCellsX = (int)baby1.newOne[i].Xdimension;
+                    int howManyCellsY = (int)baby1.newOne[i].Zdimension;
 					Debug.Log("baby cellx"+howManyCellsX);
 					Debug.Log("baby celly"+howManyCellsY);
                     if (howManyCellsX + xcoordinate +7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
@@ -224,36 +217,36 @@ namespace Assets.Models
                 Console.WriteLine(show);
 				string fileName = @"D:\deneme.txt";
 
-			try
-			{
-				// Check if file already exists. If yes, delete it.     
-				if (File.Exists(fileName))
+				try
 				{
-					File.Delete(fileName);
-				}
-
-				// Create a new file     
-				using (FileStream fs = File.Create(fileName))
-				{
-					// Add some text to file    
-					Byte[] title = new UTF8Encoding(true).GetBytes(show);
-					fs.Write(title, 0, title.Length);
-				}
-
-				// Open the stream and read it back.    
-				using (StreamReader sr = File.OpenText(fileName))
-				{
-					string s = "";
-					while ((s = sr.ReadLine()) != null)
+					// Check if file already exists. If yes, delete it.     
+					if (File.Exists(fileName))
 					{
-						Console.WriteLine(s);
+						File.Delete(fileName);
+					}
+
+					// Create a new file     
+					using (FileStream fs = File.Create(fileName))
+					{
+						// Add some text to file    
+						Byte[] title = new UTF8Encoding(true).GetBytes(show);
+						fs.Write(title, 0, title.Length);
+					}
+
+					// Open the stream and read it back.    
+					using (StreamReader sr = File.OpenText(fileName))
+					{
+						string s = "";
+						while ((s = sr.ReadLine()) != null)
+						{
+							Console.WriteLine(s);
+						}
 					}
 				}
-			}
-			catch (Exception Ex)
-			{
-				Console.WriteLine(Ex.ToString());
-			}
+				catch (Exception Ex)
+				{
+					Console.WriteLine(Ex.ToString());
+				}
                 
             }
 		}

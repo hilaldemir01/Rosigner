@@ -234,7 +234,7 @@ public class TempScript : MonoBehaviour
         string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
      
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList);
+        geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
  
     }
 }

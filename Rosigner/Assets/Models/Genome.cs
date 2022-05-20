@@ -38,20 +38,8 @@ namespace Assets.Models
 		// we need to create random matrix 
 		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		{
-			//	Initialize();
-			// this part is to test:
-			//List<Furniture> newOne = new List<Furniture>();
-			//newOne.Capacity = 0;
-			//newOne.Add(new Furniture() { Xdimension = 50.0f, Ydimension = 40.0f, FurnitureID = 5 });
-			//newOne.Add(new Furniture() { Xdimension = 20.0f, Ydimension = 30.0f, FurnitureID = 7 });
-			//newOne.Add(new Furniture() { Xdimension = 10.0f, Ydimension = 30.0f, FurnitureID = 8 });
-			//newOne.AddRange(furnitureList);
-			Debug.Log("count:"+furnitureList.Count);
 			furnitureListGenom.AddRange(furnitureList);
-						Debug.Log("counget:"+furnitureListGenom.Count);
 
-			Debug.Log("NewOne:"+newOne);
-			
 			var canBePlaced=0;
 			int xcoordinate, ycoordinate;
 			int howManyCellsX, howManyCellsY;
@@ -171,8 +159,8 @@ namespace Assets.Models
 
 				Debug.Log("random X Y:" + xcoordinate + " , " + ycoordinate);
 
-				howManyCellsX = (int)furnitureList[i].Xdimension /10;
-				howManyCellsY = (int)furnitureList[i].Zdimension/10 ;
+				howManyCellsX = (int)furnitureList[i].Xdimension;
+				howManyCellsY = (int)furnitureList[i].Zdimension;
 
 				Debug.Log("howManyCells X Y:" + howManyCellsX + " , "+ howManyCellsY);
 
