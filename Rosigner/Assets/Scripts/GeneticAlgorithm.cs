@@ -96,12 +96,14 @@ namespace Assets.Models
               //Genome baby = new Genome(furnitureList,coordinate1,coordinate2, floorPlan); // chromosomeLength = 5
               //genomes.Add(baby);
                 Genome momGenome = new Genome();
-				momFurnitureGeneticLocations = momGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
+//public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
+
+				momFurnitureGeneticLocations = momGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList, wallList);
 				UpdateFitnessScores(furnitureList);//to calculate mom's furniture's fitness scores
  				// StartCoroutine(db.TempFurnitureLocation(momFurnitureGeneticLocations));
                 
 				Genome dadGenome = new Genome();
-				dadFurnitureGeneticLocations = dadGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList);
+				dadFurnitureGeneticLocations = dadGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList, wallList);
 				UpdateFitnessScores(furnitureList); //to calculate dad's furniture's fitness scores
                 // StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
 

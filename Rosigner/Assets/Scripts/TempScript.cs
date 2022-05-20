@@ -229,15 +229,12 @@ public class TempScript : MonoBehaviour
     } 
     public void GeneticConnection()
     {
-       
-        Debug.Log("Furniture Id to be replaced: " + FurniturList[0].FurnitureID);
-
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;
-        string[,] floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
+        string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
      
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        geneticAlgorithm.CreateStartPopulation((int)wallList[0].WallLength*100, (int)wallList[1].WallLength*100, floorPlan, roomStructuresList, FurniturList);
+        geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList);
  
     }
 }
