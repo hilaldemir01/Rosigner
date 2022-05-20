@@ -14,7 +14,7 @@ public class GridSystem : MonoBehaviour
     public int wallX, wallY;
     public GameObject fur;
     public GameObject tempPrefab;
-
+    public int continueSpawn = 0;
 
 
     public void Update()
@@ -22,6 +22,15 @@ public class GridSystem : MonoBehaviour
         if (TempScript.canGridSystemWillApplied == 1)
         {
             startGridSystem();
+        }
+
+        if (continueSpawn == 1)
+        {
+            int wallX = (int)(wallList[1].WallLength);
+            Debug.Log("BBBBBBB");
+            int wallY = (int)(wallList[0].WallLength);
+            Debug.Log("CCCCCCC");
+            createGrid(wallX, wallY);
         }
     }
 
@@ -44,6 +53,8 @@ public class GridSystem : MonoBehaviour
     */
     public void createGrid(int a, int b)
     {//To create Grid in cm. depends on wall length
+
+        continueSpawn = 0;
         int gridHeight = a * 100;
         int gridWidth = b * 100;
         float cellSize = 0.01f; //area of a square
@@ -59,7 +70,7 @@ public class GridSystem : MonoBehaviour
                 {
                     int row = TempScript.furnitureLocationList[k].CenterX;
                     int col = TempScript.furnitureLocationList[k].CenterY;
-                    Vector3 tempPosition = grid.GetWorldPosition(row, col);  //dbdeb çekilecek olarak deðiþekecek
+                    Vector3 tempPosition = grid.GetWorldPosition(col, row);  //dbdeb çekilecek olarak deðiþekecek
                     tempPrefab = Inventory.array[i];
                     tempPrefab.gameObject.transform.localScale = new Vector3(TempScript.FurniturList[i].Xdimension * 0.01f, TempScript.FurniturList[i].Ydimension * 0.01f, TempScript.FurniturList[i].Zdimension * 0.01f);
                     Instantiate(Inventory.array[i], new Vector3(tempPosition.x,0,tempPosition.z), Quaternion.identity);
@@ -83,6 +94,7 @@ public class GridSystem : MonoBehaviour
             furnitureGeneticInformationList.Add(new FurnitureGeneticInformation() { FurnitureName = newfurnitureGeneticInformations[i].FurnitureName, FurnitureID = newfurnitureGeneticInformations[i].FurnitureID, GeneticLocationID = newfurnitureGeneticInformations[i].GeneticLocationID });
         }
 
+        continueSpawn = 1;
     }
 
     public void fetchWallInformation(List<Wall> newWall)
@@ -96,15 +108,11 @@ public class GridSystem : MonoBehaviour
 
     void GettingWallsInfo()
     {Debug.Log("AAAAAAAAAA");
-        // This part of the code is used to set the length of the walls.
-        int wallX = (int)(wallList[1].WallLength);
-        Debug.Log("BBBBBBB");
-        int wallY = (int)(wallList[0].WallLength);
+       
 
-        Debug.Log("CCCCCCC");
+        
         StartCoroutine(db.fetchAllFurnitureName(TempScript.furnitureLocationList, fetchFurnitureLocationInformation));
-        Debug.Log("DDDDDDDDD");
-        createGrid(wallX, wallY);
+        Debug.Log("sssssss");
     }
     public class GridObject
     { 
