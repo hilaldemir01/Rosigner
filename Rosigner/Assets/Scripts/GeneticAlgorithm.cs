@@ -66,13 +66,15 @@ namespace Assets.Models
 			baby2FurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 		}
 		// creating a matrix for the purpose of creating designs on it
-		/*public void startMatrix()
+		/*
+		public void startMatrix()
 		{
 			//coordinate1 = (int)wallList[0].WallLength;
 			//coordinate2 = (int)wallList[1].WallLength;
 			//floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
 		}
-	/*	public void Run()
+		*/
+		public void Run()
 		{
 			CreateStartPopulation();
 			busy = true;
