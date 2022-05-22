@@ -226,24 +226,18 @@ namespace Assets.Models
 						}
 						int centerX = (startPosX + finishPosX) / 2;
 						int centerY = (startPosY + finishPosY) / 2;
+						GeneticAlgorithm genetic = new GeneticAlgorithm();
+						int score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+
 						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
 							XPositionStartX = finishPosX , XPositionFinishX = finishPosX+1, XPositionFinishY = finishPosY, XPositionStartY = startPosY,
 							YPositionStartX = finishPosX + 1, YPositionFinishX = finishPosX + 6, 
-							YPositionStartY = startPosY, YPositionFinishY = finishPosY}) ;
-
+							YPositionStartY = startPosY, YPositionFinishY = finishPosY, FitnessScore = score, WallName = GeneticAlgorithm.WallName});
 						i++;
 					}
 				}
 				
 			}
-			Debug.Log("COUNT"+ locationList.Count);
-			Debug.Log("StartX"+locationList[0].StartX);
-						//Debug.Log("FinishX"+locationList[2]);
-						/*Debug.Log("CenterX"+locationList[3]);
-						Debug.Log("StartY"+locationList[4]);
-						Debug.Log("FinishY"+locationList[5]);
-						Debug.Log("CenterY"+locationList[6]);
-						*/
 			string bastir = "";
             for (int k = 0; k < coordinate1; k++)
             {

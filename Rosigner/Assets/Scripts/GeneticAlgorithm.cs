@@ -48,7 +48,7 @@ namespace Assets.Models
 		List<FurnitureGeneticLocation> baby1FurnitureGeneticLocations;
 		List<FurnitureGeneticLocation> baby2FurnitureGeneticLocations;
 		private Random random = new Random();
-
+		public static string WallName;
 		public GeneticAlgorithm()
 		{
 			busy = false;
@@ -708,11 +708,11 @@ namespace Assets.Models
 		}
 		//	// step number 2
 		//	// rank fitness
-		 public int distanceFromWalls(int startX, int startY, int finishX, int finishY)
+		 public int distanceFromWalls(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
         {
-            int score =0;
+			int score = 0;
             int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
-            int roomCenterX = 50, roomCenterY = 50;
+            int roomCenterX = coordinate1/2, roomCenterY = coordinate2/2;
             int centerX = finishX + startX / 2;
             int centerY = finishY + startY / 2;
 
@@ -739,12 +739,27 @@ namespace Assets.Models
                 {
                     selectedFormula = myNum[i];
                     formulaNum = i+1;
+					break;
                 }
             }
             Console.WriteLine("Value1: " + value1 + " Value2: " + value2 + " Value3: "+value3+ " Value4 :" +value4);
             Console.WriteLine("SelectedFormula: " + selectedFormula + " formulaNum: " + formulaNum);
             score = FindFitnessScoreWallDistance(centerX, centerY, selectedFormula, formulaNum, roomCenterX, roomCenterY);
             Console.WriteLine("score in dist "+score);
+            if (formulaNum == 1)
+            {
+				WallName = "W1";
+            }else if(formulaNum == 2)
+            {
+				WallName = "W2";
+            }else if(formulaNum == 3)
+            {
+				WallName = "W3";
+            }
+            else
+            {
+				WallName = "W4";
+            }
             return score;
         }
 
@@ -753,30 +768,30 @@ namespace Assets.Models
 		public int FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
         {
             int fitnessScore;
-            double rate = 0.0;
+			int rate = 0;
             if(formulaNum == 1)
             {
                 fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-                rate = ((double)fitnessScore * selectedFormula) / 10000;
+                rate = ((int)fitnessScore * selectedFormula) / 10000;
             }
             else if (formulaNum == 2)
             {
                 fitnessScore = (int)(centerX / Math.Sqrt(2));
-                rate = ((double)fitnessScore * selectedFormula) / 10000;
+                rate = ((int)fitnessScore * selectedFormula) / 10000;
 
             }
             else if (formulaNum == 3)
             {
                 fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-                rate = ((double)fitnessScore * selectedFormula) / 10000;
+                rate = ((int)fitnessScore * selectedFormula) / 10000;
             }
             else
             {
                 fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
-                rate = ((double)fitnessScore * selectedFormula) / 10000;
+                rate = ((int)fitnessScore * selectedFormula) / 10000;
             }
             Console.WriteLine("FitnessScore: " + fitnessScore + " Rate = " + rate.ToString());
-            return fitnessScore;
+            return rate;
         }
 		public void UpdateFitnessScores(List<Furniture> furnitureList)
         {
@@ -794,14 +809,14 @@ namespace Assets.Models
 					startY = momFurnitureGeneticLocations[i].StartY;
 					finishY =  momFurnitureGeneticLocations[i].FinishY;
 
-					momFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
+					momFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY, coordinate1, coordinate2);
 					Debug.Log("mom fitness score"+momFurnitureGeneticLocations[i].FitnessScore);
 				}else{
 					startX = dadFurnitureGeneticLocations[i].StartX;
 					finishX =  dadFurnitureGeneticLocations[i].FinishX;
 					startY = dadFurnitureGeneticLocations[i].StartY;
 					finishY =  dadFurnitureGeneticLocations[i].FinishY;
-					dadFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
+					dadFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY, coordinate1, coordinate2);
 					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
 
 				}

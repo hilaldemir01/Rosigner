@@ -441,7 +441,7 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
+                //    Debug.Log(www.downloadHandler.text);
 
                 }
             }
@@ -623,6 +623,15 @@ namespace Assets.Models
             string FinishYString = "";
             string CenterYString = "";
             string FitnessScoreString = "";
+            string CloseWallNameString = "";
+            string XPositionStartX = "";
+            string XPositionFinishX = "";
+            string XPositionStartY = "";
+            string XPositionFinishY = "";
+            string YPositionStartX = "";
+            string YPositionFinishX = "";
+            string YPositionStartY = "";
+            string YPositionFinishY = "";
 
             for (int i=0; i < furnitureGeneticLocations.Count; i++)
             {
@@ -634,6 +643,15 @@ namespace Assets.Models
                 FinishYString += furnitureGeneticLocations[i].FinishY.ToString() + ";";
                 CenterYString += furnitureGeneticLocations[i].CenterY.ToString() + ";";
                 FitnessScoreString += furnitureGeneticLocations[i].FitnessScore.ToString() + ";";
+                CloseWallNameString += furnitureGeneticLocations[i].WallName.ToString() + ";";
+                XPositionStartX += furnitureGeneticLocations[i].XPositionStartX.ToString() + ";";
+                XPositionFinishX += furnitureGeneticLocations[i].XPositionFinishX.ToString() + ";";
+                XPositionStartY += furnitureGeneticLocations[i].XPositionStartY.ToString() + ";";
+                XPositionFinishY += furnitureGeneticLocations[i].XPositionFinishY.ToString() + ";";
+                YPositionStartX += furnitureGeneticLocations[i].YPositionStartX.ToString() + ";";
+                YPositionFinishX += furnitureGeneticLocations[i].YPositionFinishX.ToString() + ";";
+                YPositionStartY += furnitureGeneticLocations[i].YPositionStartY.ToString() + ";";
+                YPositionFinishY += furnitureGeneticLocations[i].YPositionFinishY.ToString() + ";";
             }
 
             WWWForm form = new WWWForm();
@@ -646,6 +664,15 @@ namespace Assets.Models
             form.AddField("FinishY", FinishYString);
             form.AddField("CenterY", CenterYString);
             form.AddField("FitnessScore", FitnessScoreString);
+            form.AddField("CloseWallName", CloseWallNameString);
+            form.AddField("XPositionStartX", XPositionStartX);
+            form.AddField("XPositionFinishX", XPositionFinishX);
+            form.AddField("XPositionStartY", XPositionStartY);
+            form.AddField("XPositionFinishY", XPositionFinishY);
+            form.AddField("YPositionStartX", YPositionStartX);
+            form.AddField("YPositionFinishX", YPositionFinishX);
+            form.AddField("YPositionStartY", YPositionStartY);
+            form.AddField("YPositionFinishY", YPositionFinishY);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/tempFurnitureLocation.php", form))
