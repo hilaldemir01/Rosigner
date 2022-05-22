@@ -356,90 +356,8 @@ namespace Assets.Models
                 }
 				
 		}
-		// 4 directions:
-		public Vector2 Move(Vector2 position, int direction)
-		{/*
-			switch (direction)
-			{
-				case 0: // North
-					if (position.y - 1 < 0 || floorPlan[(int)(position.y - 1), (int)position.x] == 1)
-					{
-						break;
-					}
-					else
-					{
-						position.y -= 1;
-					}
-					break;
-				case 1: // South
-					if (position.y + 1 >= floorPlan.GetLength(0) || floorPlan[(int)(position.y + 1), (int)position.x] == 1)
-					{
-						break;
-					}
-					else
-					{
-						position.y += 1;
-					}
-					break;
-				case 2: // East
-					if (position.x + 1 >= floorPlan.GetLength(1) || floorPlan[(int)position.y, (int)(position.x + 1)] == 1)
-					{
-						break;
-					}
-					else
-					{
-						position.x += 1;
-					}
-					break;
-				case 3: // West
-					if (position.x - 1 < 0 || floorPlan[(int)position.y, (int)(position.x - 1)] == 1)
-					{
-						break;
-					}
-					else
-					{
-						position.x -= 1;
-					}
-					break;
-			} */
-			return position; 
-		}
-		// it basically tests how far away we are from the exit by the end of the snake
+	
 
-		// score with 1= perfect score, fitness = 1, stop simulation
-		public double TestRoute(List<int> directions)
-		{
-			Vector2 position = startPosition;
-
-			for (int directionIndex = 0; directionIndex < directions.Count; directionIndex++)
-			{
-				int nextDirection = directions[directionIndex];
-				position = Move(position, nextDirection);
-			}
-
-			Vector2 deltaPosition = new Vector2(
-				Math.Abs(position.x - endPosition.x),
-				Math.Abs(position.y - endPosition.y));
-			double result = 1 / (double)(deltaPosition.x + deltaPosition.y + 1);
-			if (result == 1)
-				Debug.Log("TestRoute result=" + result + ",(" + position.x + "," + position.y + ")");
-			return result;
-		}
-		// step number 5
-		// creates babies slightly different from their mom and dad
-		public void Mutate(List<int> bits)
-		{
-			// walks through the genes of the chromosome
-			for (int i = 0; i < bits.Count; i++)
-			{
-				// flip this bit?
-				if (UnityEngine.Random.value < mutationRate)
-				{
-					// flip the bit
-					bits[i] = bits[i] == 0 ? 1 : 0;
-				}
-			}
-		}
 		// chose two genomes from the population, select the one with the highest fitness value
 		// choose partials of mom and dad randomly
 		// step number 4
@@ -584,44 +502,7 @@ namespace Assets.Models
             return fitnessScore;
         }
 		
-		/*public void UpdateFitnessScores(List<Furniture> furnitureList)
-        {
-            int score = 0;
-			count++;
-			Debug.Log("count"+count);
-			int startX, finishX ,startY,finishY;
-			Debug.Log("furnitureList count:"+furnitureList.Count);
 
-			for(int i = 0; i <furnitureList.Count; i++){
-				Debug.Log("kaç defa dönüyor");
-				if(count % 2 == 0){
-					Debug.Log("MOM");
-					Debug.Log("startx"+ momFurnitureGeneticLocations[0].StartX);
-					startX = momFurnitureGeneticLocations[i].StartX;
-					finishX =  momFurnitureGeneticLocations[i].FinishX;
-					startY = momFurnitureGeneticLocations[i].StartY;
-					finishY =  momFurnitureGeneticLocations[i].FinishY;
-
-					momFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
-					Debug.Log("mom fitness score"+momFurnitureGeneticLocations[i].FitnessScore);
-					Debug.Log("finishX"+finishX);
-					Debug.Log("startY"+startY);
-					Debug.Log("finishY"+finishY);
-
-
-				}else{
-					Debug.Log("DAD");
-					startX = dadFurnitureGeneticLocations[i].StartX;
-					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
-					finishX =  dadFurnitureGeneticLocations[i].FinishX;
-					startY = dadFurnitureGeneticLocations[i].StartY;
-					finishY =  dadFurnitureGeneticLocations[i].FinishY;
-					dadFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY);
-					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
-
-				}
-			}
-		}*/
  		public int CalculateTotalFitnessScores(List<Furniture> furnitureList){
 			 //total fitness score of all furniture in a design
 			int startX, finishX ,startY,finishY;
@@ -642,29 +523,7 @@ namespace Assets.Models
 			return totalFitnessScore;
 		
 		}
-		//---------------------------Decode-------------------------------------
-		//
-		//	decodes a List of bits into a List of directions (ints)
-		//
-		//	0=North, 1=South, 2=East, 3=West
-		//-----------------------------------------------------------------------
-		public List<int> Decode(List<int> bits)
-		{
-			List<int> directions = new List<int>();
 
-			for (int geneIndex = 0; geneIndex < bits.Count; geneIndex += geneLength)
-			{
-				List<int> gene = new List<int>();
-
-				for (int bitIndex = 0; bitIndex < geneLength; bitIndex++)
-				{
-					gene.Add(bits[geneIndex + bitIndex]);
-				}
-
-				directions.Add(GeneToInt(gene));
-			}
-			return directions;
-		}
 
 		//-------------------------------GeneToInt-------------------------------
 		//	converts a List of bits into an integer
