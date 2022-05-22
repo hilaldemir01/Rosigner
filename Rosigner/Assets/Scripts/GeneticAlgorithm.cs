@@ -766,41 +766,6 @@ namespace Assets.Models
 				}
 			}
 		}
-		// chose two genomes from the population, select the one with the highest fitness value
-		// choose partials of mom and dad randomly
-		// step number 4
-		public void Crossover(List<int> mom, List<int> dad, List<int> baby1, List<int> baby2)
-		{
-			// if the value is more than the crossoverrate just copy mom and dad
-			if (UnityEngine.Random.value > crossoverRate || mom == dad)
-			{
-				baby1.AddRange(mom);
-				baby2.AddRange(dad);
-
-				return;
-			}
-			// if it is not more than the crossoverrate, pick a random placement value 
-			System.Random rnd = new System.Random();
-
-			int crossoverPoint = rnd.Next(0, chromosomeLength - 1);
-			// mom = 1,2,3,4,5,6,7,8
-			// dad = 9,10,11,12,13,14,15,16,17
-			// let's say crossoverPoint = 5
-			// then baby1 = 1,2,3,4
-			// baby2 = 9,10,11,12
-			for (int i = 0; i < crossoverPoint; i++)
-			{
-				baby1.Add(mom[i]);
-				baby2.Add(dad[i]);
-			}
-			// baby1 = 1,2,3,4,13,14,15,16,17
-			// baby2 = 9,10,11,12,5,6,7,8
-			for (int i = crossoverPoint; i < mom.Count; i++)
-			{
-				baby1.Add(dad[i]);
-				baby2.Add(mom[i]);
-			}
-		}
 
 		public int RouletteWheelSelection()
 		{
