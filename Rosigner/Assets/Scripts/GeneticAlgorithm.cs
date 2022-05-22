@@ -320,52 +320,154 @@ namespace Assets.Models
 				
 		}
 		// 4 directions:
-		public Vector2 Move(Vector2 position, int direction)
-		{/*
-			switch (direction)
+		public void MoveRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2)
+		{
+			int furnitureID = random.Next(0, furnitureGeneticLocations.Count - 1);
+			int canBeChanged = 0;
+			if (furnitureGeneticLocations[furnitureID].WallName == "W1") // wall on the bottom
 			{
-				case 0: // North
-					if (position.y - 1 < 0 || floorPlan[(int)(position.y - 1), (int)position.x] == 1)
+				emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
+				// the front part of the furniture will be on the top, so we don't want it to exceed 0 
+				if (furnitureGeneticLocations[furnitureID].StartX - 6 > 0)
+				{
+					// we need to check whether the empty space in front of the furniture conflicts with another one
+					for (int j = furnitureGeneticLocations[furnitureID].StartX - 6; j < furnitureGeneticLocations[furnitureID].StartX; j++)
 					{
-						break;
+						for (int k = furnitureGeneticLocations[furnitureID].StartY; k < furnitureGeneticLocations[furnitureID].FinishY; k++)
+						{
+							if (floorPlan[j, k] != "T")
+							{
+								canBeChanged = 1;
+								break;
+							}
+						}
+						if (canBeChanged == 1)
+						{
+							Debug.Log("Cannot be rotated");
+							break;
+						}
 					}
-					else
+				}
+				// we want to turn the furniture 180 degrees
+				// we don't have to change the positions of the furniture ID's
+				// we just need to change the location of X and Y's
+
+				// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+				if (canBeChanged == 0)
+				{
+					for (int j = furnitureGeneticLocations[furnitureID].StartY; j < furnitureGeneticLocations[furnitureID].FinishY; j++)
 					{
-						position.y -= 1;
+						floorPlan[furnitureGeneticLocations[furnitureID].StartX - 1, j] = "X";
 					}
-					break;
-				case 1: // South
-					if (position.y + 1 >= floorPlan.GetLength(0) || floorPlan[(int)(position.y + 1), (int)position.x] == 1)
+					// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+					// for now, every object will have 30cm space in front of them
+					for (int k = furnitureGeneticLocations[furnitureID].StartX - 6; k < furnitureGeneticLocations[furnitureID].StartX - 1; k++)
 					{
-						break;
+						for (int j = furnitureGeneticLocations[furnitureID].StartY; j < furnitureGeneticLocations[furnitureID].FinishY; j++)
+						{
+							floorPlan[k, j] = "Y";
+						}
 					}
-					else
+				}
+			}
+			else if (furnitureGeneticLocations[furnitureID].WallName == "W2") // right-side wall
+			{
+				// Start positions of poth x and y will stay the same, later their finish positions will change according to their width
+
+				int XValue = furnitureGeneticLocations[furnitureID].StartX + (furnitureGeneticLocations[furnitureID].FinishY - furnitureGeneticLocations[furnitureID].StartY);
+				int YValue = furnitureGeneticLocations[furnitureID].StartY + (furnitureGeneticLocations[furnitureID].FinishX - furnitureGeneticLocations[furnitureID].StartX);
+
+				if (XValue < coordinate1 && YValue < coordinate2)
+				{
+					// first empty the area that it currently allocates
+					emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
+
+					int newFinishX, newFinishY;
+
+					newFinishX = XValue;
+					newFinishY = YValue;
+
+					furnitureGeneticLocations[furnitureID].FinishX = newFinishX;
+					furnitureGeneticLocations[furnitureID].FinishY = newFinishY;
+
+					for (int i = furnitureGeneticLocations[furnitureID].StartX; i < furnitureGeneticLocations[furnitureID].FinishX; i++)
 					{
-						position.y += 1;
+						for (int j = furnitureGeneticLocations[furnitureID].StartY; j < furnitureGeneticLocations[furnitureID].FinishY; j++)
+						{
+							floorPlan[i, j] = "" + furnitureGeneticLocations[furnitureID].FurnitureID.ToString();
+						}
 					}
-					break;
-				case 2: // East
-					if (position.x + 1 >= floorPlan.GetLength(1) || floorPlan[(int)position.y, (int)(position.x + 1)] == 1)
+					// now we are going to place x and y values 
+					// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+					for (int j = furnitureGeneticLocations[furnitureID].StartX; j < furnitureGeneticLocations[furnitureID].FinishX; j++)
 					{
-						break;
+						floorPlan[j, furnitureGeneticLocations[furnitureID].StartY - 1] = "X";
 					}
-					else
+					// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+					// for now, every object will have 30cm space in front of them
+					for (int k = furnitureGeneticLocations[furnitureID].StartX; k < furnitureGeneticLocations[furnitureID].FinishX; k++)
 					{
-						position.x += 1;
+						for (int j = furnitureGeneticLocations[furnitureID].StartY - 6; j < furnitureGeneticLocations[furnitureID].StartY - 1; j++)
+						{
+							floorPlan[k, j] = "Y";
+						}
 					}
-					break;
-				case 3: // West
-					if (position.x - 1 < 0 || floorPlan[(int)position.y, (int)(position.x - 1)] == 1)
+					furnitureGeneticLocations[furnitureID].XPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].XPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].XPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 1;
+					furnitureGeneticLocations[furnitureID].XPositionFinishY = furnitureGeneticLocations[furnitureID].StartY;
+					furnitureGeneticLocations[furnitureID].YPositionStartX = furnitureGeneticLocations[furnitureID].StartX;
+					furnitureGeneticLocations[furnitureID].YPositionFinishX = furnitureGeneticLocations[furnitureID].FinishX;
+					furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
+					furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
+
+				}
+			}
+
+			
+
+			string fileName = @"D:\matrix3.txt";
+			string bastir = "";
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
+				{
+					bastir += floorPlan[k, j];
+
+				}
+				bastir += "\n";
+			}
+			try
+			{
+				// Check if file already exists. If yes, delete it.     
+				if (File.Exists(fileName))
+				{
+					File.Delete(fileName);
+				}
+
+				// Create a new file     
+				using (FileStream fs = File.Create(fileName))
+				{
+					// Add some text to file    
+					Byte[] title = new UTF8Encoding(true).GetBytes(bastir);
+					fs.Write(title, 0, title.Length);
+				}
+
+				// Open the stream and read it back.    
+				using (StreamReader sr = File.OpenText(fileName))
+				{
+					string s = "";
+					while ((s = sr.ReadLine()) != null)
 					{
-						break;
+						Console.WriteLine(s);
 					}
-					else
-					{
-						position.x -= 1;
-					}
-					break;
-			} */
-			return position; 
+				}
+			}
+			catch (Exception Ex)
+			{
+				Console.WriteLine(Ex.ToString());
+			}
+
 		}
 		// it basically tests how far away we are from the exit by the end of the snake
 
@@ -437,7 +539,6 @@ namespace Assets.Models
         {
 			int furnitureID  = random.Next(0, furnitureGeneticLocations.Count - 1);
 			int canBeRotated = 0;
-			furnitureGeneticLocations[furnitureID].WallName = "W4";
 			if (furnitureGeneticLocations[furnitureID].WallName == "W1") // wall on the bottom
             {
 				emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
