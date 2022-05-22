@@ -731,8 +731,6 @@ namespace Assets.Models
 
         #endregion
 
-
-
         #region Fetch All Furniture Name
 
         public IEnumerator fetchAllFurnitureName(List<FurnitureGeneticLocation> furnitureGeneticLocation, System.Action<List<FurnitureGeneticInformation>> callback)

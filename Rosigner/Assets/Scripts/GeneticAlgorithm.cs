@@ -74,12 +74,12 @@ namespace Assets.Models
 			//floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
 		}
 		*/
-		public void Run()
-		{
-			CreateStartPopulation();
-			busy = true;
-		}
-		*/
+		//public void Run(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
+		//{
+		//	CreateStartPopulation(coordinate1,coordinate2,floorPlan,roomStructureList,furnitureList,wallList);
+		//	busy = true;
+		//}
+		
 
 		// step number 1
 		public void CreateStartPopulation(int coordinate1,int coordinate2,string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
@@ -100,7 +100,7 @@ namespace Assets.Models
 				Genome dadGenome = new Genome();
 				dadFurnitureGeneticLocations = dadGenome.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList, wallList);
 				UpdateFitnessScores(furnitureList); //to calculate dad's furniture's fitness scores
-                // StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
+                //StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
 
 				
 
@@ -750,7 +750,7 @@ namespace Assets.Models
 
 
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
-		  public int FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
+		public int FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
         {
             int fitnessScore;
             double rate = 0.0;
@@ -854,94 +854,6 @@ namespace Assets.Models
 			//    }
 			//}
 
-		}
-
-		//---------------------------Decode-------------------------------------
-		//
-		//	decodes a List of bits into a List of directions (ints)
-		//
-		//	0=North, 1=South, 2=East, 3=West
-		//-----------------------------------------------------------------------
-		public List<int> Decode(List<int> bits)
-		{
-			List<int> directions = new List<int>();
-
-			for (int geneIndex = 0; geneIndex < bits.Count; geneIndex += geneLength)
-			{
-				List<int> gene = new List<int>();
-
-				for (int bitIndex = 0; bitIndex < geneLength; bitIndex++)
-				{
-					gene.Add(bits[geneIndex + bitIndex]);
-				}
-
-				directions.Add(GeneToInt(gene));
-			}
-			return directions;
-		}
-
-		//-------------------------------GeneToInt-------------------------------
-		//	converts a List of bits into an integer
-		//----------------------------------------------------------------------
-		public int GeneToInt(List<int> gene)
-		{
-			int value = 0;
-			int multiplier = 1;
-
-			for (int i = gene.Count; i > 0; i--)
-			{
-				value += gene[i - 1] * multiplier;
-				multiplier *= 2;
-			}
-			return value;
-		}
-
-
-
-		// choose mom and dad
-		// step number 3
-		public void Epoch()
-		{
-			//if (!busy) return;
-			// evolve the fitness function of all population
-			//UpdateFitnessScores();
-
-			//if (!busy)
-			//{
-			//	lastGenerationGenomes.Clear();
-			//	lastGenerationGenomes.AddRange(genomes);
-			//	return;
-			//}
-
-			int numberOfNewBabies = 0;
-
-			List<Genome> babies = new List<Genome>();
-			while (numberOfNewBabies < populationSize)
-			{
-				// select 2 parents
-				Genome mom = RouletteWheelSelection();
-				Genome dad = RouletteWheelSelection();
-				Genome baby1 = new Genome();
-				Genome baby2 = new Genome();
-				Crossover(mom.bits, dad.bits, baby1.bits, baby2.bits);
-				Mutate(baby1.bits);
-				Mutate(baby2.bits);
-
-				// empty babies
-				babies.Add(baby1);
-				babies.Add(baby2);
-
-				numberOfNewBabies += 2;
-			}
-
-			// save last generation for display purposes
-			lastGenerationGenomes.Clear();
-			lastGenerationGenomes.AddRange(genomes);
-			// overwrite population with babies
-			genomes = babies;
-
-			// increment the generation counter
-			generation++;
 		}
 	}
 }

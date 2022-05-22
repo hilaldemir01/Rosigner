@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Models;
@@ -27,9 +27,7 @@ public class GridSystem : MonoBehaviour
         if (continueSpawn == 1)
         {
             int wallX = (int)(wallList[1].WallLength);
-            Debug.Log("BBBBBBB");
             int wallY = (int)(wallList[0].WallLength);
-            Debug.Log("CCCCCCC");
             createGrid(wallX, wallY);
         }
     }
@@ -42,7 +40,7 @@ public class GridSystem : MonoBehaviour
         
     }
 
-    
+ 
 
     /*
     private void Awake()
@@ -110,12 +108,8 @@ public class GridSystem : MonoBehaviour
     }
 
     void GettingWallsInfo()
-    {Debug.Log("AAAAAAAAAA");
-       
-
-        
+    { 
         StartCoroutine(db.fetchAllFurnitureName(TempScript.furnitureLocationList, fetchFurnitureLocationInformation));
-        Debug.Log("sssssss");
     }
     public class GridObject
     { 
@@ -136,4 +130,3 @@ public class GridSystem : MonoBehaviour
     }
 
 }
-*/
