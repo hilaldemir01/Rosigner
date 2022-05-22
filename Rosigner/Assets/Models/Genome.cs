@@ -22,7 +22,10 @@ namespace Assets.Models
 		public List<int> xcoordinatebaby;
 		public List<int> ycoordinatebaby;
 		public List<Furniture> furnitureListGenom;
-
+		public int x,y ;
+		public string[,] floorSecond;
+		public static int counter;
+		public string fileName = "D:\\design";
 		public Genome()
 		{
 			Initialize();
@@ -37,6 +40,9 @@ namespace Assets.Models
 		// we need to create random matrix 
 		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList,List<Furniture> furnitureList)
 		{
+			x = coordinate1;
+			y = coordinate2;
+			floorSecond= floorPlan;
 			//	Initialize();
 			// this part is to test:
 			//List<Furniture> newOne = new List<Furniture>();
@@ -47,7 +53,7 @@ namespace Assets.Models
 			//newOne.AddRange(furnitureList);
 			Debug.Log("count:"+furnitureList.Count);
 			furnitureListGenom.AddRange(furnitureList);
-						Debug.Log("counget:"+furnitureListGenom.Count);
+			Debug.Log("counget:"+furnitureListGenom.Count);
 
 			Debug.Log("NewOne:"+newOne);
 			
@@ -172,10 +178,11 @@ namespace Assets.Models
 						Debug.Log("FinishY"+locationList[5]);
 						Debug.Log("CenterY"+locationList[6]);
 						*/
+			
 			string bastir = "";
-            for (int k = 0; k < coordinate1; k++)
+            for (int k = 0; k < x; k++)
             {
-                for (int j = 0; j < coordinate2; j++)
+                for (int j = 0; j < y; j++)
                 {
                     bastir += floorPlan[k, j];
 
@@ -185,15 +192,17 @@ namespace Assets.Models
             //Debug.Log(bastir);
 
             Debug.Log("Inserted");
-			string fileName = @"D:\mom.txt";
-
+			
+			//string fileName = @"D:\mom.txt";
+		 
 			try
 			{
 				// Check if file already exists. If yes, delete it.     
-				if (File.Exists(fileName))
-				{
-					fileName=@"D:\dad.txt";
-				}
+
+				fileName = fileName+ "(" + counter.ToString() + ").txt";
+				Debug.Log("filenew"+fileName);
+				counter++;	
+				Debug.Log("counter"+counter);
 
 				// Create a new file     
 				using (FileStream fs = File.Create(fileName))
@@ -217,10 +226,12 @@ namespace Assets.Models
 			{
 				Console.WriteLine(Ex.ToString());
 			}
+			
 			return locationList;
-
+	
 		}
 
+		
 		private void Initialize()
 		{
 			fitness = 0;
