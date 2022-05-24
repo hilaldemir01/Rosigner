@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Models;
+using UnityEngine.SceneManagement;
 //using static GridSystem;
 
 public class TempScript : MonoBehaviour
@@ -30,11 +31,11 @@ public class TempScript : MonoBehaviour
     public static List<FurnitureGeneticLocation> furnitureLocationList = new List<FurnitureGeneticLocation>();
     public static List<FurnitureGeneticLocation> furnitureGeneticLocations = new List<FurnitureGeneticLocation>();
     GameObject tempasset;
+
     public static int canGridSystemWillApplied = 0;
     int canGeneticBeApplied = 0;
     void Start()
     {
-
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
@@ -141,19 +142,7 @@ public class TempScript : MonoBehaviour
     {
 
         roomStructureNames = newroomstructuresNames;
-
-        for(int i = 0; i < roomStructureNames.Count; i++)
-        {
-          // Debug.Log("///////////////: "+roomStructureNames[i].RoomStructureID+"   "+ roomStructureNames[i].RoomStrucuteName);
-            
-        }
-      
-
-        //setpositions();
-        //isFinished = 2;
-        //Debug.Log("tempassetname getst: " + roomStructureNames.);
-
-        
+     
         setpositions();
 
     }
@@ -235,14 +224,63 @@ public class TempScript : MonoBehaviour
     {
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;
+        Genome newOne = new Genome();
 
-       
-        furnitureGeneticLocations = newOne.GenomeInit((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructuresList, FurniturList, wallList);
-        StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
-        GeneticAlgorithm genetic = new GeneticAlgorithm();
-        StartCoroutine(db.FurnitureLocationsFetch(furnitureGeneticLocations, fetchFurnitureLocationInformation));
-        
+        int furnituresFits = CheckFurnitureAreaFit();
+
+        Debug.Log("furnituresFits" + furnituresFits);
+        if (furnituresFits == 1)
+        {
+            string[,] floorPlan = new string[(int)wallList[1].WallLength *100, (int)wallList[0].WallLength * 100];
+            furnitureGeneticLocations = newOne.GenomeInit((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructuresList, FurniturList, wallList);
+            StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
+            GeneticAlgorithm genetic = new GeneticAlgorithm();
+            StartCoroutine(db.FurnitureLocationsFetch(furnitureGeneticLocations, fetchFurnitureLocationInformation));
+        }
+        else
+        {
+            SceneManager.LoadScene("PreviousDesigns");
+        }
+      
     }
+
+
+
+    int CheckFurnitureAreaFit()
+    {
+        float floorArea = (wallList[1].WallLength * 100) * (wallList[0].WallLength * 100);
+        float furnitureArea;
+        float sumFurnituresArea;
+
+        sumFurnituresArea = 0;
+        Debug.Log("FurniturList.Count: " + FurniturList.Count);
+        Debug.Log("wallList.Count: " + wallList.Count);
+        Debug.Log("roomStructuresList.Count: " + roomStructuresList.Count);
+
+        for (int i=0; i < FurniturList.Count; i++)
+        {
+            furnitureArea = (FurniturList[i].Xdimension) * (FurniturList[i].Zdimension) + (10* FurniturList[i].Zdimension);
+            sumFurnituresArea = sumFurnituresArea + furnitureArea;
+        }
+        
+        Debug.Log("sumFurnituresArea: " + sumFurnituresArea + " floorArea: " + floorArea);
+        if(sumFurnituresArea < floorArea)
+        {
+            Debug.Log("aaaaaaaaa");         
+            return 1;
+        }
+        else
+        {
+            Debug.Log("bbbbbbbbb");
+            //FurniturList.Clear();
+           // wallList.Clear();
+           // roomStructuresList.Clear();
+           // return 0;
+        }
+
+        return 1;
+    }
+
 
 
     public void fetchFurnitureLocationInformation(List<FurnitureGeneticLocation> newFurnitureLocation)
@@ -254,8 +292,8 @@ public class TempScript : MonoBehaviour
         canGridSystemWillApplied = 1;
         string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
      
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
+       // GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+       // geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
  
     }
 
