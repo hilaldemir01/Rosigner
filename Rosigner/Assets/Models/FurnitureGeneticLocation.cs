@@ -26,5 +26,6 @@ namespace Assets.Models
         public int YPositionFinishX { get; set; }
         public int YPositionStartY { get; set; }
         public int YPositionFinishY { get; set; }
+        public int Degree { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace Assets.Models
 		public List<Furniture> newOne;
 		public int xcoordinate, ycoordinate;
 		public List<Furniture> babyFurniture;
-		private string RoomStructureLetter="D";
 
 		public List<int> xcoordinatebaby;
 		public List<int> ycoordinatebaby;
@@ -28,74 +27,42 @@ namespace Assets.Models
 		public static int counter;
 		public string fileName = "D:\\design";
 		public double populationFitnessScore;//its not for just one furniture, it is for all furniture of population
+		private string RoomStructureLetter = "D";
+
 		public Genome()
 		{
-			Initialize();
 			xcoordinatebaby = new List<int>();
 			ycoordinatebaby = new List<int>();
 			newOne = new List<Furniture>();
 			furnitureListGenom=new List<Furniture>();
 		}
 
-
-		// we need to create random matrix 
-		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
+		public string[,] returnStructurePlan(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Wall> wallList)
 		{
-			x = coordinate1;
-			y = coordinate2;
-			floorSecond= floorPlan;
-			//	Initialize();
-			// this part is to test:
-			//List<Furniture> newOne = new List<Furniture>();
-			//newOne.Capacity = 0;
-			//newOne.Add(new Furniture() { Xdimension = 50.0f, Ydimension = 40.0f, FurnitureID = 5 });
-			//newOne.Add(new Furniture() { Xdimension = 20.0f, Ydimension = 30.0f, FurnitureID = 7 });
-			//newOne.Add(new Furniture() { Xdimension = 10.0f, Ydimension = 30.0f, FurnitureID = 8 });
-			//newOne.AddRange(furnitureList);
-			Debug.Log("count:"+furnitureList.Count);
-			furnitureListGenom.AddRange(furnitureList);
-			Debug.Log("counget:"+furnitureListGenom.Count);
-
-			var canBePlaced=0;
-			int xcoordinate, ycoordinate;
-			int howManyCellsX, howManyCellsY;
-			int i = 0;
-			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
+			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
 			int redDotDistance;
 			int roomStructureWidth;
-			//creating a new empty design
 
-			for (int k = 0; k < coordinate1; k++)
+			for (int j = 0; j < roomStructureList.Count; j++)
 			{
-				for (int j = 0; j < coordinate2; j++)
+				for (int k = 0; k < wallList.Count; k++)
 				{
-					floorPlan[k, j] = "T";
-				}
-			}
-
-			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
-			
-	
-			for(int j=0; j < roomStructureList.Count; j++)
-            {
-				for(int k=0; k < wallList.Count; k++)
-                {
 					if (roomStructureList[j].WallID == wallList[k].WallID)
 					{
-                        if (roomStructureList[j].FurnitureTypeID == 44) //Door
-                        {
+						if (roomStructureList[j].FurnitureTypeID == 44) //Door
+						{
 							RoomStructureLetter = "D";
-                        }
-                        else if(roomStructureList[j].FurnitureTypeID== 45) //Window
-                        {
+						}
+						else if (roomStructureList[j].FurnitureTypeID == 45) //Window
+						{
 							RoomStructureLetter = "W";
-                        }
-									
+						}
+
 						//Setting Room strucutr letters on matrix.
 						Debug.Log("wallname: " + wallList[k].WallName);
 						if (wallList[k].WallName == "W1")
 						{
-							redDotDistance = (int) (roomStructureList[j].RedDotDistance * 100);
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
 
 							Debug.Log("redDotDistance " + redDotDistance);
@@ -104,7 +71,7 @@ namespace Assets.Models
 							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
 							{
 
-								for (int b = coordinate1-1; b > coordinate1 - 61; b--)
+								for (int b = coordinate1 - 1; b > coordinate1 - 61; b--)
 								{
 									floorPlan[b, a] = RoomStructureLetter;
 								}
@@ -116,9 +83,9 @@ namespace Assets.Models
 						{
 							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance ; a++)
+							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance; a++)
 							{
-								for (int b = coordinate2-1; b > coordinate2 - 61; b--)
+								for (int b = coordinate2 - 1; b > coordinate2 - 61; b--)
 								{
 									floorPlan[a, b] = RoomStructureLetter;
 								}
@@ -156,6 +123,43 @@ namespace Assets.Models
 					}
 				}
 			}
+			return floorPlan;
+
+		}
+		// we need to create random matrix 
+		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
+		{
+			x = coordinate1;
+			y = coordinate2;
+			floorSecond= floorPlan;
+			//	Initialize();
+			// this part is to test:
+			//List<Furniture> newOne = new List<Furniture>();
+			//newOne.Capacity = 0;
+			//newOne.Add(new Furniture() { Xdimension = 50.0f, Ydimension = 40.0f, FurnitureID = 5 });
+			//newOne.Add(new Furniture() { Xdimension = 20.0f, Ydimension = 30.0f, FurnitureID = 7 });
+			//newOne.Add(new Furniture() { Xdimension = 10.0f, Ydimension = 30.0f, FurnitureID = 8 });
+			//newOne.AddRange(furnitureList);
+			Debug.Log("count:"+furnitureList.Count);
+			furnitureListGenom.AddRange(furnitureList);
+			Debug.Log("counget:"+furnitureListGenom.Count);
+
+			var canBePlaced=0;
+			int xcoordinate, ycoordinate;
+			int howManyCellsX, howManyCellsY;
+			int i = 0;
+			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
+
+			//creating a new empty design
+
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
+				{
+					floorPlan[k, j] = "T";
+				}
+			}
+			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
 
 			Debug.Log("CAPACITY"+furnitureList.Capacity);
 			int capacityminusone = (int)furnitureList.Capacity;
@@ -248,7 +252,8 @@ namespace Assets.Models
 						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
 							XPositionStartX = finishPosX , XPositionFinishX = finishPosX+1, XPositionFinishY = finishPosY, XPositionStartY = startPosY,
 							YPositionStartX = finishPosX + 1, YPositionFinishX = finishPosX + 6, 
-							YPositionStartY = startPosY, YPositionFinishY = finishPosY, FitnessScore = score, WallName = GeneticAlgorithm.WallName});
+							YPositionStartY = startPosY, YPositionFinishY = finishPosY, FitnessScore = score, WallName = GeneticAlgorithm.ClassWallName
+						});
 						i++;
 					}
 				}
@@ -277,18 +282,8 @@ namespace Assets.Models
 
             Debug.Log("Inserted");
 			
-			GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-
-			geneticAlgorithm.rotateRandomFurniture(locationList, floorPlan, coordinate1, coordinate2);
 			return locationList;
 	
-		}
-
-		
-		private void Initialize()
-		{
-			fitness = 0;
-			bits = new List<int>();
 		}
 	}
 }
