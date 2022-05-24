@@ -231,17 +231,17 @@ public class TempScript : MonoBehaviour
         Debug.Log("furnituresFits" + furnituresFits);
         if (furnituresFits == 1)
         {
-            string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
+            string[,] floorPlan = new string[(int)wallList[1].WallLength *100, (int)wallList[0].WallLength * 100];
             furnitureGeneticLocations = newOne.GenomeInit((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructuresList, FurniturList, wallList);
             StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
-         //   GeneticAlgorithm genetic = new GeneticAlgorithm();
+          //  GeneticAlgorithm genetic = new GeneticAlgorithm();
             StartCoroutine(db.FurnitureLocationsFetch(furnitureGeneticLocations, fetchFurnitureLocationInformation));
         }
         else
         {
             SceneManager.LoadScene("PreviousDesigns");
         }
-
+      
     }
 
 
@@ -257,24 +257,24 @@ public class TempScript : MonoBehaviour
         Debug.Log("wallList.Count: " + wallList.Count);
         Debug.Log("roomStructuresList.Count: " + roomStructuresList.Count);
 
-        for (int i = 0; i < FurniturList.Count; i++)
+        for (int i=0; i < FurniturList.Count; i++)
         {
-            furnitureArea = (FurniturList[i].Xdimension) * (FurniturList[i].Zdimension) + (10 * FurniturList[i].Zdimension);
+            furnitureArea = (FurniturList[i].Xdimension) * (FurniturList[i].Zdimension) + (10* FurniturList[i].Zdimension);
             sumFurnituresArea = sumFurnituresArea + furnitureArea;
         }
-
+        
         Debug.Log("sumFurnituresArea: " + sumFurnituresArea + " floorArea: " + floorArea);
-        if (sumFurnituresArea < floorArea)
+        if(sumFurnituresArea < floorArea)
         {
-            Debug.Log("aaaaaaaaa");
+            Debug.Log("aaaaaaaaa");         
             return 1;
         }
         else
         {
             Debug.Log("bbbbbbbbb");
             //FurniturList.Clear();
-            //wallList.Clear();
-            //roomStructuresList.Clear();
+           // wallList.Clear();
+           // roomStructuresList.Clear();
            // return 0;
         }
 
@@ -291,10 +291,10 @@ public class TempScript : MonoBehaviour
         }
         canGridSystemWillApplied = 1;
         string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
-
-         //GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        // geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
-
+     
+       // GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+       // geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
+ 
     }
 
 
