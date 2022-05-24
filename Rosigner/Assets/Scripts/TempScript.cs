@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Models;
+using UnityEngine.SceneManagement;
 //using static GridSystem;
 
 public class TempScript : MonoBehaviour
@@ -24,30 +25,30 @@ public class TempScript : MonoBehaviour
     [SerializeField] public GameObject doorSpawn;
     [SerializeField] public GameObject windowSpawn;
     public string tempassetName = "";
-    List<RoomStructureName> roomStructureNames= new List<RoomStructureName>(); 
+    List<RoomStructureName> roomStructureNames = new List<RoomStructureName>();
     List<RoomStructure> roomStructuresList = new List<RoomStructure>();
     RoomStructureLocation roomStructureLocation = new RoomStructureLocation();
     public static List<FurnitureGeneticLocation> furnitureLocationList = new List<FurnitureGeneticLocation>();
     public static List<FurnitureGeneticLocation> furnitureGeneticLocations = new List<FurnitureGeneticLocation>();
     GameObject tempasset;
+
     public static int canGridSystemWillApplied = 0;
     int canGeneticBeApplied = 0;
     void Start()
     {
-
         string[] allWalls = { "W1", "W2", "W3", "W4" };
         StartCoroutine(db.WallInformation(allWalls, fetchWallInformation));
         StartCoroutine(db.FurnitureInfo(furniture, fetchFurnitureInformation));
-       
+
     }
     private void Update()
     {
-        if(canGeneticBeApplied == 1)
+        if (canGeneticBeApplied == 1)
         {
             GeneticConnection();
         }
 
-        
+
     }
     public void fetchFurnitureInformation(Furniture newFurniture)
     {
@@ -59,11 +60,11 @@ public class TempScript : MonoBehaviour
             Ydimension = newFurniture.Ydimension,
             Zdimension = newFurniture.Zdimension,
             RoomID = newFurniture.RoomID
-        });  
-  
+        });
+
         //Debug.Log(Inventory.array.Count);
 
-       
+
         /*
         furniture.FurnitureID = newFurniture.FurnitureID;
         furniture.FurnitureTypeID = newFurniture.FurnitureTypeID;
@@ -90,7 +91,7 @@ public class TempScript : MonoBehaviour
             wallList.Add(new Wall() { WallID = newWall[i].WallID, WallName = newWall[i].WallName, WallLength = newWall[i].WallLength, WallHeight = newWall[i].WallHeight, RoomID = newWall[i].RoomID });
 
         }
-      
+
         CreatingWalls();
 
     }
@@ -114,11 +115,11 @@ public class TempScript : MonoBehaviour
         floor.gameObject.transform.position = new Vector3(wallList[0].WallLength / 2.0f, -0.05f, (wallList[1].WallLength / 2.0f) + 0.1f);
 
         StartCoroutine(db.RoomStructuresInformation(wallList, fetchRoomStructureInformation));
-            
+
     }
     public void fetchRoomStructureInformation(List<RoomStructure> newroomstructures)
     {
-        Debug.Log("newroomstructures.Count"+ newroomstructures.Count);
+        Debug.Log("newroomstructures.Count" + newroomstructures.Count);
 
         for (int i = 0; i < newroomstructures.Count; i++)
         {
@@ -134,7 +135,7 @@ public class TempScript : MonoBehaviour
             });
         }
         StartCoroutine(db.getFurnitureName(roomStructuresList, getStructureName));
-        
+
     }
 
     public void getStructureName(List<RoomStructureName> newroomstructuresNames)
@@ -142,18 +143,6 @@ public class TempScript : MonoBehaviour
 
         roomStructureNames = newroomstructuresNames;
 
-        for(int i = 0; i < roomStructureNames.Count; i++)
-        {
-          // Debug.Log("///////////////: "+roomStructureNames[i].RoomStructureID+"   "+ roomStructureNames[i].RoomStrucuteName);
-            
-        }
-      
-
-        //setpositions();
-        //isFinished = 2;
-        //Debug.Log("tempassetname getst: " + roomStructureNames.);
-
-        
         setpositions();
 
     }
@@ -184,17 +173,17 @@ public class TempScript : MonoBehaviour
                     {
                         tempasset = windowSpawn;
                     }
-                   /* else
-                    {
+                    /* else
+                     {
 
-                        tempasset = null;
-                    }*/
+                         tempasset = null;
+                     }*/
 
                     if (wallName == "W1" && tempasset != null)
                     {
                         position = wallobj1.gameObject.transform.position;
                         position_distance = new Vector3(position.x + roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
-                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0,0,0)));
+                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 0, 0)));
                         //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                         Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                     }
@@ -202,7 +191,7 @@ public class TempScript : MonoBehaviour
                     {
                         position = wallobj2.gameObject.transform.position;
                         position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z + roomStructuresList[j].RedDotDistance);
-                        GameObject Go=Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)));
+                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 270, 0)));
                         //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                         Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
 
@@ -211,7 +200,7 @@ public class TempScript : MonoBehaviour
                     {
                         position = wallobj3.gameObject.transform.position;
                         position_distance = new Vector3(position.x - roomStructuresList[j].RedDotDistance, roomStructuresList[j].GroundDistance, position.z);
-                        GameObject Go= Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)));
+                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 180, 0)));
                         //tempasset.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                         Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
 
@@ -220,7 +209,7 @@ public class TempScript : MonoBehaviour
                     {
                         position = wallobj4.gameObject.transform.position;
                         position_distance = new Vector3(position.x, roomStructuresList[j].GroundDistance, position.z - roomStructuresList[j].RedDotDistance);
-                        GameObject Go=Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)));
+                        GameObject Go = Instantiate(tempasset, position_distance, Quaternion.Euler(new Vector3(0, 90, 0)));
                         Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                         //Go.transform.localScale = new Vector3(roomStructuresList[j].StrructureWidth, roomStructuresList[j].StrructureLength, 0.3f);
                     }
@@ -230,19 +219,68 @@ public class TempScript : MonoBehaviour
             }
         }
         canGeneticBeApplied = 1;
-    } 
+    }
     public void GeneticConnection()
     {
         //since we don't want to enter this function more than once, we change this value
         canGeneticBeApplied = 0;
         Genome newOne = new Genome();
-        string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
-        furnitureGeneticLocations = newOne.GenomeInit((int)wallList[1].WallLength  * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructuresList, FurniturList, wallList);
-        StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
-    //    GeneticAlgorithm genetic = new GeneticAlgorithm();
-        StartCoroutine(db.FurnitureLocationsFetch(furnitureGeneticLocations, fetchFurnitureLocationInformation));
+
+        int furnituresFits = CheckFurnitureAreaFit();
+
+        Debug.Log("furnituresFits" + furnituresFits);
+        if (furnituresFits == 1)
+        {
+            string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
+            furnitureGeneticLocations = newOne.GenomeInit((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructuresList, FurniturList, wallList);
+            StartCoroutine(db.TempFurnitureLocation(furnitureGeneticLocations));
+         //   GeneticAlgorithm genetic = new GeneticAlgorithm();
+            StartCoroutine(db.FurnitureLocationsFetch(furnitureGeneticLocations, fetchFurnitureLocationInformation));
+        }
+        else
+        {
+            SceneManager.LoadScene("PreviousDesigns");
+        }
 
     }
+
+
+
+    int CheckFurnitureAreaFit()
+    {
+        float floorArea = (wallList[1].WallLength * 100) * (wallList[0].WallLength * 100);
+        float furnitureArea;
+        float sumFurnituresArea;
+
+        sumFurnituresArea = 0;
+        Debug.Log("FurniturList.Count: " + FurniturList.Count);
+        Debug.Log("wallList.Count: " + wallList.Count);
+        Debug.Log("roomStructuresList.Count: " + roomStructuresList.Count);
+
+        for (int i = 0; i < FurniturList.Count; i++)
+        {
+            furnitureArea = (FurniturList[i].Xdimension) * (FurniturList[i].Zdimension) + (10 * FurniturList[i].Zdimension);
+            sumFurnituresArea = sumFurnituresArea + furnitureArea;
+        }
+
+        Debug.Log("sumFurnituresArea: " + sumFurnituresArea + " floorArea: " + floorArea);
+        if (sumFurnituresArea < floorArea)
+        {
+            Debug.Log("aaaaaaaaa");
+            return 1;
+        }
+        else
+        {
+            Debug.Log("bbbbbbbbb");
+            //FurniturList.Clear();
+            //wallList.Clear();
+            //roomStructuresList.Clear();
+           // return 0;
+        }
+
+        return 1;
+    }
+
 
 
     public void fetchFurnitureLocationInformation(List<FurnitureGeneticLocation> newFurnitureLocation)
@@ -251,10 +289,10 @@ public class TempScript : MonoBehaviour
         {
             furnitureLocationList.Add(new FurnitureGeneticLocation() { GeneticLocationID = newFurnitureLocation[i].GeneticLocationID, FurnitureID = newFurnitureLocation[i].FurnitureID, StartX = newFurnitureLocation[i].StartX, FinishX = newFurnitureLocation[i].FinishX, CenterX = newFurnitureLocation[i].CenterX, StartY = newFurnitureLocation[i].StartY, FinishY = newFurnitureLocation[i].FinishY, CenterY = newFurnitureLocation[i].CenterY });
         }
-        string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
         canGridSystemWillApplied = 1;
+        string[,] floorPlan = new string[(int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100];
 
-        //   GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        // GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
         // geneticAlgorithm.CreateStartPopulation((int)wallList[1].WallLength*100, (int)wallList[0].WallLength*100, floorPlan, roomStructuresList, FurniturList, wallList);
 
     }

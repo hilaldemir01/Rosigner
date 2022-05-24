@@ -806,18 +806,17 @@ namespace Assets.Models
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
 			value4 = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
 
-			int selectedFormula = -900;
+			int selectedFormula = 90000;
 			int formulaNum = 0;
 
 			int[] myNum = { value1, value2, value3, value4 };
 
 			for (int i = 0; i < myNum.Length; i++)
 			{
-				if (selectedFormula < myNum[i])
+				if (selectedFormula > myNum[i])
 				{
 					selectedFormula = myNum[i];
 					formulaNum = i + 1;
-					break;
 				}
 			}
 
