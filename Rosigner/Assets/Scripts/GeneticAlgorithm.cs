@@ -53,12 +53,16 @@ namespace Assets.Models
 		public static string WallName;
 		public double totalFitnessScore = 0;
 		List<double> totalFitnessScoreList;
+		Genome baby1; // chromosomeLength = 5
+		Genome baby2; // chromosomeLength = 5
 
 		public GeneticAlgorithm()
 		{
 			busy = false;
 			//startMatrix();
 			//initializng all lists that we are going to use
+			baby1 = new Genome();
+			baby2 = new Genome();
 			genomes = new List<Genome>();
 			wallList = new List<Wall>();
 			roomStructuresList = new List<RoomStructure>();
