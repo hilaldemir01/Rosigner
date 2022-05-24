@@ -16,6 +16,7 @@ namespace Assets.Models
         public int StartY { get; set; }
         public int FinishY { get; set; }
         public int CenterY { get; set; }
-        public int FitnessScore { get; set; }
+        public double FitnessScore { get; set; }
+
     }
 }

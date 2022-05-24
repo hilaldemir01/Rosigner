@@ -26,6 +26,7 @@ namespace Assets.Models
 		public string[,] floorSecond;
 		public static int counter;
 		public string fileName = "D:\\design";
+		public double populationFitnessScore;//its not for just one furniture, it is for all furniture of population
 		public Genome()
 		{
 			Initialize();
@@ -33,7 +34,6 @@ namespace Assets.Models
 			ycoordinatebaby = new List<int>();
 			newOne = new List<Furniture>();
 			furnitureListGenom=new List<Furniture>();
-
 		}
 
 
