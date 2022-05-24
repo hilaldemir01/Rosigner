@@ -277,39 +277,6 @@ namespace Assets.Models
 
             Debug.Log("Inserted");
 			
-			//string fileName = @"D:\mom.txt";
-		 
-			try
-			{
-				// Check if file already exists. If yes, delete it.     
-
-				fileName = fileName+ "(" + counter.ToString() + ").txt";
-				Debug.Log("filenew"+fileName);
-				counter++;	
-				Debug.Log("counter"+counter);
-
-				// Create a new file     
-				using (FileStream fs = File.Create(fileName))
-				{
-					// Add some text to file    
-					Byte[] title = new UTF8Encoding(true).GetBytes(bastir);
-					fs.Write(title, 0, title.Length);
-				}
-
-				// Open the stream and read it back.    
-				using (StreamReader sr = File.OpenText(fileName))
-				{
-					string s = "";
-					while ((s = sr.ReadLine()) != null)
-					{
-						Console.WriteLine(s);
-					}
-				}
-			}
-			catch (Exception Ex)
-			{
-				Console.WriteLine(Ex.ToString());
-			}
 			GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
 
 			geneticAlgorithm.rotateRandomFurniture(locationList, floorPlan, coordinate1, coordinate2);

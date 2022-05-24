@@ -94,7 +94,7 @@ namespace Assets.Models
 
 
 		// step number 1
-		public void CreateStartPopulation(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
+		public void CreateStartPopulation(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList)
 		{
 			genomes.Clear(); // clear out any genomes at first
 			int a = 0;
@@ -106,7 +106,7 @@ namespace Assets.Models
 				populationFurnitureGeneticLocations = population.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList, wallList); //populationFurnitureGeneticLocations is just one design
 																																					 //allPopulationFurnitureGeneticLocations is merge of populationFurnitureGeneticLocations
 				genomes.Add(population); //?? //we will put population designs in genomes
-				double value = CalculateTotalFitnessScores(furnitureList);
+				double value = CalculateTotalFitnessScores(populationFurnitureGeneticLocations, furnitureList);
 				//totalFitnessScoreList.Add(value); // total fitness scores of all designs (for ex 10 total fitness score)
 				genomes[m].populationFitnessScore = value; //total fitness score
 				allPopulationFurnitureGeneticLocations.AddRange(populationFurnitureGeneticLocations);
@@ -129,11 +129,6 @@ namespace Assets.Models
 			// StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
 
 			int selectedGenomeIndex;
-			Debug.Log("populationFurnitureGeneticLocations count" + populationFurnitureGeneticLocations.Count);
-			Debug.Log("allPopulationFurnitureGeneticLocations count" + allPopulationFurnitureGeneticLocations.Count);
-
-
-
 			selectedGenomeIndex = RouletteWheelSelection();
 			Genome momGenome = genomes[selectedGenomeIndex];
 			Debug.Log("mom txt num" + selectedGenomeIndex);
@@ -153,24 +148,16 @@ namespace Assets.Models
 
 
 			//burası fora göre değişir
-			Genome baby1 = new Genome(); // chromosomeLength = 5
-			Genome baby2 = new Genome(); // chromosomeLength = 5
+
 			Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 			int forsize = momGenome.furnitureListGenom.Capacity - 1;
 			//clearlamadan önce database'e yazma işleme yaparız
 			while (baby1.populationFitnessScore < 0.90)
 			{
-				Debug.Log("burası" + momGenome.furnitureListGenom[0].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[1].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[2].FurnitureID);
 
 				//momGenome.furnitureListGenom.Clear();
 				//dadGenome.furnitureListGenom.Clear();
-
-				Debug.Log("burası" + momGenome.furnitureListGenom[0].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[1].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[2].FurnitureID);
 
 				momFurnitureGeneticLocations.Clear();
 				dadFurnitureGeneticLocations.Clear();
@@ -180,27 +167,16 @@ namespace Assets.Models
 					momGenome.furnitureListGenom.Add(new Furniture() { FurnitureID = baby1.newOne[t].FurnitureID, Xdimension = baby1.newOne[t].Xdimension, Zdimension = baby1.newOne[t].Zdimension });
 					momFurnitureGeneticLocations.Add(baby1FurnitureGeneticLocations[t]);
 				}
-				Debug.Log("burası" + momGenome.furnitureListGenom[0].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[1].FurnitureID);
-				Debug.Log("burası" + momGenome.furnitureListGenom[2].FurnitureID);
 
 				selectedGenomeIndex = RouletteWheelSelection();
 				dadGenome = genomes[selectedGenomeIndex];
 				Debug.Log("fora selectedgenome" + selectedGenomeIndex);
-				int beyza = 0;
+
 				for (int m = furnitureList.Count * selectedGenomeIndex; m < ((selectedGenomeIndex * furnitureList.Count) + furnitureList.Count); m++)
 				{
-					Debug.Log("fora girdik mi");
 					dadFurnitureGeneticLocations.Add(allPopulationFurnitureGeneticLocations[m]);
-					Debug.Log("dadFurnitureGeneticLocations ALL fitness" + allPopulationFurnitureGeneticLocations[m].FitnessScore);
-				}
-				int dadSize = dadFurnitureGeneticLocations.Count;
-				for (int m = dadSize - furnitureList.Count; m < dadSize; m++)
-				{ //getting last added
-					Debug.Log("dadFurnitureGeneticLocations fitnessScore" + dadFurnitureGeneticLocations[m].FitnessScore);
 				}
 
-				Debug.Log("fordan çıktık mı");
 				baby1.newOne.Clear();
 				baby2.newOne.Clear();
 
@@ -212,18 +188,26 @@ namespace Assets.Models
 				baby2FurnitureGeneticLocations.Clear();
 
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
-				Debug.Log("geldik mi");
+				MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
+				CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+
 				babyCounter++;
 				Debug.Log("babyCounter" + babyCounter);
-				Debug.Log("baby1 pop fitnessscore while" + baby1.populationFitnessScore);
 
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
 			if (baby1.populationFitnessScore >= 0.90)
 			{
-				Debug.Log("Bitttiğğğğğğ");
+				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 			}
 
+
+
+
+			for (int p = 0; p < baby1FurnitureGeneticLocations.Count; p++)
+			{
+				Debug.Log("baby1Furniture Fitness Score " + baby1FurnitureGeneticLocations[p].FitnessScore);
+			}
 
 			//genomes.Add(baby1);
 			//genomes.Add(baby2);
@@ -250,8 +234,8 @@ namespace Assets.Models
 
 				xcoordinate = baby1.xcoordinatebaby[i];
 				ycoordinate = baby1.ycoordinatebaby[i];
-				int howManyCellsX = (int)baby1.newOne[i].Xdimension / 10;
-				int howManyCellsY = (int)baby1.newOne[i].Zdimension / 10;
+				int howManyCellsX = (int)baby1.newOne[i].Xdimension;
+				int howManyCellsY = (int)baby1.newOne[i].Zdimension;
 
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
@@ -370,8 +354,6 @@ namespace Assets.Models
 		public void Crossover(Genome mom, Genome dad, Genome baby1, Genome baby2, List<Furniture> furnitureList)
 		{
 			int size = mom.furnitureListGenom.Capacity - 1;
-			Debug.Log("crossover");
-			Debug.Log("SIZE" + size);
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -405,7 +387,7 @@ namespace Assets.Models
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore
 							});
 
-							//baby1FurnitureGeneticLocations[i].populationFitnessScore = baby1FurnitureGeneticLocations[i].populationFitnessScore + baby1FurnitureGeneticLocations[i].FitnessScore;
+
 							baby1.populationFitnessScore = baby1.populationFitnessScore + baby1FurnitureGeneticLocations[i].FitnessScore;
 
 							Debug.Log("baby1 fitnessScore mom" + baby1FurnitureGeneticLocations[i].FitnessScore);
@@ -469,22 +451,6 @@ namespace Assets.Models
 					}
 				}
 			}
-
-		}
-		// step number 5
-		// creates babies slightly different from their mom and dad
-		public void Mutate(List<int> bits)
-		{
-			// walks through the genes of the chromosome
-			for (int i = 0; i < bits.Count; i++)
-			{
-				// flip this bit?
-				if (UnityEngine.Random.value < mutationRate)
-				{
-					// flip the bit
-					bits[i] = bits[i] == 0 ? 1 : 0;
-				}
-			}
 		}
 
 		//1 genome un 1 population score u var.
@@ -494,17 +460,12 @@ namespace Assets.Models
 			double random;
 			int selectedGenome = 0;
 			double prob = 0;
-			Debug.Log("girdi rw");
-			Debug.Log("POP Co" + populationFurnitureGeneticLocations.Count);
-			Debug.Log("ALL POP Co" + allPopulationFurnitureGeneticLocations.Count);
-			Debug.Log("ALL fitnes" + allPopulationFurnitureGeneticLocations[0].FitnessScore);
-			Debug.Log("ALL fitnes" + allPopulationFurnitureGeneticLocations[1].FitnessScore);
+
 			List<double> probabiltyofPopulation = new List<double>();
 			for (int i = 0; i < populationSize; i++)
 			{
 				//total += populationFurnitureGeneticLocations[i].populationFitnessScore;
 				total = total + genomes[i].populationFitnessScore;
-				Debug.Log("girdi rw il for");
 			}
 
 			//calculate probabilty of each population design
@@ -530,11 +491,6 @@ namespace Assets.Models
 				else if (i < populationSize - 1)
 				{
 					probabiltyofPopulation[i + 1] = probabiltyofPopulation[i + 1] + probabiltyofPopulation[i];
-				}
-				else
-				{
-					selectedGenome = populationSize - 1;
-					Debug.Log("else e girdi rezillik");
 				}
 			}
 			return selectedGenome;
@@ -847,74 +803,36 @@ namespace Assets.Models
 
 
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
-		public int FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
+		public double FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
 		{
 			int fitnessScore;
-			int rate = 0;
+			double rate = 0.0; 
 			if (formulaNum == 1)
 			{
 				fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((int)fitnessScore * selectedFormula) / 10000;
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
 			}
 			else if (formulaNum == 2)
 			{
 				fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = ((int)fitnessScore * selectedFormula) / 10000;
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
 
 			}
 			else if (formulaNum == 3)
 			{
 				fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-				rate = ((int)fitnessScore * selectedFormula) / 10000;
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
 			}
 			else
 			{
 				fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
-				rate = ((int)fitnessScore * selectedFormula) / 10000;
+				rate = ((double)fitnessScore * selectedFormula) / 10000;
 			}
 			Console.WriteLine("FitnessScore: " + fitnessScore + " Rate = " + rate.ToString());
 			return rate;
 		}
 
-		/*public void UpdateFitnessScores(List<Furniture> furnitureList)
-        {
-            int score = 0;
-			count++;
-			Debug.Log("count"+count);
-			int startX, finishX ,startY,finishY;
-			Debug.Log("furnitureList count:"+furnitureList.Count);
-
-			for(int i = 0; i <furnitureList.Count; i++){
-				Debug.Log("kaç defa dönüyor");
-				if(count % 2 == 0){
-					Debug.Log("MOM");
-					Debug.Log("startx"+ momFurnitureGeneticLocations[0].StartX);
-					startX = momFurnitureGeneticLocations[i].StartX;
-					finishX =  momFurnitureGeneticLocations[i].FinishX;
-					startY = momFurnitureGeneticLocations[i].StartY;
-					finishY =  momFurnitureGeneticLocations[i].FinishY;
-
-					momFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY, coordinate1, coordinate2);
-					Debug.Log("mom fitness score"+momFurnitureGeneticLocations[i].FitnessScore);
-					Debug.Log("finishX"+finishX);
-					Debug.Log("startY"+startY);
-					Debug.Log("finishY"+finishY);
-
-
-				}else{
-					Debug.Log("DAD");
-					startX = dadFurnitureGeneticLocations[i].StartX;
-					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
-					finishX =  dadFurnitureGeneticLocations[i].FinishX;
-					startY = dadFurnitureGeneticLocations[i].StartY;
-					finishY =  dadFurnitureGeneticLocations[i].FinishY;
-					dadFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY, coordinate1, coordinate2);
-					Debug.Log("dad fitness score"+dadFurnitureGeneticLocations[i].FitnessScore);
-
-				}
-			}
-		}*/
-		public double CalculateTotalFitnessScores(List<Furniture> furnitureList)
+		public double CalculateTotalFitnessScores(List<FurnitureGeneticLocation> populationFurnitureGeneticLocations, List<Furniture> furnitureList)
 		{
 			//total fitness score of all furniture in a design
 			int startX, finishX, startY, finishY;
@@ -928,11 +846,53 @@ namespace Assets.Models
 				finishY = populationFurnitureGeneticLocations[i].FinishY;
 				populationFurnitureGeneticLocations[i].FitnessScore = distanceFromWalls(startX, startY, finishX, finishY, coordinate1, coordinate2); //bir desingdeki bir furnitureın fitness scoreu
 
-				totalFitnessScore = totalFitnessScore + populationFurnitureGeneticLocations[i].FitnessScore; // to get total fitness score of 1 design
-				Debug.Log("totalfitnessScore" + totalFitnessScore);
+				Debug.Log("population fitness score" + populationFurnitureGeneticLocations[i].FitnessScore);
+				totalFitnessScore = totalFitnessScore + populationFurnitureGeneticLocations[i].FitnessScore;
+
 			}
 			genomCount++;
+			Debug.Log("totalfitnessScore" + totalFitnessScore);
 			return totalFitnessScore;
+
 		}
+
+		public void MoveRandomFurniture(int coordinate1, int coordinate2, List<Furniture> furnitureList)
+		{
+			int startPosX = 0;
+			int finishPosX = 0;
+			int startPosY = 0;
+			int finishPosY = 0;
+
+			int length = baby1.newOne.Count - 1;
+			int index = random.Next(0, length);
+
+
+			int i = 0;
+			int xcoordinatetoBaby = random.Next(0, coordinate1);
+			int ycoordinatetoBaby = random.Next(0, coordinate2);
+			Debug.Log("seçilen furniture ID" + baby1.newOne[index].FurnitureID + "x coordinate baby" + xcoordinatetoBaby + "y coordinate baby" + ycoordinatetoBaby);
+
+			int howManyCellsX = (int)furnitureList[i].Xdimension / 10;
+			int howManyCellsY = (int)furnitureList[i].Zdimension / 10;
+
+			startPosX = xcoordinatetoBaby;
+			finishPosX = xcoordinatetoBaby + howManyCellsX;
+			startPosY = ycoordinatetoBaby;
+			finishPosY = ycoordinatetoBaby + howManyCellsY;
+			int centerX = (startPosX + finishPosX) / 2;
+			int centerY = (startPosY + finishPosY) / 2;
+
+			int capacityminusone = (int)furnitureList.Capacity - 1;
+
+			baby1.xcoordinatebaby[index] = xcoordinatetoBaby;
+			baby1.ycoordinatebaby[index] = ycoordinatetoBaby;
+
+			Debug.Log("index" + index);
+
+			baby1FurnitureGeneticLocations.RemoveAt(index); //to clear index from the list
+			baby1FurnitureGeneticLocations.Insert(index, new FurnitureGeneticLocation() { FurnitureID = baby1.newOne[index].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY });
+
+		}
+
 	}
 }
