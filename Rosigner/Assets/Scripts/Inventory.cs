@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     public Text notificationTxt;
     public string selectedFurnitureImageName, prefabName;
     int count=0;
+    public int db_count;
     public static GameObject sendingPrefab;
     TempScript prefab = new TempScript();
     RosignerContext db = new RosignerContext();
@@ -55,6 +56,7 @@ public class Inventory : MonoBehaviour
     public void CallInventory()
     {
         StartCoroutine(InventoryFunc());
+        db_count++;
     }
 
     IEnumerator InventoryFunc(){
@@ -153,14 +155,16 @@ public class Inventory : MonoBehaviour
         heightInput.text="";
         lengthInput.text="";
     }
-   
+    public void activateApplyButton(){
+           if(db_count>=4){
+          
+            applyButton.interactable = true;
+        }
+    }
     
      public async void VerifyInputs(){
 
-         //if(count>0){
-           // Debug.Log("count"+count);
-            applyButton.interactable = true;
-        //}
+      
         // to check user's measurement inputs and set save button active 
         if((widthInput.text.Length > 0) && (heightInput.text.Length > 0) && (lengthInput.text.Length > 0))
         {
