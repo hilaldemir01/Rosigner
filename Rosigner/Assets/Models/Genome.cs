@@ -27,6 +27,7 @@ namespace Assets.Models
 		public string[,] floorSecond;
 		public static int counter;
 		public string fileName = "D:\\design";
+		public double populationFitnessScore;//its not for just one furniture, it is for all furniture of population
 		public Genome()
 		{
 			Initialize();
@@ -34,7 +35,6 @@ namespace Assets.Models
 			ycoordinatebaby = new List<int>();
 			newOne = new List<Furniture>();
 			furnitureListGenom=new List<Furniture>();
-
 		}
 
 
@@ -243,7 +243,7 @@ namespace Assets.Models
 						int centerX = (startPosX + finishPosX) / 2;
 						int centerY = (startPosY + finishPosY) / 2;
 						GeneticAlgorithm genetic = new GeneticAlgorithm();
-						int score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+						double score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 
 						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
 							XPositionStartX = finishPosX , XPositionFinishX = finishPosX+1, XPositionFinishY = finishPosY, XPositionStartY = startPosY,
