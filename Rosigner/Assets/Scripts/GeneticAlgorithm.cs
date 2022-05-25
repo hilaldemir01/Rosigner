@@ -93,7 +93,95 @@ namespace Assets.Models
 		//	busy = true;
 		//}
 
+		public string[,] returnStructurePlan(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Wall> wallList)
+		{
+			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
+			int redDotDistance;
+			int roomStructureWidth;
 
+			for (int j = 0; j < roomStructureList.Count; j++)
+			{
+				for (int k = 0; k < wallList.Count; k++)
+				{
+					if (roomStructureList[j].WallID == wallList[k].WallID)
+					{
+						if (roomStructureList[j].FurnitureTypeID == 44) //Door
+						{
+							RoomStructureLetter = "D";
+						}
+						else if (roomStructureList[j].FurnitureTypeID == 45) //Window
+						{
+							RoomStructureLetter = "W";
+						}
+
+						//Setting Room strucutr letters on matrix.
+						Debug.Log("wallname: " + wallList[k].WallName);
+						if (wallList[k].WallName == "W1")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+
+							Debug.Log("redDotDistance " + redDotDistance);
+							Debug.Log("roomStructureWidth " + roomStructureWidth);
+
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+
+								for (int b = coordinate1 - 1; b > coordinate1 - 61; b--)
+								{
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W2")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance; a++)
+							{
+								for (int b = coordinate2 - 1; b > coordinate2 - 61; b--)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
+
+						}
+						else if (wallList[k].WallName == "W3")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
+							{
+								for (int b = 0; b < 60; b++)
+								{
+									floorPlan[b, a] = RoomStructureLetter;
+								}
+
+							}
+						}
+						else if (wallList[k].WallName == "W4")
+						{
+							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
+							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
+							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
+							{
+								for (int b = 0; b < 60; b++)
+								{
+									floorPlan[a, b] = RoomStructureLetter;
+								}
+
+							}
+						}
+
+					}
+				}
+			}
+			return floorPlan;
+
+		}
 		// step number 1
 		public List<FurnitureGeneticLocation> CreateStartPopulation(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		{
@@ -185,121 +273,123 @@ namespace Assets.Models
 			if (baby1.populationFitnessScore >= 0.95)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
-				Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 
-				//genomes.Add(baby1);
-				//genomes.Add(baby2);
+			}
 
-				// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
-				// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
+			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 
-				for (int k = 0; k < coordinate1; k++)
+			//genomes.Add(baby1);
+			//genomes.Add(baby2);
+
+			// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
+			// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
+
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
 				{
-					for (int j = 0; j < coordinate2; j++)
-					{
-						floorPlan[k, j] = "T";
-					}
+					floorPlan[k, j] = "T";
 				}
-				int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
-				int i = 0;
-				while (i < capacityminusone)
+			}
+			int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
+			int i = 0;
+			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
+
+			while (i < capacityminusone)
+			{
+				int startPosX = 0;
+				int finishPosX = 0;
+				int startPosY = 0;
+				int finishPosY = 0;
+				var canBePlaced = 0;
+
+				xcoordinate = baby1.xcoordinatebaby[i];
+				ycoordinate = baby1.ycoordinatebaby[i];
+				int howManyCellsX = (int)baby1.newOne[i].Xdimension;
+				int howManyCellsY = (int)baby1.newOne[i].Zdimension;
+
+				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
-					int startPosX = 0;
-					int finishPosX = 0;
-					int startPosY = 0;
-					int finishPosY = 0;
-					var canBePlaced = 0;
+					startPosX = xcoordinate;
+					finishPosX = xcoordinate + howManyCellsX;
 
-					xcoordinate = baby1.xcoordinatebaby[i];
-					ycoordinate = baby1.ycoordinatebaby[i];
-					int howManyCellsX = (int)baby1.newOne[i].Xdimension;
-					int howManyCellsY = (int)baby1.newOne[i].Zdimension;
 
-					if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
+					startPosY = ycoordinate;
+					finishPosY = ycoordinate + howManyCellsY;
+					// now, I will check whether the selected cells are empty or not
+
+					for (int j = startPosX; j <= finishPosX; j++)
 					{
-						startPosX = xcoordinate;
-						finishPosX = xcoordinate + howManyCellsX;
-
-
-						startPosY = ycoordinate;
-						finishPosY = ycoordinate + howManyCellsY;
-						// now, I will check whether the selected cells are empty or not
-
-						for (int j = startPosX; j <= finishPosX; j++)
+						for (int k = startPosY; k <= finishPosY; k++)
 						{
-							for (int k = startPosY; k <= finishPosY; k++)
-							{
-								// if the position is not empty, then quit the loop
-								if (floorPlan[j, k] != "T")
-								{
-									canBePlaced = 1;
-									break;
-								}
-							}
-
 							// if the position is not empty, then quit the loop
-							if (canBePlaced == 1)
+							if (floorPlan[j, k] != "T")
 							{
+								canBePlaced = 1;
 								break;
 							}
 						}
-						// if the position is not empty, then the random position generation will happen again
-						if (canBePlaced == 0)
-						{
-							// replace the furniture id into array if positions are empty
-							for (int j = startPosX; j < finishPosX; j++)
-							{
-								for (int k = startPosY; k < finishPosY; k++)
-								{
-									floorPlan[j, k] = "" + baby1.newOne[i].FurnitureID.ToString();
 
-								}
+						// if the position is not empty, then quit the loop
+						if (canBePlaced == 1)
+						{
+							break;
+						}
+					}
+					// if the position is not empty, then the random position generation will happen again
+					if (canBePlaced == 0)
+					{
+						// replace the furniture id into array if positions are empty
+						for (int j = startPosX; j < finishPosX; j++)
+						{
+							for (int k = startPosY; k < finishPosY; k++)
+							{
+								floorPlan[j, k] = "" + baby1.newOne[i].FurnitureID.ToString();
+
 							}
-							// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+						}
+						// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+						for (int j = startPosY; j < finishPosY; j++)
+						{
+							floorPlan[finishPosX, j] = "X";
+						}
+						// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+						// for now, every object will have 30cm space in front of them
+						for (int k = finishPosX + 1; k < finishPosX + 6; k++)
+						{
 							for (int j = startPosY; j < finishPosY; j++)
 							{
-								floorPlan[finishPosX, j] = "X";
-							}
-							// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
-							// for now, every object will have 30cm space in front of them
-							for (int k = finishPosX + 1; k < finishPosX + 6; k++)
-							{
-								for (int j = startPosY; j < finishPosY; j++)
-								{
-									floorPlan[k, j] = "Y";
+								floorPlan[k, j] = "Y";
 
-								}
 							}
-							Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
-							locationList.Add(new FurnitureGeneticLocation()
-							{
-								FurnitureID = baby1.newOne[i].FurnitureID,
-								StartX = startPosX,
-								FinishX = finishPosX,
-								CenterX = (startPosX + finishPosX) / 2,
-								StartY = startPosY,
-								CenterY = (startPosY + finishPosY) / 2,
-								FinishY = finishPosY,
-								XPositionStartX = finishPosX,
-								XPositionFinishX = finishPosX + 1,
-								XPositionFinishY = finishPosY,
-								XPositionStartY = startPosY,
-								YPositionStartX = finishPosX + 1,
-								YPositionFinishX = finishPosX + 6,
-								YPositionStartY = startPosY,
-								YPositionFinishY = finishPosY,
-								WallName = ClassWallName,
-								Degree = ClassDegree
-							});
-							i++;
-
 						}
+						Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
+						locationList.Add(new FurnitureGeneticLocation()
+						{
+							FurnitureID = baby1.newOne[i].FurnitureID,
+							StartX = startPosX,
+							FinishX = finishPosX,
+							CenterX = (startPosX + finishPosX) / 2,
+							StartY = startPosY,
+							CenterY = (startPosY + finishPosY) / 2,
+							FinishY = finishPosY,
+							XPositionStartX = finishPosX,
+							XPositionFinishX = finishPosX + 1,
+							XPositionFinishY = finishPosY,
+							XPositionStartY = startPosY,
+							YPositionStartX = finishPosX + 1,
+							YPositionFinishX = finishPosX + 6,
+							YPositionStartY = startPosY,
+							YPositionFinishY = finishPosY,
+							WallName = ClassWallName,
+							Degree = ClassDegree
+						});
+						i++;
 
 					}
+
 				}
 			}
-			
-			
 
 			string show = "";
 			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım

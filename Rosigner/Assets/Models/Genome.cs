@@ -27,7 +27,6 @@ namespace Assets.Models
 		public static int counter;
 		public string fileName = "D:\\design";
 		public double populationFitnessScore;//its not for just one furniture, it is for all furniture of population
-		private string RoomStructureLetter = "D";
 
 		public Genome()
 		{
@@ -37,95 +36,7 @@ namespace Assets.Models
 			furnitureListGenom=new List<Furniture>();
 		}
 
-		public string[,] returnStructurePlan(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Wall> wallList)
-		{
-			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
-			int redDotDistance;
-			int roomStructureWidth;
 
-			for (int j = 0; j < roomStructureList.Count; j++)
-			{
-				for (int k = 0; k < wallList.Count; k++)
-				{
-					if (roomStructureList[j].WallID == wallList[k].WallID)
-					{
-						if (roomStructureList[j].FurnitureTypeID == 44) //Door
-						{
-							RoomStructureLetter = "D";
-						}
-						else if (roomStructureList[j].FurnitureTypeID == 45) //Window
-						{
-							RoomStructureLetter = "W";
-						}
-
-						//Setting Room strucutr letters on matrix.
-						Debug.Log("wallname: " + wallList[k].WallName);
-						if (wallList[k].WallName == "W1")
-						{
-							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
-							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-
-							Debug.Log("redDotDistance " + redDotDistance);
-							Debug.Log("roomStructureWidth " + roomStructureWidth);
-
-							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
-							{
-
-								for (int b = coordinate1 - 1; b > coordinate1 - 61; b--)
-								{
-									floorPlan[b, a] = RoomStructureLetter;
-								}
-
-							}
-
-						}
-						else if (wallList[k].WallName == "W2")
-						{
-							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
-							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance; a++)
-							{
-								for (int b = coordinate2 - 1; b > coordinate2 - 61; b--)
-								{
-									floorPlan[a, b] = RoomStructureLetter;
-								}
-
-							}
-
-						}
-						else if (wallList[k].WallName == "W3")
-						{
-							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
-							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
-							{
-								for (int b = 0; b < 60; b++)
-								{
-									floorPlan[b, a] = RoomStructureLetter;
-								}
-
-							}
-						}
-						else if (wallList[k].WallName == "W4")
-						{
-							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
-							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
-							{
-								for (int b = 0; b < 60; b++)
-								{
-									floorPlan[a, b] = RoomStructureLetter;
-								}
-
-							}
-						}
-
-					}
-				}
-			}
-			return floorPlan;
-
-		}
 		// we need to create random matrix 
 		public List<FurnitureGeneticLocation> GenomeInit(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		{
@@ -159,7 +70,6 @@ namespace Assets.Models
 					floorPlan[k, j] = "T";
 				}
 			}
-			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
 
 			Debug.Log("CAPACITY"+furnitureList.Capacity);
 			int capacityminusone = (int)furnitureList.Capacity;
