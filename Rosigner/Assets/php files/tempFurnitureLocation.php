@@ -26,6 +26,7 @@ if($_POST['unity']=="tempFurnitureLocation")
     $YPositionFinishX=$_POST['YPositionFinishX'];
     $YPositionStartY=$_POST['YPositionStartY'];
     $YPositionFinishY=$_POST['YPositionFinishY'];
+    $Degree = $_POST['Degree'];
 
     $FurnitureIDArray = explode (";", $FurnitureID); 
     $StartXArray = explode (";", $StartX); 
@@ -44,10 +45,11 @@ if($_POST['unity']=="tempFurnitureLocation")
     $YPositionFinishXArray = explode (";", $YPositionFinishX); 
     $YPositionStartYArray = explode (";", $YPositionStartY); 
     $YPositionFinishYArray = explode (";", $YPositionFinishY); 
+    $DegreeArray = explode(";",$Degree);
 
   #  $query = "";
     for ($x = 0; $x < count($FurnitureIDArray)-1; $x++) {
-        $query="INSERT INTO furnituregeneticlocation (FurnitureID,StartX,FinishX,CenterX,StartY,FinishY,CenterY,FitnessScore,CloseWallName,XPositionStartX,XPositionFinishX,XPositionStartY,XPositionFinishY,YPositionStartX,YPositionFinishX,YPositionStartY,YPositionFinishY) VALUES ('".intval($FurnitureIDArray[$x])."','".intval($StartXArray[$x])."','".intval($FinishXArray[$x])."','".intval($CenterXArray[$x])."','".intval($StartYArray[$x])."','".intval($FinishYArray[$x])."','".intval($CenterYArray[$x])."','".intval($FitnessScoreArray[$x])."','".$CloseWallNameArray[$x]."','".intval($XPositionStartXArray[$x])."','".intval($XPositionFinishXArray[$x])."','".intval($XPositionStartYArray[$x])."','".intval($XPositionFinishYArray[$x])."','".intval($YPositionStartXArray[$x])."','".$YPositionFinishXArray[$x]."','".$YPositionStartYArray[$x]."','".$YPositionFinishYArray[$x]."');";
+        $query="INSERT INTO furnituregeneticlocation (FurnitureID,StartX,FinishX,CenterX,StartY,FinishY,CenterY,FitnessScore,CloseWallName,XPositionStartX,XPositionFinishX,XPositionStartY,XPositionFinishY,YPositionStartX,YPositionFinishX,YPositionStartY,YPositionFinishY,Degree) VALUES ('".intval($FurnitureIDArray[$x])."','".intval($StartXArray[$x])."','".intval($FinishXArray[$x])."','".intval($CenterXArray[$x])."','".intval($StartYArray[$x])."','".intval($FinishYArray[$x])."','".intval($CenterYArray[$x])."','".intval($FitnessScoreArray[$x])."','".$CloseWallNameArray[$x]."','".intval($XPositionStartXArray[$x])."','".intval($XPositionFinishXArray[$x])."','".intval($XPositionStartYArray[$x])."','".intval($XPositionFinishYArray[$x])."','".intval($YPositionStartXArray[$x])."','".intval($YPositionFinishXArray[$x])."','".intval($YPositionStartYArray[$x])."','".intval($YPositionFinishYArray[$x])."','".intval($DegreeArray)."');";
         $queryResult = mysqli_query($con,$query);
 
     }

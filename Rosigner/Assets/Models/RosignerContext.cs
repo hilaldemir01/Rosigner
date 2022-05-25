@@ -632,6 +632,7 @@ namespace Assets.Models
             string YPositionFinishX = "";
             string YPositionStartY = "";
             string YPositionFinishY = "";
+            string Degree = "";
 
             for (int i=0; i < furnitureGeneticLocations.Count; i++)
             {
@@ -652,6 +653,7 @@ namespace Assets.Models
                 YPositionFinishX += furnitureGeneticLocations[i].YPositionFinishX.ToString() + ";";
                 YPositionStartY += furnitureGeneticLocations[i].YPositionStartY.ToString() + ";";
                 YPositionFinishY += furnitureGeneticLocations[i].YPositionFinishY.ToString() + ";";
+                Degree += furnitureGeneticLocations[i].Degree.ToString() + ";";
             }
 
             WWWForm form = new WWWForm();
@@ -673,6 +675,7 @@ namespace Assets.Models
             form.AddField("YPositionFinishX", YPositionFinishX);
             form.AddField("YPositionStartY", YPositionStartY);
             form.AddField("YPositionFinishY", YPositionFinishY);
+            form.AddField("Degree", Degree);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/tempFurnitureLocation.php", form))
