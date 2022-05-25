@@ -61,11 +61,14 @@ public class GridSystem : MonoBehaviour
                     int row = TempScript.furnitureLocationList[k].CenterY;
                     int col = TempScript.furnitureLocationList[k].CenterX;
 
+                    float rotation = Inventory.array[i].transform.rotation.y;
+                    Debug.Log("***********rotation: " + rotation);
+
                     Debug.Log("furniture info: " + grid.GetWorldPosition(row, col) + " genetic id: " + furnitureGeneticInformationList[k].GeneticLocationID + " furniture id: " + furnitureGeneticInformationList[k].FurnitureID);
                     Vector3 tempPosition = grid.GetWorldPosition(row, tempwall - col);  //dbdeb �ekilecek olarak de�i�ekecek
                     tempPrefab = Inventory.array[i];
                     tempPrefab.gameObject.transform.localScale = new Vector3(TempScript.FurniturList[i].Xdimension * 0.01f, TempScript.FurniturList[i].Ydimension * 0.01f, TempScript.FurniturList[i].Zdimension * 0.01f);
-                    Instantiate(Inventory.array[i], new Vector3(tempPosition.x, 0, tempPosition.z), Quaternion.identity);
+                    Instantiate(Inventory.array[i], new Vector3(tempPosition.x, 0, tempPosition.z), Quaternion.Euler(0, rotation, 0));
                 }
 
 
