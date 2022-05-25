@@ -255,9 +255,6 @@ public class TempScript : MonoBehaviour
         float sumFurnituresArea;
 
         sumFurnituresArea = 0;
-        Debug.Log("FurniturList.Count: " + FurniturList.Count);
-        Debug.Log("wallList.Count: " + wallList.Count);
-        Debug.Log("roomStructuresList.Count: " + roomStructuresList.Count);
 
         for (int i=0; i < FurniturList.Count; i++)
         {
@@ -265,15 +262,12 @@ public class TempScript : MonoBehaviour
             sumFurnituresArea = sumFurnituresArea + furnitureArea;
         }
         
-        Debug.Log("sumFurnituresArea: " + sumFurnituresArea + " floorArea: " + floorArea);
         if(sumFurnituresArea < floorArea)
         {
-            Debug.Log("aaaaaaaaa");         
             return 1;
         }
         else
         {
-            Debug.Log("bbbbbbbbb");
             //FurniturList.Clear();
            // wallList.Clear();
            // roomStructuresList.Clear();

@@ -184,7 +184,6 @@ namespace Assets.Models
                 {
 
                     string returnedFurniture = www.downloadHandler.text;
-                    Debug.Log("returnedFurniture: "+returnedFurniture);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] furnitureArray = returnedFurniture.Split(';');
                     int i = 0;
@@ -261,7 +260,6 @@ namespace Assets.Models
             form.AddField("length", furnitureMeasurement.Zdimension.ToString());
             form.AddField("furnitureName", furnitureName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
-            Debug.Log(LoginSystem.instance.RoomID);
         
             //LoginSystem.instance.furnitureID = furnitureMeasurement.furnitureID;
             string message = "";

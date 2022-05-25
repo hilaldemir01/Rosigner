@@ -126,7 +126,6 @@ public class Inventory : MonoBehaviour
         furnitureImage  = furnitureBar.gameObject.GetComponent<Image>();
         selectedFurnitureImage.sprite = furnitureImage.sprite;
         selectedFurnitureImageName = selectedFurnitureImage.sprite.name; 
-        Debug.Log("selected furniture name: "+selectedFurnitureImageName);
         
         widthInput.interactable=true;
         heightInput.interactable=true;

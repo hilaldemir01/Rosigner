@@ -39,7 +39,6 @@ namespace Assets.Models
 
 		public string[,] returnStructurePlan(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Wall> wallList)
 		{
-			Debug.Log("roomStructureList.Count: " + roomStructureList.Count);
 			int redDotDistance;
 			int roomStructureWidth;
 
@@ -59,14 +58,11 @@ namespace Assets.Models
 						}
 
 						//Setting Room strucutr letters on matrix.
-						Debug.Log("wallname: " + wallList[k].WallName);
 						if (wallList[k].WallName == "W1")
 						{
 							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
 
-							Debug.Log("redDotDistance " + redDotDistance);
-							Debug.Log("roomStructureWidth " + roomStructureWidth);
 
 							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
 							{
