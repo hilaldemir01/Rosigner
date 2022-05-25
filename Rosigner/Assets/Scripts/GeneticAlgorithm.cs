@@ -703,9 +703,6 @@ namespace Assets.Models
 		}
 
 
-		// 4 directions:
-
-
 		// since we already assigned the position of the furniture when we created the design, 
 		// we want to empty it before we want to change it's rotation.
 		public void emptyPreviousLocationForXY(FurnitureGeneticLocation furnitureGeneticLocation, string[,] floorPlan)
@@ -984,15 +981,18 @@ namespace Assets.Models
 
 			// checking the distance of the furniture to y axis // 
 			value1 = (int)(coordinate1 - centerX);
-
+			Debug.Log("Value1" + value1);
 			// checking the distance of the furniture to x axis
 			value2 = (int)(coordinate2 - centerY );
+			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
 			value3 = (int)(centerX);
+			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
 			value4 = (int)(centerY);
+			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
 			int formulaNum = 0;
