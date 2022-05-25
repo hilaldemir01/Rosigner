@@ -625,7 +625,7 @@ namespace Assets.Models
             string FitnessScoreString = "";
             string CloseWallNameString = "";
             string Degree = "";
-
+            
             for (int i=0; i < furnitureGeneticLocations.Count; i++)
             {
                 FurnitureIDString += furnitureGeneticLocations[i].FurnitureID.ToString()+";";

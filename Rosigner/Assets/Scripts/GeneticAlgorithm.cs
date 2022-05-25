@@ -185,121 +185,121 @@ namespace Assets.Models
 			if (baby1.populationFitnessScore >= 0.95)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
+				Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 
-			}
-			
-			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
+				//genomes.Add(baby1);
+				//genomes.Add(baby2);
 
-			//genomes.Add(baby1);
-			//genomes.Add(baby2);
+				// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
+				// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
 
-			// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
-			// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
-
-			for (int k = 0; k < coordinate1; k++)
-			{
-				for (int j = 0; j < coordinate2; j++)
+				for (int k = 0; k < coordinate1; k++)
 				{
-					floorPlan[k, j] = "T";
-				}
-			}
-			int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
-			int i = 0;
-			while (i < capacityminusone)
-			{
-				int startPosX = 0;
-				int finishPosX = 0;
-				int startPosY = 0;
-				int finishPosY = 0;
-				var canBePlaced = 0;
-
-				xcoordinate = baby1.xcoordinatebaby[i];
-				ycoordinate = baby1.ycoordinatebaby[i];
-				int howManyCellsX = (int)baby1.newOne[i].Xdimension;
-				int howManyCellsY = (int)baby1.newOne[i].Zdimension;
-
-				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
-				{
-					startPosX = xcoordinate;
-					finishPosX = xcoordinate + howManyCellsX;
-
-
-					startPosY = ycoordinate;
-					finishPosY = ycoordinate + howManyCellsY;
-					// now, I will check whether the selected cells are empty or not
-
-					for (int j = startPosX; j <= finishPosX; j++)
+					for (int j = 0; j < coordinate2; j++)
 					{
-						for (int k = startPosY; k <= finishPosY; k++)
+						floorPlan[k, j] = "T";
+					}
+				}
+				int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
+				int i = 0;
+				while (i < capacityminusone)
+				{
+					int startPosX = 0;
+					int finishPosX = 0;
+					int startPosY = 0;
+					int finishPosY = 0;
+					var canBePlaced = 0;
+
+					xcoordinate = baby1.xcoordinatebaby[i];
+					ycoordinate = baby1.ycoordinatebaby[i];
+					int howManyCellsX = (int)baby1.newOne[i].Xdimension;
+					int howManyCellsY = (int)baby1.newOne[i].Zdimension;
+
+					if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
+					{
+						startPosX = xcoordinate;
+						finishPosX = xcoordinate + howManyCellsX;
+
+
+						startPosY = ycoordinate;
+						finishPosY = ycoordinate + howManyCellsY;
+						// now, I will check whether the selected cells are empty or not
+
+						for (int j = startPosX; j <= finishPosX; j++)
 						{
-							// if the position is not empty, then quit the loop
-							if (floorPlan[j, k] != "T")
+							for (int k = startPosY; k <= finishPosY; k++)
 							{
-								canBePlaced = 1;
+								// if the position is not empty, then quit the loop
+								if (floorPlan[j, k] != "T")
+								{
+									canBePlaced = 1;
+									break;
+								}
+							}
+
+							// if the position is not empty, then quit the loop
+							if (canBePlaced == 1)
+							{
 								break;
 							}
 						}
-
-						// if the position is not empty, then quit the loop
-						if (canBePlaced == 1)
+						// if the position is not empty, then the random position generation will happen again
+						if (canBePlaced == 0)
 						{
-							break;
-						}
-					}
-					// if the position is not empty, then the random position generation will happen again
-					if (canBePlaced == 0)
-					{
-						// replace the furniture id into array if positions are empty
-						for (int j = startPosX; j < finishPosX; j++)
-						{
-							for (int k = startPosY; k < finishPosY; k++)
+							// replace the furniture id into array if positions are empty
+							for (int j = startPosX; j < finishPosX; j++)
 							{
-								floorPlan[j, k] = "" + baby1.newOne[i].FurnitureID.ToString();
+								for (int k = startPosY; k < finishPosY; k++)
+								{
+									floorPlan[j, k] = "" + baby1.newOne[i].FurnitureID.ToString();
 
+								}
 							}
-						}
-						// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
-						for (int j = startPosY; j < finishPosY; j++)
-						{
-							floorPlan[finishPosX, j] = "X";
-						}
-						// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
-						// for now, every object will have 30cm space in front of them
-						for (int k = finishPosX + 1; k < finishPosX + 6; k++)
-						{
+							// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
 							for (int j = startPosY; j < finishPosY; j++)
 							{
-								floorPlan[k, j] = "Y";
-
+								floorPlan[finishPosX, j] = "X";
 							}
+							// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+							// for now, every object will have 30cm space in front of them
+							for (int k = finishPosX + 1; k < finishPosX + 6; k++)
+							{
+								for (int j = startPosY; j < finishPosY; j++)
+								{
+									floorPlan[k, j] = "Y";
+
+								}
+							}
+							Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
+							locationList.Add(new FurnitureGeneticLocation()
+							{
+								FurnitureID = baby1.newOne[i].FurnitureID,
+								StartX = startPosX,
+								FinishX = finishPosX,
+								CenterX = (startPosX + finishPosX) / 2,
+								StartY = startPosY,
+								CenterY = (startPosY + finishPosY) / 2,
+								FinishY = finishPosY,
+								XPositionStartX = finishPosX,
+								XPositionFinishX = finishPosX + 1,
+								XPositionFinishY = finishPosY,
+								XPositionStartY = startPosY,
+								YPositionStartX = finishPosX + 1,
+								YPositionFinishX = finishPosX + 6,
+								YPositionStartY = startPosY,
+								YPositionFinishY = finishPosY,
+								WallName = ClassWallName,
+								Degree = ClassDegree
+							});
+							i++;
+
 						}
-						Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
-						locationList.Add(new FurnitureGeneticLocation()
-						{
-							FurnitureID = baby1.newOne[i].FurnitureID,
-							StartX = startPosX,
-							FinishX = finishPosX,
-							CenterX = (startPosX + finishPosX) / 2,
-							StartY = startPosY,
-							CenterY = (startPosY + finishPosY) / 2,
-							FinishY = finishPosY,
-							XPositionStartX = finishPosX,
-							XPositionFinishX = finishPosX + 1,
-							XPositionFinishY = finishPosY,
-							XPositionStartY = startPosY,
-							YPositionStartX = finishPosX + 1,
-							YPositionFinishX = finishPosX + 6,
-							YPositionStartY = startPosY,
-							YPositionFinishY = finishPosY,
-							WallName = ClassWallName,
-							Degree = ClassDegree
-						});
-						i++;
 
 					}
-
 				}
 			}
+			
+			
 
 			string show = "";
 			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım
