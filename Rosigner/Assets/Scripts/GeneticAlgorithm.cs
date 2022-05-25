@@ -293,10 +293,10 @@ namespace Assets.Models
 
 							}
 						}
-						i++;
+						Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
 						locationList.Add(new FurnitureGeneticLocation()
 						{
-							FurnitureID = furnitureList[i].FurnitureID,
+							FurnitureID = baby1.newOne[i].FurnitureID,
 							StartX = startPosX,
 							FinishX = finishPosX,
 							CenterX = (startPosX + finishPosX) / 2,
@@ -314,6 +314,7 @@ namespace Assets.Models
 							WallName = ClassWallName,
 							Degree = ClassDegree
 						});
+						i++;
 
 					}
 
