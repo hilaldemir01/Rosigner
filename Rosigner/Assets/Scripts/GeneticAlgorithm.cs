@@ -216,9 +216,9 @@ namespace Assets.Models
 			// StartCoroutine(db.TempFurnitureLocation(baby1FurnitureGeneticLocations));
 			// StartCoroutine(db.TempFurnitureLocation(baby2FurnitureGeneticLocations));
 
-			for (int k = 0; k < 100; k++)
+			for (int k = 0; k < coordinate1; k++)
 			{
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < coordinate2; j++)
 				{
 					floorPlan[k, j] = "T";
 				}
@@ -321,9 +321,9 @@ namespace Assets.Models
 			}
 
 			string show = "";
-			for (int k = 0; k < 100; k++)//düzelmesi lazım
+			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım
 			{
-				for (int j = 0; j < 100; j++)//düzelmesi lazım
+				for (int j = 0; j < coordinate2; j++)//düzelmesi lazım
 				{
 					show += floorPlan[k, j];
 
@@ -371,9 +371,9 @@ namespace Assets.Models
 		{
 			int size = mom.furnitureListGenom.Capacity - 1;
 
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < size; i++)
 			{
-				for (int j = 0; j < 3; j++)
+				for (int j = 0; j < size; j++)
 				{
 					if (mom.furnitureListGenom[i].FurnitureID == dad.furnitureListGenom[j].FurnitureID)
 					{
