@@ -9,6 +9,7 @@ public class CameraLocation : MonoBehaviour
     public GameObject Wall1_location;
     public GameObject Wall2_location;
     public GameObject Light_object;
+    public GameObject Person;
 
     void Update()
     {
@@ -28,19 +29,20 @@ public class CameraLocation : MonoBehaviour
 
                 float camposition1= (wall1_length / 2) * Mathf.Sqrt(5) + wall_height;
                 Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, (wall2_length / 2)+0.1f);
-                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, wall2_length / 2);
-
-            
+                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition1, (wall2_length / 2) + 0.1f);
+                
         }
         else 
         {
                 float camposition2 = (wall2_length / 2) * Mathf.Sqrt(5) + wall_height;
                 Camera.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, (wall2_length / 2) + 0.1f);
-                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, wall2_length / 2);
-  
-           
+                Light_object.gameObject.transform.position = new Vector3(wall1_length / 2, camposition2, (wall2_length / 2) + 0.1f);
+   
         }
 
+
+        //Setting first person location.
+        Person.gameObject.transform.position = new Vector3(wall1_length / 2, 0.86f, (wall2_length / 2) + 0.1f);
 
     }
 }

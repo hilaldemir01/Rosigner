@@ -10,4 +10,5 @@ public class WindowChange : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
 }
