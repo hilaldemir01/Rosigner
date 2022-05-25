@@ -378,8 +378,8 @@ namespace Assets.Models
 				baby2FurnitureGeneticLocations.Clear();
 
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
-				MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
-				baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
+		//		MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
+		//		baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
 				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
 				baby1.populationFitnessScore = totalFitness;
 
@@ -1037,12 +1037,12 @@ namespace Assets.Models
 			if (formulaNum == 1)
 			{
 				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((double)(roomCenterX - centerX) * selectedFormula) / 10000;
+				rate = ((double)(centerX - roomCenterX ) * selectedFormula) / 10000;
 			}
 			else if (formulaNum == 2)
 			{
 			//	fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = ((double)(roomCenterY - centerY) * selectedFormula) / 10000;
+				rate = ((double)(centerY - roomCenterY) * selectedFormula) / 10000;
 			}
 			else if (formulaNum == 3)
 			{
@@ -1054,10 +1054,7 @@ namespace Assets.Models
 				//fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
 				rate = ((double)(roomCenterY - centerY) * selectedFormula) / 10000;
 			}
-            if (rate < 0)
-            {
-				rate = rate * (-1);
-            }
+
 			Debug.Log( " Rate = " + rate.ToString());
 			return rate;
 		}
