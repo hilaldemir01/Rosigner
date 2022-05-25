@@ -177,6 +177,9 @@ namespace Assets.Models
 				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
 				baby1.populationFitnessScore = totalFitness;
 
+				Debug.Log("babyCounter"+babyCounter);
+				Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
+				babyCounter++;
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
 			if (baby1.populationFitnessScore >= 0.95)
@@ -184,12 +187,8 @@ namespace Assets.Models
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 
 			}
-
-
-			for (int p = 0; p < baby1FurnitureGeneticLocations.Count; p++)
-			{
-				Debug.Log("baby1Furniture Fitness Score " + baby1FurnitureGeneticLocations[p].FitnessScore);
-			}
+			
+			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 
 			//genomes.Add(baby1);
 			//genomes.Add(baby2);
@@ -829,7 +828,6 @@ namespace Assets.Models
 			{
 				fitnessScore = (int)(centerX / Math.Sqrt(2));
 				rate = ((double)fitnessScore * selectedFormula) / 10000;
-
 			}
 			else if (formulaNum == 3)
 			{
