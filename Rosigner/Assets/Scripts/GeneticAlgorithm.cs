@@ -35,8 +35,6 @@ namespace Assets.Models
 		public int genomCount;
 		public int generation;
 		public bool busy;
-		public int coordinate1;
-		public int coordinate2;
 		public int momFitnessScore = 0;
 		public int dadFitnessScore = 0;
 		public int xcoordinate = 0;
@@ -51,8 +49,8 @@ namespace Assets.Models
 		List<FurnitureGeneticLocation> allPopulationFurnitureGeneticLocations;
 		public List<FurnitureGeneticLocation> locationList;
 		private Random random = new Random();
-		public static string ClassWallName;
-		public static int ClassDegree = 0 ;
+		public string ClassWallName;
+		public int ClassDegree = 0 ;
 		Genome baby1; // chromosomeLength = 5
 		Genome baby2; // chromosomeLength = 5
 		private string RoomStructureLetter = "D";
@@ -193,7 +191,7 @@ namespace Assets.Models
 				Genome population = new Genome();
 				populationFurnitureGeneticLocations = population.GenomeInit(coordinate1, coordinate2, floorPlan, roomStructuresList, furnitureList, wallList); //populationFurnitureGeneticLocations is just one design																																
 				genomes.Add(population); //to add population designs in genomes
-				double value = CalculateTotalFitnessScores(populationFurnitureGeneticLocations, furnitureList);//to calculate fitness score of each design
+				double value = CalculateTotalFitnessScores(populationFurnitureGeneticLocations, furnitureList, coordinate1, coordinate2);//to calculate fitness score of each design
 				genomes[m].populationFitnessScore = value; //value is total fitness score
 				
 				allPopulationFurnitureGeneticLocations.AddRange(populationFurnitureGeneticLocations); //allPopulationFurnitureGeneticLocations is merge of populationFurnitureGeneticLocations
@@ -209,7 +207,132 @@ namespace Assets.Models
 			{
 				momFurnitureGeneticLocations.Add(allPopulationFurnitureGeneticLocations[n]);
 			}
+			var canBePlaced = 0;
+			int xcoordinate, ycoordinate;
+			int howManyCellsX, howManyCellsY;
+			int i = 0;
+			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
 
+			//creating a new empty design
+
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
+				{
+					floorPlan[k, j] = "T";
+				}
+			}
+
+			
+			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
+			while (i < (int)furnitureList.Capacity)
+			{
+
+				startPosX = momFurnitureGeneticLocations[i].StartX;
+				finishPosX = momFurnitureGeneticLocations[i].FinishX;
+				startPosY = momFurnitureGeneticLocations[i].StartY;
+				finishPosY = momFurnitureGeneticLocations[i].FinishY;
+				canBePlaced = 0;
+
+
+				// checking whether the furniture can fit into the random generated positions
+				if (finishPosX + 7 < coordinate1 && finishPosY < coordinate2)
+				{
+
+					// now, I will check whether the selected cells are empty or not
+
+					for (int j = startPosX; j <= finishPosX; j++)
+					{
+						for (int k = startPosY; k <= finishPosY; k++)
+						{
+							// if the position is not empty, then quit the loop
+							if (floorPlan[j, k] != "T")
+							{
+								if (floorPlan[j, k] == "D")
+								{
+									canBePlaced = 1; // cannot be placed
+									break;
+								}
+							}
+						}
+
+						// if the position is not empty, then quit the loop
+						if (canBePlaced == 1)
+						{
+							break;
+						}
+					}
+					// if the position is not empty, then the random position generation will happen again
+					if (canBePlaced == 0)
+					{
+						// replace the furniture id into array if positions are empty
+						for (int j = startPosX; j < finishPosX; j++)
+						{
+							for (int k = startPosY; k < finishPosY; k++)
+							{
+								floorPlan[j, k] = "" + furnitureList[i].FurnitureID.ToString();
+							}
+						}
+						// after the id is written, now we need to define the front part of the object, I will put 'X' value to define the front part
+						for (int j = startPosY; j < finishPosY; j++)
+						{
+							floorPlan[finishPosX, j] = "X";
+						}
+						// after the X values are written, then "Y" values are going to be replaced to leave an empty space for each furniture
+						// for now, every object will have 30cm space in front of them
+						for (int k = finishPosX + 1; k < finishPosX + 6; k++)
+						{
+							for (int j = startPosY; j < finishPosY; j++)
+								floorPlan[k, j] = "Y";
+						}
+						i++;
+					}
+				}
+
+			}
+
+			string bastir = "";
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
+				{
+					bastir += floorPlan[k, j];
+
+				}
+				bastir += "\n";
+			}
+			string fileName1 = @"D:\eskii.txt";
+
+			try
+			{
+				// Check if file already exists. If yes, delete it.     
+				if (File.Exists(fileName1))
+				{
+					File.Delete(fileName1);
+				}
+
+				// Create a new file     
+				using (FileStream fs = File.Create(fileName1))
+				{
+					// Add some text to file    
+					Byte[] title = new UTF8Encoding(true).GetBytes(bastir);
+					fs.Write(title, 0, title.Length);
+				}
+
+				// Open the stream and read it back.    
+				using (StreamReader sr = File.OpenText(fileName1))
+				{
+					string s = "";
+					while ((s = sr.ReadLine()) != null)
+					{
+						Console.WriteLine(s);
+					}
+				}
+			}
+			catch (Exception Ex)
+			{
+				Console.WriteLine(Ex.ToString());
+			}
 			selectedGenomeIndex = RouletteWheelSelection(); //to get the randomly selected population index for dad
 			Genome dadGenome = genomes[selectedGenomeIndex];
 			
@@ -262,7 +385,7 @@ namespace Assets.Models
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 				MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
 				baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
-				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
 				baby1.populationFitnessScore = totalFitness;
 
 				Debug.Log("babyCounter"+babyCounter);
@@ -292,21 +415,23 @@ namespace Assets.Models
 				}
 			}
 			int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
-			int i = 0;
+		    i = 0;
 			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
 
 			while (i < capacityminusone)
 			{
-				int startPosX = 0;
-				int finishPosX = 0;
-				int startPosY = 0;
-				int finishPosY = 0;
-				var canBePlaced = 0;
+				//int startPosX = 0;
+				//int finishPosX = 0;
+				//int startPosY = 0;
+				//int finishPosY = 0;
+				//var canBePlaced = 0;
 
 				xcoordinate = baby1.xcoordinatebaby[i];
 				ycoordinate = baby1.ycoordinatebaby[i];
-				int howManyCellsX = (int)baby1.newOne[i].Xdimension;
-				int howManyCellsY = (int)baby1.newOne[i].Zdimension;
+				//int howManyCellsX = (int)baby1.newOne[i].Xdimension;
+				//int howManyCellsY = (int)baby1.newOne[i].Zdimension;
+				howManyCellsX = (int)baby1.newOne[i].Xdimension;
+				howManyCellsY = (int)baby1.newOne[i].Zdimension;
 
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
@@ -363,7 +488,6 @@ namespace Assets.Models
 
 							}
 						}
-						Debug.Log("Geliyor mu locaitonlist" + baby1.newOne[i].FurnitureID);
 						locationList.Add(new FurnitureGeneticLocation()
 						{
 							FurnitureID = baby1.newOne[i].FurnitureID,
@@ -402,7 +526,6 @@ namespace Assets.Models
 				}
 				show += "\n";
 			}
-			Console.WriteLine(show);
 			string fileName = @"D:\deneme.txt";
 
 			try
@@ -511,7 +634,8 @@ namespace Assets.Models
 								FinishY = momFurnitureGeneticLocations[i].FinishY,
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
-								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore
+								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
+								WallName = ClassWallName
 							});
 
 
@@ -530,7 +654,9 @@ namespace Assets.Models
 								FinishY = dadFurnitureGeneticLocations[j].FinishY,
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
-								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore
+								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
+								WallName = ClassWallName
+
 							});
 
 						}
@@ -546,7 +672,9 @@ namespace Assets.Models
 								FinishY = dadFurnitureGeneticLocations[j].FinishY,
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
-								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore
+								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
+								WallName = ClassWallName
+
 							});
 
 							baby1.xcoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartX);
@@ -566,7 +694,9 @@ namespace Assets.Models
 								FinishY = momFurnitureGeneticLocations[i].FinishY,
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
-								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore
+								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
+								WallName = ClassWallName
+
 							});
 
 						}
@@ -857,17 +987,17 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			// checking the distance of the furniture to y axis
-			value1 = (int)(centerY / Math.Sqrt(2));
+			// checking the distance of the furniture to y axis // 
+			value1 = (int)(coordinate1 - centerX);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(centerX / Math.Sqrt(2));
+			value2 = (int)(coordinate2 - centerY );
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
+			value3 = (int)(centerX);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
+			value4 = (int)(centerY);
 
 			int selectedFormula = 90000;
 			int formulaNum = 0;
@@ -884,7 +1014,7 @@ namespace Assets.Models
 			}
 
 			score = FindFitnessScoreWallDistance(centerX, centerY, selectedFormula, formulaNum, roomCenterX, roomCenterY);
-			Console.WriteLine("score in dist " + score);
+			Debug.Log("score in dist " + score);
 			if (formulaNum == 1)
 			{
 				ClassWallName = "W1";
@@ -911,30 +1041,34 @@ namespace Assets.Models
 			double rate = 0.0; 
 			if (formulaNum == 1)
 			{
-				fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((double)fitnessScore * selectedFormula) / 10000;
+				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
+				rate = ((double)(roomCenterX - centerX) * selectedFormula) / 10000;
 			}
 			else if (formulaNum == 2)
 			{
-				fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = ((double)fitnessScore * selectedFormula) / 10000;
+			//	fitnessScore = (int)(centerX / Math.Sqrt(2));
+				rate = ((double)(roomCenterY - centerY) * selectedFormula) / 10000;
 			}
 			else if (formulaNum == 3)
 			{
-				fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-				rate = ((double)fitnessScore * selectedFormula) / 10000;
+			//	fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
+				rate = ((double)(roomCenterX - centerX) * selectedFormula) / 10000;
 			}
 			else
 			{
-				fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
-				rate = ((double)fitnessScore * selectedFormula) / 10000;
+				//fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
+				rate = ((double)(roomCenterY - centerY) * selectedFormula) / 10000;
 			}
-			Console.WriteLine("FitnessScore: " + fitnessScore + " Rate = " + rate.ToString());
+            if (rate < 0)
+            {
+				rate = rate * (-1);
+            }
+			Debug.Log( " Rate = " + rate.ToString());
 			return rate;
 		}
 
 		//to calculate fitness score of each furniture in one population and also total fitness score of one population
-		public double CalculateTotalFitnessScores(List<FurnitureGeneticLocation> populationFurnitureGeneticLocations, List<Furniture> furnitureList)
+		public double CalculateTotalFitnessScores(List<FurnitureGeneticLocation> populationFurnitureGeneticLocations, List<Furniture> furnitureList, int coordinate1, int coordinate2)
 		{
 			//total fitness score of all furniture in a design
 			

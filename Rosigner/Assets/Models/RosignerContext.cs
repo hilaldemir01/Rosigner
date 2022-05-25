@@ -750,7 +750,6 @@ namespace Assets.Models
                 GeneticFurnitureIDstring = GeneticFurnitureIDstring + furnitureGeneticLocation[i].FurnitureID.ToString() + ";";
 
             }
-            Debug.Log("/////////LİSTEEEEEE: "+GeneticFurnitureIDstring);
             WWWForm form = new WWWForm();
             form.AddField("unity", "getAllFurnitureType");
             form.AddField("furnitureID", GeneticFurnitureIDstring);
