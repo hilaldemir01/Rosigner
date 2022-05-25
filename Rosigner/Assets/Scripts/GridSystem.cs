@@ -68,7 +68,7 @@ public class GridSystem : MonoBehaviour
                     Vector3 tempPosition = grid.GetWorldPosition(row, tempwall - col);  //dbdeb �ekilecek olarak de�i�ekecek
                     tempPrefab = Inventory.array[i];
                     tempPrefab.gameObject.transform.localScale = new Vector3(TempScript.FurniturList[i].Xdimension * 0.01f, TempScript.FurniturList[i].Ydimension * 0.01f, TempScript.FurniturList[i].Zdimension * 0.01f);
-                    Instantiate(Inventory.array[i], new Vector3(tempPosition.x, 0, tempPosition.z), Quaternion.Euler(0, rotation, 0));
+                    Instantiate(Inventory.array[i], new Vector3(tempPosition.x, (tempPrefab.gameObject.transform.localScale.y)/2, tempPosition.z), Quaternion.Euler(0, rotation, 0));
                 }
 
 
