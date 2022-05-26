@@ -57,6 +57,7 @@ namespace Assets.Models
 		Genome baby2; // chromosomeLength = 5
 		private string RoomStructureLetter = "D";
 		public double totalFitnessScore = 0;
+		public static List<FurnitureGeneticLocation> returnedDesign;
 		public GeneticAlgorithm()
 		{
 			busy = false;
@@ -71,6 +72,7 @@ namespace Assets.Models
 			lastGenerationGenomes = new List<Genome>();
 			roomStructuresList = new List<RoomStructure>();
 			locationList = new List<FurnitureGeneticLocation>();
+			returnedDesign = new List<FurnitureGeneticLocation>();
 			momFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 			dadFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 			baby1FurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
@@ -389,7 +391,7 @@ namespace Assets.Models
 
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 		//		MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
-		//		baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
+				//rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
 				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
 				baby1.populationFitnessScore = totalFitness;
 
@@ -439,7 +441,9 @@ namespace Assets.Models
 				howManyCellsY = (int)baby1.newOne[i].Zdimension;
 				//string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 				wallName = baby1FurnitureGeneticLocations[i].WallName;
+				int degree = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2, i);
 
+				baby1FurnitureGeneticLocations[i].Degree = degree;
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
 					startPosX = xcoordinate;
@@ -513,7 +517,7 @@ namespace Assets.Models
 							YPositionStartY = startPosY,
 							YPositionFinishY = finishPosY,
 							WallName = wallName,
-							Degree = ClassDegree
+							Degree = degree
 						});
 						i++;
 
@@ -761,15 +765,19 @@ namespace Assets.Models
 				}
 			}
 		}
-		public List<FurnitureGeneticLocation> rotateRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2)
+		public int rotateRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2, int indexVal)
 		{
-			int furnitureID = random.Next(0, furnitureGeneticLocations.Count - 1);
+			int furnitureID = indexVal; //= random.Next(0, furnitureGeneticLocations.Count - 1);
+			Debug.Log("First Degree: " + furnitureGeneticLocations[furnitureID].Degree);
+
 			int canBeRotated = 0;
-			if (furnitureGeneticLocations[furnitureID].Degree == 0)
-            {
+			if (furnitureGeneticLocations[furnitureID].Degree == 0 || furnitureGeneticLocations[furnitureID].Degree == 1)
+			{
 				if (furnitureGeneticLocations[furnitureID].WallName == "W1") // wall on the bottom
 				{
-					emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
+					Debug.Log("Wall1 rotation");
+
+				//	emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
 					// the front part of the furniture will be on the top, so we don't want it to exceed 0 
 					if (furnitureGeneticLocations[furnitureID].StartX - 6 > 0)
 					{
@@ -821,12 +829,14 @@ namespace Assets.Models
 					furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
 					furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].FinishY;
 					furnitureGeneticLocations[furnitureID].Degree = 180;
-					ClassDegree = 180;
+					Debug.Log("Wall1 rotation " + furnitureGeneticLocations[furnitureID].Degree);
+
 
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W2") // right-side wall
 				{
 					// Start positions of poth x and y will stay the same, later their finish positions will change according to their width
+					Debug.Log("Wall2 rotation");
 
 					int XValue = furnitureGeneticLocations[furnitureID].StartX + (furnitureGeneticLocations[furnitureID].FinishY - furnitureGeneticLocations[furnitureID].StartY);
 					int YValue = furnitureGeneticLocations[furnitureID].StartY + (furnitureGeneticLocations[furnitureID].FinishX - furnitureGeneticLocations[furnitureID].StartX);
@@ -834,15 +844,15 @@ namespace Assets.Models
 					if (XValue < coordinate1 && YValue < coordinate2)
 					{
 						// first empty the area that it currently allocates
-						emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
+					//	emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
 
 						int newFinishX, newFinishY;
 
 						newFinishX = XValue;
 						newFinishY = YValue;
 
-						furnitureGeneticLocations[furnitureID].FinishX = newFinishX;
-						furnitureGeneticLocations[furnitureID].FinishY = newFinishY;
+						furnitureGeneticLocations[indexVal].FinishX = newFinishX;
+						furnitureGeneticLocations[indexVal].FinishY = newFinishY;
 
 						for (int i = furnitureGeneticLocations[furnitureID].StartX; i < furnitureGeneticLocations[furnitureID].FinishX; i++)
 						{
@@ -875,16 +885,23 @@ namespace Assets.Models
 						furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
 						furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
 						furnitureGeneticLocations[furnitureID].Degree = 90;
-						ClassDegree = 90;
+
+						Debug.Log("Wall2 rotation " + furnitureGeneticLocations[furnitureID].Degree);
 
 					}
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W3") // wall on the top
 				{
+					Debug.Log("Wall3 rotation");
+
+					furnitureGeneticLocations[furnitureID].Degree = 0;
+
 					// we don't want to turn it around since it is already aligned
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W4") // wall on the left side
 				{
+					Debug.Log("Wall4 rotation");
+
 					// Start positions of poth x and y will stay the same, later their finish positions will change according to their width
 
 					int XValue = furnitureGeneticLocations[furnitureID].StartX + (furnitureGeneticLocations[furnitureID].FinishY - furnitureGeneticLocations[furnitureID].StartY);
@@ -893,7 +910,7 @@ namespace Assets.Models
 					if (XValue < coordinate1 && YValue < coordinate2)
 					{
 						// first empty the area that it currently allocates
-						emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
+				//		emptyAllLocations(furnitureGeneticLocations[furnitureID], floorPlan);
 
 						int newFinishX, newFinishY;
 
@@ -934,56 +951,14 @@ namespace Assets.Models
 						furnitureGeneticLocations[furnitureID].YPositionStartY = furnitureGeneticLocations[furnitureID].StartY - 6;
 						furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
 						furnitureGeneticLocations[furnitureID].Degree = 270;
-						ClassDegree = 270;
+						Debug.Log("Wall4 rotation " + furnitureGeneticLocations[furnitureID].Degree);
+
 
 
 					}
 				}
 			}
-
-
-			string fileName = @"D:\matrix2.txt";
-			string bastir = "";
-			for (int k = 0; k < coordinate1; k++)
-			{
-				for (int j = 0; j < coordinate2; j++)
-				{
-					bastir += floorPlan[k, j];
-
-				}
-				bastir += "\n";
-			}
-			try
-			{
-				// Check if file already exists. If yes, delete it.     
-				if (File.Exists(fileName))
-				{
-					File.Delete(fileName);
-				}
-
-				// Create a new file     
-				using (FileStream fs = File.Create(fileName))
-				{
-					// Add some text to file    
-					Byte[] title = new UTF8Encoding(true).GetBytes(bastir);
-					fs.Write(title, 0, title.Length);
-				}
-
-				// Open the stream and read it back.    
-				using (StreamReader sr = File.OpenText(fileName))
-				{
-					string s = "";
-					while ((s = sr.ReadLine()) != null)
-					{
-						Console.WriteLine(s);
-					}
-				}
-			}
-			catch (Exception Ex)
-			{
-				Console.WriteLine(Ex.ToString());
-			}
-			return furnitureGeneticLocations;
+			return furnitureGeneticLocations[furnitureID].Degree;
 		}
 
 		public double distanceFromWalls(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
@@ -1104,7 +1079,7 @@ namespace Assets.Models
 
 			}
 			wallCounter = 0; //to reset wall counter 
-			return (totalFitnessScore/4);
+			return (totalFitnessScore/ furnitureList.Count);
 
 		}
 
