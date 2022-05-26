@@ -227,7 +227,7 @@ namespace Assets.Models
 			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
 
 
-
+			
 			
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < (int)furnitureList.Capacity)
@@ -358,7 +358,7 @@ namespace Assets.Models
 			//iteration part for baby
 			//while loop will be run until the population fitness score of baby will be bigger than 0.95
 			//In while loop, baby1 will be new mom and dad will be randomly re-selected from the population
-			while (baby1.populationFitnessScore < 0.60)
+			while (baby1.populationFitnessScore < 0.80)
 			{		
 				momFurnitureGeneticLocations.Clear();
 				dadFurnitureGeneticLocations.Clear();
@@ -391,16 +391,16 @@ namespace Assets.Models
 
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 		//		MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
-				//rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
-				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
-				baby1.populationFitnessScore = totalFitness;
+		//		baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
+			//	totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+			//	baby1.populationFitnessScore = totalFitness;
 
 				Debug.Log("babyCounter"+babyCounter);
 				Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 				babyCounter++;
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
-			if (baby1.populationFitnessScore >= 0.60)
+			if (baby1.populationFitnessScore >= 0.80)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 
@@ -517,14 +517,17 @@ namespace Assets.Models
 							YPositionStartY = startPosY,
 							YPositionFinishY = finishPosY,
 							WallName = wallName,
+							FitnessScore = baby1FurnitureGeneticLocations[i].FitnessScore,
 							Degree = degree
 						});
 						i++;
+						
 
 					}
 
 				}
 			}
+
 
 			string show = "";
 			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım
@@ -646,7 +649,6 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								//WallName = ClassWallName
 								WallName = momFurnitureGeneticLocations[i].WallName	
 
 							});
@@ -668,7 +670,6 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								//WallName = ClassWallName
 								WallName = dadFurnitureGeneticLocations[j].WallName	
 
 							});
@@ -687,7 +688,6 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								//WallName = ClassWallName
 								WallName = dadFurnitureGeneticLocations[j].WallName	
 							});
 
@@ -709,7 +709,6 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								//WallName = ClassWallName
 								WallName = momFurnitureGeneticLocations[i].WallName	
 							});
 
@@ -969,11 +968,11 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			value1 = (int)(coordinate1 - finishY); //wall1 
+			value1 = (int)(coordinate2 - finishY); //wall1 
 			Debug.Log("Value1" + value1);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2 - finishX); //wall2
+			value2 = (int)(coordinate1 - finishX); //wall2
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
@@ -1055,6 +1054,7 @@ namespace Assets.Models
 			}
 
 			Debug.Log( " Rate = " + rate.ToString());
+			rate = rate / 10;
 			return rate;
 		}
 
@@ -1079,7 +1079,7 @@ namespace Assets.Models
 
 			}
 			wallCounter = 0; //to reset wall counter 
-			return (totalFitnessScore/ furnitureList.Count);
+			return (totalFitnessScore/( furnitureList.Count*10));
 
 		}
 
