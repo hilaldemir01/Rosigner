@@ -984,19 +984,19 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			value1 = (int)(coordinate1 - finishY); //wall1 
+			value1 = (int)(coordinate1 - finishX); //wall1 
 			Debug.Log("Value1" + value1);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2 - finishX); //wall2
+			value2 = (int)(coordinate2 - finishY); //wall2
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startY); //wall3
+			value3 = (int)(startX); //wall3
 			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startX); //wall4
+			value4 = (int)(startY); //wall4
 			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
@@ -1042,19 +1042,19 @@ namespace Assets.Models
 			int centerY = finishY + startY / 2;
 			Debug.Log("coordinate1: " + coordinate1 + " coordinate2: " + coordinate2);
 			// checking the distance of the furniture to y axis // 
-			value1 = (int)(coordinate1-finishY); //wall1 
+			value1 = (int)(coordinate1-finishX); //wall1 
 			Debug.Log("Value1" + value1);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2-finishX); //wall2
+			value2 = (int)(coordinate2-finishY); //wall2
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startY); //wall3
+			value3 = (int)(startX); //wall3
 			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startX); //wall4
+			value4 = (int)(startY); //wall4
 			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
@@ -1097,17 +1097,17 @@ namespace Assets.Models
 			if (formulaNum == 1) // w1
 			{
 				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((double) finishY/coordinate1);
+				rate = ((double) finishX/coordinate1);
 			}
 			else if (formulaNum == 2)
 			{
 			//	fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = (double)(finishX/coordinate2);
+				rate = (double)(finishY/coordinate2);
 			}
 			else if (formulaNum == 3)
 			{
 				//	fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-				rate = ((double) Math.Abs(startY - coordinate1) / coordinate1);
+				rate = ((double) Math.Abs(startX - coordinate1) / coordinate1);
 			}
 			else
 			{
