@@ -344,13 +344,15 @@ namespace Assets.Models
 			Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 			int forsize = momGenome.furnitureListGenom.Capacity; //??
-
-			//clearlamadan önce database'e yazma işleme yaparız (EĞER SADECE SON KISMI DB YE YAZCAKSAK BURDA GEREK YOK)
+			//MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
+			//baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
+			//totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+			//baby1.populationFitnessScore = totalFitness;
 			
 			//iteration part for baby
 			//while loop will be run until the population fitness score of baby will be bigger than 0.95
 			//In while loop, baby1 will be new mom and dad will be randomly re-selected from the population
-			while (baby1.populationFitnessScore < 0.95)
+			while (baby1.populationFitnessScore < 0.60)
 			{		
 				momFurnitureGeneticLocations.Clear();
 				dadFurnitureGeneticLocations.Clear();
@@ -392,7 +394,7 @@ namespace Assets.Models
 				babyCounter++;
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
-			if (baby1.populationFitnessScore >= 0.95)
+			if (baby1.populationFitnessScore >= 0.60)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 
