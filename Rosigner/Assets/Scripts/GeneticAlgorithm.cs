@@ -225,7 +225,7 @@ namespace Assets.Models
 			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
 
 
-
+			
 			
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < (int)furnitureList.Capacity)
@@ -356,7 +356,7 @@ namespace Assets.Models
 			//iteration part for baby
 			//while loop will be run until the population fitness score of baby will be bigger than 0.95
 			//In while loop, baby1 will be new mom and dad will be randomly re-selected from the population
-			while (baby1.populationFitnessScore < 0.60)
+			while (baby1.populationFitnessScore < 0.80)
 			{		
 				momFurnitureGeneticLocations.Clear();
 				dadFurnitureGeneticLocations.Clear();
@@ -390,15 +390,15 @@ namespace Assets.Models
 				Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 		//		MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
 		//		baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
-				totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
-				baby1.populationFitnessScore = totalFitness;
+			//	totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+			//	baby1.populationFitnessScore = totalFitness;
 
 				Debug.Log("babyCounter"+babyCounter);
 				Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 				babyCounter++;
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
-			if (baby1.populationFitnessScore >= 0.60)
+			if (baby1.populationFitnessScore >= 0.80)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 
@@ -1079,6 +1079,7 @@ namespace Assets.Models
 			}
 
 			Debug.Log( " Rate = " + rate.ToString());
+			rate = rate / 10;
 			return rate;
 		}
 
@@ -1103,8 +1104,7 @@ namespace Assets.Models
 
 			}
 			wallCounter = 0; //to reset wall counter 
-			return (totalFitnessScore/4);
-
+			return totalFitnessScore/40;
 		}
 
 		//to randomly move one furniture of one population(design)
