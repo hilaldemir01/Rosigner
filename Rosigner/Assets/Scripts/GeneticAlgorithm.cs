@@ -178,6 +178,18 @@ namespace Assets.Models
 		// step number 1
 		public List<FurnitureGeneticLocation> CreateStartPopulation(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
 		{
+			for (int k = 0; k < coordinate1; k++)
+			{
+				for (int j = 0; j < coordinate2; j++)
+				{
+					floorPlan[k, j] = "T";
+				}
+			}
+
+			//creating a new empty design
+
+			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
+
 			genomes.Clear(); // clear out any genomes at first
 
 			for (int m = 0; m < populationSize; m++)
@@ -208,15 +220,7 @@ namespace Assets.Models
 			int i = 0;
 			int startPosX = 0, finishPosX = 0, startPosY = 0, finishPosY = 0;
 
-			//creating a new empty design
 
-			for (int k = 0; k < coordinate1; k++)
-			{
-				for (int j = 0; j < coordinate2; j++)
-				{
-					floorPlan[k, j] = "T";
-				}
-			}
 
 			
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
@@ -427,6 +431,7 @@ namespace Assets.Models
 				//int howManyCellsY = (int)baby1.newOne[i].Zdimension;
 				howManyCellsX = (int)baby1.newOne[i].Xdimension;
 				howManyCellsY = (int)baby1.newOne[i].Zdimension;
+				string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
@@ -500,7 +505,7 @@ namespace Assets.Models
 							YPositionFinishX = finishPosX + 6,
 							YPositionStartY = startPosY,
 							YPositionFinishY = finishPosY,
-							WallName = ClassWallName,
+							WallName = wallName,
 							Degree = ClassDegree
 						});
 						i++;
@@ -979,19 +984,19 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			// checking the distance of the furniture to y axis // 
-			value1 = (int)(coordinate1 - centerX);
+			value1 = (int)(coordinate1 - finishY); //wall1 
 			Debug.Log("Value1" + value1);
+
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2 - centerY );
+			value2 = (int)(coordinate2 - finishX); //wall2
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(centerX);
+			value3 = (int)(startY); //wall3
 			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(centerY);
+			value4 = (int)(startX); //wall4
 			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
@@ -1008,7 +1013,8 @@ namespace Assets.Models
 				}
 			}
 
-			score = FindFitnessScoreWallDistance(centerX, centerY, selectedFormula, formulaNum, roomCenterX, roomCenterY);
+			score = FindFitnessScoreWallDistance(startX, startY, finishX, finishY, coordinate1, coordinate2, formulaNum);
+
 			Debug.Log("score in dist " + score);
 			if (formulaNum == 1)
 			{
@@ -1028,31 +1034,85 @@ namespace Assets.Models
 			}
 			return score;
 		}
+		public string wallNameUpdate(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
+		{
+			int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
+			int roomCenterX = coordinate1 / 2, roomCenterY = coordinate2 / 2;
+			int centerX = finishX + startX / 2;
+			int centerY = finishY + startY / 2;
+			Debug.Log("coordinate1: " + coordinate1 + " coordinate2: " + coordinate2);
+			// checking the distance of the furniture to y axis // 
+			value1 = (int)(coordinate1-finishY); //wall1 
+			Debug.Log("Value1" + value1);
 
+			// checking the distance of the furniture to x axis
+			value2 = (int)(coordinate2-finishX); //wall2
+			Debug.Log("Value2" + value2);
+
+			// checking the distance of the furniture to x-y axis (y is in the upper part)
+			value3 = (int)(startY); //wall3
+			Debug.Log("Value3" + value3);
+
+			// checking the distance of the furniture to x-y axis (x is in the upper part)
+			value4 = (int)(startX); //wall4
+			Debug.Log("Value4" + value4);
+
+			int selectedFormula = 90000;
+			int formulaNum = 0;
+
+			int[] myNum = { value1, value2, value3, value4 };
+
+			for (int i = 0; i < myNum.Length; i++)
+			{
+				if (selectedFormula > myNum[i])
+				{
+					selectedFormula = myNum[i];
+					formulaNum = i + 1;
+				}
+			}
+
+			if (formulaNum == 1)
+			{
+				ClassWallName = "W1";
+			}
+			else if (formulaNum == 2)
+			{
+				ClassWallName = "W2";
+			}
+			else if (formulaNum == 3)
+			{
+				ClassWallName = "W3";
+			}
+			else
+			{
+				ClassWallName = "W4";
+			}
+			return ClassWallName;
+		}
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
-		public double FindFitnessScoreWallDistance(int centerX, int centerY, int selectedFormula, int formulaNum, int roomCenterX, int roomCenterY)
+		public double FindFitnessScoreWallDistance(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2, int formulaNum)
 		{
 			int fitnessScore;
 			double rate = 0.0; 
-			if (formulaNum == 1)
+			if (formulaNum == 1) // w1
 			{
 				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((double)(centerX - roomCenterX ) * selectedFormula) / 10000;
+				rate = ((double) finishY/coordinate1);
 			}
 			else if (formulaNum == 2)
 			{
 			//	fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = ((double)(centerY - roomCenterY) * selectedFormula) / 10000;
+				rate = (double)(finishX/coordinate2);
 			}
 			else if (formulaNum == 3)
 			{
-			//	fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-				rate = ((double)(roomCenterX - centerX) * selectedFormula) / 10000;
+				//	fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
+				rate = ((double) Math.Abs(startY - coordinate1) / coordinate1);
 			}
 			else
 			{
 				//fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
-				rate = ((double)(roomCenterY - centerY) * selectedFormula) / 10000;
+				rate = ((double)Math.Abs(startY - coordinate2) / coordinate2);
 			}
 
 			Debug.Log( " Rate = " + rate.ToString());
@@ -1080,7 +1140,7 @@ namespace Assets.Models
 
 			}
 
-			return totalFitnessScore;
+			return (totalFitnessScore/4);
 
 		}
 

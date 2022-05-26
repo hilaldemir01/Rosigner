@@ -225,10 +225,10 @@ namespace Assets.Models
 						int centerY = (startPosY + finishPosY) / 2;
 						GeneticAlgorithm genetic = new GeneticAlgorithm();
 						double score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
-
+						string wallName = genetic.wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX,
 							CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
-							FitnessScore = score
+							FitnessScore = score, Degree = 0, WallName = wallName
 						});
 						i++;
 					}
