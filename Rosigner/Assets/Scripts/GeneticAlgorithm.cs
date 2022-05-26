@@ -57,6 +57,7 @@ namespace Assets.Models
 		Genome baby2; // chromosomeLength = 5
 		private string RoomStructureLetter = "D";
 		public double totalFitnessScore = 0;
+		public static List<FurnitureGeneticLocation> finalver;
 		public GeneticAlgorithm()
 		{
 			busy = false;
@@ -69,6 +70,7 @@ namespace Assets.Models
 			furnitureList = new List<Furniture>();
 			furnitureFronts = new List<List<string>>();
 			lastGenerationGenomes = new List<Genome>();
+			finalver = new List<FurnitureGeneticLocation>();
 			roomStructuresList = new List<RoomStructure>();
 			locationList = new List<FurnitureGeneticLocation>();
 			momFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
@@ -422,6 +424,7 @@ namespace Assets.Models
 			}
 			int capacityminusone = (int)furnitureList.Count; // -1 durumu?
 		    i = 0;
+			int degree = 0;
 			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
 			string wallName;
 			while (i < capacityminusone)
@@ -440,7 +443,8 @@ namespace Assets.Models
 				howManyCellsY = (int)baby1.newOne[i].Zdimension;
 				//string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 				wallName = baby1FurnitureGeneticLocations[i].WallName;
-
+			//	degree = baby1FurnitureGeneticLocations[i].Degree;
+			//	degree = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2, i);
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
 					startPosX = xcoordinate;
@@ -514,7 +518,7 @@ namespace Assets.Models
 							YPositionStartY = startPosY,
 							YPositionFinishY = finishPosY,
 							WallName = wallName,
-							Degree = ClassDegree,
+							Degree = degree,
 							FitnessScore = baby1FurnitureGeneticLocations[i].FitnessScore
 						});
 						i++;
@@ -525,7 +529,7 @@ namespace Assets.Models
 				}
 			}
 
-
+			finalver = locationList;
 			string show = "";
 			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım
 			{
@@ -536,6 +540,13 @@ namespace Assets.Models
 
 				}
 				show += "\n";
+			}
+			int h = 0;
+            while (h < locationList.Count)
+            {
+				degree = rotateRandomFurniture(locationList, floorPlan, coordinate1, coordinate2, h);
+				locationList[h].Degree = degree;
+				h++;
 			}
 			string fileName = @"D:\deneme.txt";
 
@@ -761,9 +772,9 @@ namespace Assets.Models
 				}
 			}
 		}
-		public List<FurnitureGeneticLocation> rotateRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2)
+		public int rotateRandomFurniture(List<FurnitureGeneticLocation> furnitureGeneticLocations, string[,] floorPlan, int coordinate1, int coordinate2, int index)
 		{
-			int furnitureID = random.Next(0, furnitureGeneticLocations.Count - 1);
+			int furnitureID = index;
 			int canBeRotated = 0;
 			if (furnitureGeneticLocations[furnitureID].Degree == 0)
             {
@@ -983,7 +994,8 @@ namespace Assets.Models
 			{
 				Console.WriteLine(Ex.ToString());
 			}
-			return furnitureGeneticLocations;
+			return furnitureGeneticLocations[furnitureID].Degree;
+			
 		}
 
 		public double distanceFromWalls(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
@@ -993,7 +1005,7 @@ namespace Assets.Models
 			int roomCenterX = coordinate1 / 2, roomCenterY = coordinate2 / 2;
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
-
+			int degree = 0;
 			value1 = (int)(coordinate2 - finishY); //wall2
 			Debug.Log("Value1" + value1);
 
@@ -1029,20 +1041,28 @@ namespace Assets.Models
 			if (formulaNum == 1)
 			{
 				ClassWallName = "W2";
+				//degree = 90;
 			}
 			else if (formulaNum == 2)
 			{
 				ClassWallName = "W1";
+			//	degree = 180;
+
 			}
 			else if (formulaNum == 3)
 			{
 				ClassWallName = "W4";
+			//	degree = 270;
+
 			}
 			else
 			{
 				ClassWallName = "W3";
+				//degree = 0;
+
 			}
 			populationFurnitureGeneticLocations[wallCounter].WallName = ClassWallName;
+			//populationFurnitureGeneticLocations[wallCounter].Degree = degree;
 			wallCounter++;
 			return score;
 		}

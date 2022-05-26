@@ -61,7 +61,7 @@ public class GridSystem : MonoBehaviour
                     int row = TempScript.furnitureLocationList[k].CenterY;
                     int col = TempScript.furnitureLocationList[k].CenterX;
 
-                    float rotation = Inventory.array[i].transform.rotation.y;
+                    float rotation = GeneticAlgorithm.finalver[k].Degree;
                     Debug.Log("***********rotation: " + rotation);
 
                     Debug.Log("furniture info: " + grid.GetWorldPosition(row, col) + " genetic id: " + furnitureGeneticInformationList[k].GeneticLocationID + " furniture id: " + furnitureGeneticInformationList[k].FurnitureID);
