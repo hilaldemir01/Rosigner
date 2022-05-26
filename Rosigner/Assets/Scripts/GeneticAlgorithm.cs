@@ -1079,7 +1079,7 @@ namespace Assets.Models
 
 			}
 			wallCounter = 0; //to reset wall counter 
-			return (totalFitnessScore/( furnitureList.Count));
+			return (totalFitnessScore/( 40));
 
 		}
 
