@@ -148,7 +148,7 @@ namespace Assets.Models
 				}
 			}
 
-			int capacityminusone = (int)furnitureList.Capacity;
+			int capacityminusone = (int)furnitureList.Count;
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
 			while (i < capacityminusone)
 			{

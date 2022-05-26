@@ -228,7 +228,7 @@ namespace Assets.Models
 			
 			
 			// the default capacity of a list is fixed at 4, so if you get error about size, please consider it
-			while (i < (int)furnitureList.Capacity)
+			while (i < (int)furnitureList.Count)
 			{
 
 				startPosX = momFurnitureGeneticLocations[i].StartX;
@@ -347,7 +347,8 @@ namespace Assets.Models
 
 			Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
-			int forsize = momGenome.furnitureListGenom.Capacity; //??
+			//int forsize = momGenome.furnitureListGenom.Capacity; //??
+			int forsize = furnitureList.Count;
 			//MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
 			//baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
 			//totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
@@ -419,7 +420,7 @@ namespace Assets.Models
 					floorPlan[k, j] = "T";
 				}
 			}
-			int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
+			int capacityminusone = (int)furnitureList.Count; // -1 durumu?
 		    i = 0;
 			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
 			string wallName;
@@ -993,19 +994,19 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			value1 = (int)(coordinate2 - finishY); //wall1 
+			value1 = (int)(coordinate2 - finishY); //wall2
 			Debug.Log("Value1" + value1);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate1 - finishX); //wall2
+			value2 = (int)(coordinate1 - finishX); //wall1
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startY); //wall3
+			value3 = (int)(startY); //wall4
 			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startX); //wall4
+			value4 = (int)(startX); //wall3
 			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
@@ -1045,19 +1046,13 @@ namespace Assets.Models
 			wallCounter++;
 			return score;
 		}
-	/*	public string ReturnWallName(){
-			string wall;
-			wall = baby1FurnitureGeneticLocations[callCount].WallName;
-			callCount++;
-			return wall;
-		}
-	*/
+
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
 		public double FindFitnessScoreWallDistance(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2, int formulaNum)
 		{
 			int fitnessScore;
 			double rate = 0.0; 
-			if (formulaNum == 1) // w1
+			if (formulaNum == 1) // w2
 			{
 				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
 				rate = ((double) finishY/coordinate1);
@@ -1104,7 +1099,7 @@ namespace Assets.Models
 
 			}
 			wallCounter = 0; //to reset wall counter 
-			return totalFitnessScore/40;
+			return totalFitnessScore;
 		}
 
 		//to randomly move one furniture of one population(design)
@@ -1133,8 +1128,8 @@ namespace Assets.Models
 			int centerX = (startPosX + finishPosX) / 2;
 			int centerY = (startPosY + finishPosY) / 2;
 
-			int capacityminusone = (int)furnitureList.Capacity; //BAKILMALI
 
+			int capacityminusone = (int)furnitureList.Count;
 			baby1.xcoordinatebaby[index] = xcoordinatetoBaby;
 			baby1.ycoordinatebaby[index] = ycoordinatetoBaby;
 
