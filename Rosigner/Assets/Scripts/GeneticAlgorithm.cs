@@ -1016,22 +1016,6 @@ namespace Assets.Models
 			score = FindFitnessScoreWallDistance(startX, startY, finishX, finishY, coordinate1, coordinate2, formulaNum);
 
 			Debug.Log("score in dist " + score);
-			if (formulaNum == 1)
-			{
-				ClassWallName = "W1";
-			}
-			else if (formulaNum == 2)
-			{
-				ClassWallName = "W2";
-			}
-			else if (formulaNum == 3)
-			{
-				ClassWallName = "W3";
-			}
-			else
-			{
-				ClassWallName = "W4";
-			}
 			return score;
 		}
 		public string wallNameUpdate(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
