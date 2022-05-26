@@ -50,6 +50,8 @@ namespace Assets.Models
 		public List<FurnitureGeneticLocation> locationList;
 		private Random random = new Random();
 		public string ClassWallName;
+		public static int wallCounter;
+		public static int callCount;
 		public int ClassDegree = 0 ;
 		Genome baby1; // chromosomeLength = 5
 		Genome baby2; // chromosomeLength = 5
@@ -203,7 +205,9 @@ namespace Assets.Models
 				
 				allPopulationFurnitureGeneticLocations.AddRange(populationFurnitureGeneticLocations); //allPopulationFurnitureGeneticLocations is merge of populationFurnitureGeneticLocations
 			}
-
+			for(int x = 0; x<allPopulationFurnitureGeneticLocations.Count; x++){
+				Debug.Log("wallName "+allPopulationFurnitureGeneticLocations[x].WallName);
+			}
 			// StartCoroutine(db.TempFurnitureLocation(dadFurnitureGeneticLocations));
 
 			int selectedGenomeIndex;
@@ -344,13 +348,15 @@ namespace Assets.Models
 			Crossover(momGenome, dadGenome, baby1, baby2, furnitureList);
 			Debug.Log("baby1 pop fitnessscore" + baby1.populationFitnessScore);
 			int forsize = momGenome.furnitureListGenom.Capacity; //??
-
-			//clearlamadan önce database'e yazma işleme yaparız (EĞER SADECE SON KISMI DB YE YAZCAKSAK BURDA GEREK YOK)
+			//MoveRandomFurniture(coordinate1, coordinate2, furnitureList); //index of furniture in baby to be moved			
+			//baby1FurnitureGeneticLocations = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
+			//totalFitness = CalculateTotalFitnessScores(baby1FurnitureGeneticLocations, furnitureList, coordinate1, coordinate2); //to calculate the baby's new fitness score whose position has been randomized in moverandomfurniture function
+			//baby1.populationFitnessScore = totalFitness;
 			
 			//iteration part for baby
 			//while loop will be run until the population fitness score of baby will be bigger than 0.95
 			//In while loop, baby1 will be new mom and dad will be randomly re-selected from the population
-			while (baby1.populationFitnessScore < 0.95)
+			while (baby1.populationFitnessScore < 0.60)
 			{		
 				momFurnitureGeneticLocations.Clear();
 				dadFurnitureGeneticLocations.Clear();
@@ -392,7 +398,7 @@ namespace Assets.Models
 				babyCounter++;
 				////oluşturduktan sonra oluşanlar gerekirse burda da db ye ekleme için yazılır temizliyoruz her defasında çünkü
 			}
-			if (baby1.populationFitnessScore >= 0.95)
+			if (baby1.populationFitnessScore >= 0.60)
 			{
 				Debug.Log("Found"); // TOTAL FITNESS SCORE BABY1
 
@@ -416,7 +422,7 @@ namespace Assets.Models
 			int capacityminusone = (int)furnitureList.Capacity; // -1 durumu?
 		    i = 0;
 			floorPlan = returnStructurePlan((int)wallList[1].WallLength * 100, (int)wallList[0].WallLength * 100, floorPlan, roomStructureList, wallList);
-
+			string wallName;
 			while (i < capacityminusone)
 			{
 				//int startPosX = 0;
@@ -431,7 +437,8 @@ namespace Assets.Models
 				//int howManyCellsY = (int)baby1.newOne[i].Zdimension;
 				howManyCellsX = (int)baby1.newOne[i].Xdimension;
 				howManyCellsY = (int)baby1.newOne[i].Zdimension;
-				string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+				//string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+				wallName = baby1FurnitureGeneticLocations[i].WallName;
 
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
@@ -635,7 +642,9 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								WallName = ClassWallName
+								//WallName = ClassWallName
+								WallName = momFurnitureGeneticLocations[i].WallName	
+
 							});
 
 
@@ -655,7 +664,8 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								WallName = ClassWallName
+								//WallName = ClassWallName
+								WallName = dadFurnitureGeneticLocations[j].WallName	
 
 							});
 
@@ -673,8 +683,8 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								WallName = ClassWallName
-
+								//WallName = ClassWallName
+								WallName = dadFurnitureGeneticLocations[j].WallName	
 							});
 
 							baby1.xcoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartX);
@@ -695,8 +705,8 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								WallName = ClassWallName
-
+								//WallName = ClassWallName
+								WallName = momFurnitureGeneticLocations[i].WallName	
 							});
 
 						}
@@ -1018,77 +1028,31 @@ namespace Assets.Models
 			Debug.Log("score in dist " + score);
 			if (formulaNum == 1)
 			{
-				ClassWallName = "W1";
+				ClassWallName = "W2";
 			}
 			else if (formulaNum == 2)
 			{
-				ClassWallName = "W2";
+				ClassWallName = "W1";
 			}
 			else if (formulaNum == 3)
 			{
-				ClassWallName = "W3";
+				ClassWallName = "W4";
 			}
 			else
 			{
-				ClassWallName = "W4";
+				ClassWallName = "W3";
 			}
+			populationFurnitureGeneticLocations[wallCounter].WallName = ClassWallName;
+			wallCounter++;
 			return score;
 		}
-		public string wallNameUpdate(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
-		{
-			int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
-			int roomCenterX = coordinate1 / 2, roomCenterY = coordinate2 / 2;
-			int centerX = finishX + startX / 2;
-			int centerY = finishY + startY / 2;
-			Debug.Log("coordinate1: " + coordinate1 + " coordinate2: " + coordinate2);
-			// checking the distance of the furniture to y axis // 
-			value1 = (int)(coordinate1-finishX); //wall1 
-			Debug.Log("Value1" + value1);
-
-			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2-finishY); //wall2
-			Debug.Log("Value2" + value2);
-
-			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startX); //wall3
-			Debug.Log("Value3" + value3);
-
-			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startY); //wall4
-			Debug.Log("Value4" + value4);
-
-			int selectedFormula = 90000;
-			int formulaNum = 0;
-
-			int[] myNum = { value1, value2, value3, value4 };
-
-			for (int i = 0; i < myNum.Length; i++)
-			{
-				if (selectedFormula > myNum[i])
-				{
-					selectedFormula = myNum[i];
-					formulaNum = i + 1;
-				}
-			}
-
-			if (formulaNum == 1)
-			{
-				ClassWallName = "W1";
-			}
-			else if (formulaNum == 2)
-			{
-				ClassWallName = "W2";
-			}
-			else if (formulaNum == 3)
-			{
-				ClassWallName = "W3";
-			}
-			else
-			{
-				ClassWallName = "W4";
-			}
-			return ClassWallName;
+	/*	public string ReturnWallName(){
+			string wall;
+			wall = baby1FurnitureGeneticLocations[callCount].WallName;
+			callCount++;
+			return wall;
 		}
+	*/
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
 		public double FindFitnessScoreWallDistance(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2, int formulaNum)
 		{
@@ -1112,7 +1076,7 @@ namespace Assets.Models
 			else
 			{
 				//fitnessScore = (int)((centerY + 2 * centerX) / Math.Sqrt(2));
-				rate = ((double)Math.Abs(startY - coordinate2) / coordinate2);
+				rate = ((double)Math.Abs(startX - coordinate2) / coordinate2); //starty deydi hilalde
 			}
 
 			Debug.Log( " Rate = " + rate.ToString());
@@ -1139,7 +1103,7 @@ namespace Assets.Models
 				totalFitnessScore = totalFitnessScore + populationFurnitureGeneticLocations[i].FitnessScore;
 
 			}
-
+			wallCounter = 0; //to reset wall counter 
 			return (totalFitnessScore/4);
 
 		}
@@ -1181,6 +1145,61 @@ namespace Assets.Models
 			baby1FurnitureGeneticLocations.Insert(index, new FurnitureGeneticLocation() { FurnitureID = baby1.newOne[index].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY });
 
 		}
+		/*
+		public string wallNameUpdate(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
+		{
+			int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
+			int roomCenterX = coordinate1 / 2, roomCenterY = coordinate2 / 2;
+			int centerX = finishX + startX / 2;
+			int centerY = finishY + startY / 2;
+			Debug.Log("coordinate1: " + coordinate1 + " coordinate2: " + coordinate2);
+			// checking the distance of the furniture to y axis // 
+			value1 = (int)(coordinate1-finishY); //wall1 
+			Debug.Log("Value1" + value1);
 
+			// checking the distance of the furniture to x axis
+			value2 = (int)(coordinate2-finishX); //wall2
+			Debug.Log("Value2" + value2);
+
+			// checking the distance of the furniture to x-y axis (y is in the upper part)
+			value3 = (int)(startY); //wall3
+			Debug.Log("Value3" + value3);
+
+			// checking the distance of the furniture to x-y axis (x is in the upper part)
+			value4 = (int)(startX); //wall4
+			Debug.Log("Value4" + value4);
+
+			int selectedFormula = 90000;
+			int formulaNum = 0;
+
+			int[] myNum = { value1, value2, value3, value4 };
+
+			for (int i = 0; i < myNum.Length; i++)
+			{
+				if (selectedFormula > myNum[i])
+				{
+					selectedFormula = myNum[i];
+					formulaNum = i + 1;
+				}
+			}
+
+			if (formulaNum == 1)
+			{
+				ClassWallName = "W1";
+			}
+			else if (formulaNum == 2)
+			{
+				ClassWallName = "W2";
+			}
+			else if (formulaNum == 3)
+			{
+				ClassWallName = "W3";
+			}
+			else
+			{
+				ClassWallName = "W4";
+			}
+			return ClassWallName;
+		}*/
 	}
 }

@@ -10,11 +10,9 @@ namespace Assets.Models
 {
     public class Genome
     {
-		public List<int> bits;
 		public double fitness;
 		private Random random = new Random();
 		public List<FurnitureGeneticLocation> locationList = new List<FurnitureGeneticLocation>();
-		RosignerContext db = new RosignerContext();
 		public List<Furniture> newOne;
 		public int xcoordinate, ycoordinate;
 		public List<Furniture> babyFurniture;
@@ -224,11 +222,17 @@ namespace Assets.Models
 						int centerX = (startPosX + finishPosX) / 2;
 						int centerY = (startPosY + finishPosY) / 2;
 						GeneticAlgorithm genetic = new GeneticAlgorithm();
-						double score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
-						string wallName = genetic.wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
-						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX,
+						//double score = genetic.distanceFromWalls(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+						
+						//string wallName = genetic.wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
+						/*locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX,
 							CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
 							FitnessScore = score, Degree = 0, WallName = wallName
+						});*/
+
+						locationList.Add(new FurnitureGeneticLocation() { FurnitureID = furnitureList[i].FurnitureID, StartX = startPosX, FinishX = finishPosX,
+							CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY ,
+							Degree = 0
 						});
 						i++;
 					}

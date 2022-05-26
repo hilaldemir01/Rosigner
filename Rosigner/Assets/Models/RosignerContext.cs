@@ -451,46 +451,6 @@ namespace Assets.Models
 
         #endregion
 
-        #region Room Structure Location Fetch
-        public IEnumerator RoomStructureLocationInformation(int roomStructureID, System.Action<RoomStructureLocation> callback)
-        {
-            WWWForm form = new WWWForm();
-            form.AddField("unity", "roomStructuresLocationFetch");
-            form.AddField("roomStructureID", roomStructureID);
-            RoomStructureLocation newRoomStructureLocation = new RoomStructureLocation();
-
-            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructureLocationFetch.php", form))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.isNetworkError || www.isHttpError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    string returnedStructure = www.downloadHandler.text;
-                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
-                    if (returnedStructure != "")
-                    {
-                        string[] structuresArray = returnedStructure.Split(';');
-
-                        newRoomStructureLocation.LocationX = float.Parse(structuresArray[0]);
-                        newRoomStructureLocation.LocationY = float.Parse(structuresArray[1]);
-                        newRoomStructureLocation.LocationZ = float.Parse(structuresArray[2]);
-                        newRoomStructureLocation.RotationX = float.Parse(structuresArray[3]);
-                        newRoomStructureLocation.RotationY = float.Parse(structuresArray[4]);
-                        newRoomStructureLocation.RotationZ = float.Parse(structuresArray[5]);
-                        newRoomStructureLocation.RoomStructureID = int.Parse(structuresArray[6]);
-                        newRoomStructureLocation.RoomStructureLocationID = int.Parse(structuresArray[7]);
-                    }
-                }
-            }
-            callback(newRoomStructureLocation);
-        }
-
-        #endregion
-
         #region Fetch Room Structure
 
         public IEnumerator RoomStructuresInformation(List<Wall> wallinfo, System.Action<List<RoomStructure>> callback)
