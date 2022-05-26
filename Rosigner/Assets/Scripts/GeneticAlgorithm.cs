@@ -1001,11 +1001,11 @@ namespace Assets.Models
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startX); //wall3
+			value3 = (int)(startY); //wall3
 			Debug.Log("Value3" + value3);
 
 			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startY); //wall4
+			value4 = (int)(startX); //wall4
 			Debug.Log("Value4" + value4);
 
 			int selectedFormula = 90000;
@@ -1045,32 +1045,32 @@ namespace Assets.Models
 			wallCounter++;
 			return score;
 		}
-	/*	public string ReturnWallName(){
-			string wall;
-			wall = baby1FurnitureGeneticLocations[callCount].WallName;
-			callCount++;
-			return wall;
-		}
-	*/
+		/*	public string ReturnWallName(){
+				string wall;
+				wall = baby1FurnitureGeneticLocations[callCount].WallName;
+				callCount++;
+				return wall;
+			} 
+		*/
 		// this code is used to evaluate the value returned after formulas used to create a cost value upto 1
 		public double FindFitnessScoreWallDistance(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2, int formulaNum)
 		{
 			int fitnessScore;
-			double rate = 0.0; 
+			double rate = 0.0;
 			if (formulaNum == 1) // w1
 			{
 				//fitnessScore = (int)(roomCenterX / Math.Sqrt(2));
-				rate = ((double) finishX/coordinate1);
+				rate = ((double)finishY / coordinate1);
 			}
 			else if (formulaNum == 2)
 			{
-			//	fitnessScore = (int)(centerX / Math.Sqrt(2));
-				rate = (double)(finishY/coordinate2);
+				//	fitnessScore = (int)(centerX / Math.Sqrt(2));
+				rate = (double)(finishX / coordinate2);
 			}
 			else if (formulaNum == 3)
 			{
 				//	fitnessScore = (int)((centerX + 2 * centerY) / Math.Sqrt(2));
-				rate = ((double) Math.Abs(startX - coordinate1) / coordinate1);
+				rate = ((double)Math.Abs(startY - coordinate1) / coordinate1);
 			}
 			else
 			{
@@ -1078,7 +1078,7 @@ namespace Assets.Models
 				rate = ((double)Math.Abs(startX - coordinate2) / coordinate2); //starty deydi hilalde
 			}
 
-			Debug.Log( " Rate = " + rate.ToString());
+			Debug.Log(" Rate = " + rate.ToString());
 			rate = rate / 10;
 			return rate;
 		}
