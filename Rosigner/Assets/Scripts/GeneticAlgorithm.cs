@@ -513,14 +513,17 @@ namespace Assets.Models
 							YPositionStartY = startPosY,
 							YPositionFinishY = finishPosY,
 							WallName = wallName,
-							Degree = ClassDegree
+							Degree = ClassDegree,
+							FitnessScore = baby1FurnitureGeneticLocations[i].FitnessScore
 						});
 						i++;
+						
 
 					}
 
 				}
 			}
+
 
 			string show = "";
 			for (int k = 0; k < coordinate1; k++)//düzelmesi lazım
@@ -642,7 +645,6 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								//WallName = ClassWallName
 								WallName = momFurnitureGeneticLocations[i].WallName	
 
 							});
@@ -664,7 +666,6 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								//WallName = ClassWallName
 								WallName = dadFurnitureGeneticLocations[j].WallName	
 
 							});
@@ -683,7 +684,6 @@ namespace Assets.Models
 								CenterX = dadFurnitureGeneticLocations[j].CenterX,
 								CenterY = dadFurnitureGeneticLocations[j].CenterY,
 								FitnessScore = dadFurnitureGeneticLocations[j].FitnessScore,
-								//WallName = ClassWallName
 								WallName = dadFurnitureGeneticLocations[j].WallName	
 							});
 
@@ -705,7 +705,6 @@ namespace Assets.Models
 								CenterX = momFurnitureGeneticLocations[i].CenterX,
 								CenterY = momFurnitureGeneticLocations[i].CenterY,
 								FitnessScore = momFurnitureGeneticLocations[i].FitnessScore,
-								//WallName = ClassWallName
 								WallName = momFurnitureGeneticLocations[i].WallName	
 							});
 
@@ -994,11 +993,11 @@ namespace Assets.Models
 			int centerX = finishX + startX / 2;
 			int centerY = finishY + startY / 2;
 
-			value1 = (int)(coordinate1 - finishY); //wall1 
+			value1 = (int)(coordinate2 - finishY); //wall1 
 			Debug.Log("Value1" + value1);
 
 			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2 - finishX); //wall2
+			value2 = (int)(coordinate1 - finishX); //wall2
 			Debug.Log("Value2" + value2);
 
 			// checking the distance of the furniture to x-y axis (y is in the upper part)
