@@ -53,7 +53,7 @@ namespace Assets.Models
 							RoomStructureLetter = "D";
 						}
 						else if (roomStructureList[j].FurnitureTypeID == 45) //Window
-						{
+						{  
 							RoomStructureLetter = "W";
 						}
 
@@ -67,7 +67,7 @@ namespace Assets.Models
 							for (int a = redDotDistance; a < redDotDistance + roomStructureWidth; a++)
 							{
 
-								for (int b = coordinate1 - 1; b > coordinate1 - 61; b--)
+								for (int b = coordinate2 - 1; b > coordinate2 - 61; b--)
 								{
 									floorPlan[b, a] = RoomStructureLetter;
 								}
@@ -79,9 +79,9 @@ namespace Assets.Models
 						{
 							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = coordinate1 - redDotDistance - roomStructureWidth; a < coordinate1 - redDotDistance; a++)
+							for (int a = coordinate1 - redDotDistance - roomStructureWidth ; a < coordinate1- redDotDistance ; a++)
 							{
-								for (int b = coordinate2 - 1; b > coordinate2 - 61; b--)
+								for (int b = coordinate1 - 1; b > coordinate1 - 61; b--)
 								{
 									floorPlan[a, b] = RoomStructureLetter;
 								}
@@ -93,7 +93,7 @@ namespace Assets.Models
 						{
 							redDotDistance = (int)(roomStructureList[j].RedDotDistance * 100);
 							roomStructureWidth = (int)(roomStructureList[j].StrructureWidth * 100);
-							for (int a = coordinate2 - redDotDistance - roomStructureWidth; a < coordinate2 - redDotDistance; a++)
+							for (int a = coordinate2 - roomStructureWidth - redDotDistance; a < coordinate2-redDotDistance; a++)
 							{
 								for (int b = 0; b < 60; b++)
 								{
@@ -144,8 +144,28 @@ namespace Assets.Models
 			{
 				for (int j = 0; j < coordinate2; j++)
 				{
-					floorPlan[k, j] = "T";
+					if (floorPlan[k,j] != "T")
+					{
+						canBePlaced = 1; // cannot be placed
+						Console.WriteLine("Dolu mu");
+						break;
+					}	
 				}
+				if (canBePlaced == 1)
+				{
+					break;
+				}
+			}
+			if (canBePlaced == 0)
+			{
+				for (int k = 0; k < coordinate1; k++)
+				{
+					for (int j = 0; j < coordinate2; j++)
+					{
+						floorPlan[k, j] = "T";
+					}
+				}
+
 			}
 
 			int capacityminusone = (int)furnitureList.Count;
