@@ -10,11 +10,9 @@ namespace Assets.Models
 {
     public class Genome
     {
-		public List<int> bits;
 		public double fitness;
 		private Random random = new Random();
 		public List<FurnitureGeneticLocation> locationList = new List<FurnitureGeneticLocation>();
-		RosignerContext db = new RosignerContext();
 		public List<Furniture> newOne;
 		public int xcoordinate, ycoordinate;
 		public List<Furniture> babyFurniture;
