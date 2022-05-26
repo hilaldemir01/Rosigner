@@ -47,6 +47,7 @@ namespace Assets.Models
 		List<FurnitureGeneticLocation> baby2FurnitureGeneticLocations;
 		List<FurnitureGeneticLocation> populationFurnitureGeneticLocations;
 		List<FurnitureGeneticLocation> allPopulationFurnitureGeneticLocations;
+		public static List<FurnitureGeneticLocation> justdegree;
 		public List<FurnitureGeneticLocation> locationList;
 		private Random random = new Random();
 		public string ClassWallName;
@@ -77,6 +78,7 @@ namespace Assets.Models
 			baby2FurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 			populationFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 			allPopulationFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
+			justdegree = new List<FurnitureGeneticLocation>();
 		}
 		// creating a matrix for the purpose of creating designs on it
 		/*
@@ -439,7 +441,7 @@ namespace Assets.Models
 				howManyCellsY = (int)baby1.newOne[i].Zdimension;
 				//string wallName = wallNameUpdate(startPosX, startPosY, finishPosX, finishPosY, coordinate1, coordinate2);
 				wallName = baby1FurnitureGeneticLocations[i].WallName;
-
+				justdegree  = rotateRandomFurniture(baby1FurnitureGeneticLocations, floorPlan, coordinate1, coordinate2);
 				if (howManyCellsX + xcoordinate + 7 < coordinate1 && howManyCellsY + ycoordinate < coordinate2)
 				{
 					startPosX = xcoordinate;
@@ -765,10 +767,11 @@ namespace Assets.Models
 		{
 			int furnitureID = random.Next(0, furnitureGeneticLocations.Count - 1);
 			int canBeRotated = 0;
-			if (furnitureGeneticLocations[furnitureID].Degree == 0)
+			if (furnitureGeneticLocations[1].Degree == 0)
             {
 				if (furnitureGeneticLocations[furnitureID].WallName == "W1") // wall on the bottom
 				{
+					Debug.Log("Girdik 1");
 					emptyPreviousLocationForXY(furnitureGeneticLocations[furnitureID], floorPlan);
 					// the front part of the furniture will be on the top, so we don't want it to exceed 0 
 					if (furnitureGeneticLocations[furnitureID].StartX - 6 > 0)
@@ -822,6 +825,7 @@ namespace Assets.Models
 					furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].FinishY;
 					furnitureGeneticLocations[furnitureID].Degree = 180;
 					ClassDegree = 180;
+					Debug.Log("Girdik 2");
 
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W2") // right-side wall
@@ -876,12 +880,14 @@ namespace Assets.Models
 						furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
 						furnitureGeneticLocations[furnitureID].Degree = 90;
 						ClassDegree = 90;
+						Debug.Log("Girdik 3");
 
 					}
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W3") // wall on the top
 				{
 					// we don't want to turn it around since it is already aligned
+					Debug.Log("Girdik 4");
 				}
 				else if (furnitureGeneticLocations[furnitureID].WallName == "W4") // wall on the left side
 				{
@@ -935,7 +941,7 @@ namespace Assets.Models
 						furnitureGeneticLocations[furnitureID].YPositionFinishY = furnitureGeneticLocations[furnitureID].StartY - 1;
 						furnitureGeneticLocations[furnitureID].Degree = 270;
 						ClassDegree = 270;
-
+						Debug.Log("Girdik 5");
 
 					}
 				}
@@ -983,7 +989,7 @@ namespace Assets.Models
 			{
 				Console.WriteLine(Ex.ToString());
 			}
-			return furnitureGeneticLocations;
+			return furnitureGeneticLocations[furnitureID].Degree;
 		}
 
 		public double distanceFromWalls(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
