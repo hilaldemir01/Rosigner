@@ -8,6 +8,7 @@ public class ChangeCamera : MonoBehaviour
     public GameObject MainCamera;
     public GameObject FirstPersonBtn;
     public GameObject QuitText;
+    public GameObject Exit;
 
 
 
@@ -26,6 +27,7 @@ public class ChangeCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         FirstPersonBtn.SetActive(false);
+        Exit.SetActive(false);
         MainCamera.SetActive(false);
         FirstPersonCamera.SetActive(true);
         QuitText.SetActive(true);
@@ -37,6 +39,7 @@ public class ChangeCamera : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         FirstPersonCamera.SetActive(false);
         QuitText.SetActive(false);
+        Exit.SetActive(true);
         FirstPersonBtn.SetActive(true);
         MainCamera.SetActive(true);
     }
