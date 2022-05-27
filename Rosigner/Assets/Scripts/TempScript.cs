@@ -62,26 +62,7 @@ public class TempScript : MonoBehaviour
             RoomID = newFurniture.RoomID
         });
 
-        //Debug.Log(Inventory.array.Count);
-
-
-        /*
-        furniture.FurnitureID = newFurniture.FurnitureID;
-        furniture.FurnitureTypeID = newFurniture.FurnitureTypeID;
-        furniture.Xdimension = newFurniture.Xdimension;
-        furniture.Ydimension = newFurniture.Ydimension;
-        furniture.Zdimension = newFurniture.Zdimension;
-        furniture.RoomID=newFurniture.RoomID;
         
-        x = Random.Range (0, 4);
-        z = Random.Range (0, 4);
-
-        //Debug.Log(Inventory.array.Count);
-        
-        tempPrefab = Inventory.array[k];
-        tempPrefab.gameObject.transform.localScale = new Vector3(furniture.Xdimension * 0.01f, furniture.Ydimension * 0.01f, furniture.Zdimension * 0.01f);
-        Instantiate(Inventory.array[k], new Vector3(0, 0, 0), Quaternion.identity);
-       */
         k = k + 1;
     }
     public void fetchWallInformation(List<Wall> newWall)

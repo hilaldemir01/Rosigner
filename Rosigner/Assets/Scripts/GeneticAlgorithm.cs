@@ -81,20 +81,8 @@ namespace Assets.Models
 			allPopulationFurnitureGeneticLocations = new List<FurnitureGeneticLocation>();
 		}
 		// creating a matrix for the purpose of creating designs on it
-		/*
-		public void startMatrix()
-		{
-			//coordinate1 = (int)wallList[0].WallLength;
-			//coordinate2 = (int)wallList[1].WallLength;
-			//floorPlan = new string[(int)wallList[0].WallLength * 100, (int)wallList[1].WallLength * 100];
-		}
-		*/
-		//public void Run(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Furniture> furnitureList, List<Wall> wallList)
-		//{
-		//	CreateStartPopulation(coordinate1,coordinate2,floorPlan,roomStructureList,furnitureList,wallList);
-		//	busy = true;
-		//}
-
+		
+		
 		public string[,] returnStructurePlan(int coordinate1, int coordinate2, string[,] floorPlan, List<RoomStructure> roomStructureList, List<Wall> wallList)
 		{
 			int redDotDistance;
@@ -1128,7 +1116,7 @@ namespace Assets.Models
 			int startPosY = 0;
 			int finishPosY = 0;
 
-			int length = baby1.newOne.Count; // ????? RANDOMLUKTA SONUNCU DAHİL DEĞİL
+			int length = baby1.newOne.Count; 
 			int index = random.Next(0, length);
 
 
@@ -1157,61 +1145,6 @@ namespace Assets.Models
 			baby1FurnitureGeneticLocations.Insert(index, new FurnitureGeneticLocation() { FurnitureID = baby1.newOne[index].FurnitureID, StartX = startPosX, FinishX = finishPosX, CenterX = centerX, StartY = startPosY, CenterY = centerY, FinishY = finishPosY });
 
 		}
-		/*
-		public string wallNameUpdate(int startX, int startY, int finishX, int finishY, int coordinate1, int coordinate2)
-		{
-			int value1 = 0, value2 = 0, value3 = 0, value4 = 0;
-			int roomCenterX = coordinate1 / 2, roomCenterY = coordinate2 / 2;
-			int centerX = finishX + startX / 2;
-			int centerY = finishY + startY / 2;
-			Debug.Log("coordinate1: " + coordinate1 + " coordinate2: " + coordinate2);
-			// checking the distance of the furniture to y axis // 
-			value1 = (int)(coordinate1-finishY); //wall1 
-			Debug.Log("Value1" + value1);
-
-			// checking the distance of the furniture to x axis
-			value2 = (int)(coordinate2-finishX); //wall2
-			Debug.Log("Value2" + value2);
-
-			// checking the distance of the furniture to x-y axis (y is in the upper part)
-			value3 = (int)(startY); //wall3
-			Debug.Log("Value3" + value3);
-
-			// checking the distance of the furniture to x-y axis (x is in the upper part)
-			value4 = (int)(startX); //wall4
-			Debug.Log("Value4" + value4);
-
-			int selectedFormula = 90000;
-			int formulaNum = 0;
-
-			int[] myNum = { value1, value2, value3, value4 };
-
-			for (int i = 0; i < myNum.Length; i++)
-			{
-				if (selectedFormula > myNum[i])
-				{
-					selectedFormula = myNum[i];
-					formulaNum = i + 1;
-				}
-			}
-
-			if (formulaNum == 1)
-			{
-				ClassWallName = "W1";
-			}
-			else if (formulaNum == 2)
-			{
-				ClassWallName = "W2";
-			}
-			else if (formulaNum == 3)
-			{
-				ClassWallName = "W3";
-			}
-			else
-			{
-				ClassWallName = "W4";
-			}
-			return ClassWallName;
-		}*/
+		
 	}
 }

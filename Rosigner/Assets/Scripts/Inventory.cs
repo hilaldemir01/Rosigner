@@ -133,14 +133,7 @@ public class Inventory : MonoBehaviour
         saveButton.interactable = false; 
         notificationTxt.gameObject.SetActive(false);
         
-        //newRoom.RoomID = int.Parse(roomID);
-
-        /*furnitureList.Add(new Furniture() { Xdimension = "W1", Ydimension = wall1inp, Zdimension = heightinp, RoomID = newRoom.RoomID });
-        Debug.Log("RoomID:" + newRoom.RoomID);
-        for (int i = 0; i < 4; i++)
-        {
-            StartCoroutine(db.Wall(wallList[i], getWallID)); // generate new wall ids and insert those to the db
-        }*/
+      
 
 
 
