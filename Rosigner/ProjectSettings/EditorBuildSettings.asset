@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TempDesign.unity
     guid: 86b01a9c7827ff1419523495fdaa2619
+  - enabled: 1
+    path: Assets/Scenes/TempRoom.unity
+    guid: d34357ed87b26744ab980b62bcacbb34
   m_configObjects: {}
