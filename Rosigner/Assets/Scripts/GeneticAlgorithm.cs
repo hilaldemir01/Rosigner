@@ -1116,7 +1116,7 @@ namespace Assets.Models
 			int startPosY = 0;
 			int finishPosY = 0;
 
-			int length = baby1.newOne.Count; // ????? RANDOMLUKTA SONUNCU DAHİL DEĞİL
+			int length = baby1.newOne.Count; 
 			int index = random.Next(0, length);
 
 
