@@ -1860,6 +1860,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 140068276}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: activateApplyButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &140068274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1923,6 +1935,7 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
+  db_count: 0
 --- !u!224 &142871473 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6425697966237002753, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -3083,6 +3096,7 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
+  db_count: 0
 --- !u!1 &431028163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -7269,6 +7283,7 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
+  db_count: 0
 --- !u!1 &1343358156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6425697965399886755, guid: b3f142b788061264fb17c71220f609df, type: 3}
@@ -10335,6 +10350,7 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
+  db_count: 0
 --- !u!1 &2054604924
 GameObject:
   m_ObjectHideFlags: 0
@@ -10508,6 +10524,7 @@ MonoBehaviour:
   notificationTxt: {fileID: 1233182595}
   selectedFurnitureImageName: 
   prefabName: 
+  db_count: 0
 --- !u!114 &2077695682
 MonoBehaviour:
   m_ObjectHideFlags: 0

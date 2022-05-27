@@ -83,9 +83,6 @@ namespace Assets.Models
             form.AddField("email", email);
             form.AddField("password", password);
 
-
-
-
             // database connection is done here:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/userLogin.php", form))
             {
@@ -157,12 +154,6 @@ namespace Assets.Models
                     loggedinUser.Gender = int.Parse(userArray[3]);
                     loggedinUser.Email = email;
 
-                    //checking if the returned values are correct
-                    Debug.Log(loggedinUser.FirstName);
-                    Debug.Log(loggedinUser.LastName);
-                    Debug.Log(loggedinUser.Gender);
-                    Debug.Log(loggedinUser.Email);
-                    
                     currentUser = loggedinUser;
                     callback(loggedinUser);
                     UnityEngine.SceneManagement.SceneManager.LoadScene("PreviousDesigns");
@@ -193,7 +184,6 @@ namespace Assets.Models
                 {
 
                     string returnedFurniture = www.downloadHandler.text;
-                    Debug.Log("returnedFurniture: "+returnedFurniture);
                     // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
                     string[] furnitureArray = returnedFurniture.Split(';');
                     int i = 0;
@@ -204,12 +194,6 @@ namespace Assets.Models
                         furniture.Zdimension = float.Parse(furnitureArray[i+3]);
                         furniture.FurnitureTypeID = int.Parse(furnitureArray[i+4]);
                         furniture.RoomID = int.Parse(furnitureArray[i+5]);
-                        Debug.Log("FurnitureIDA "+furniture.FurnitureID);
-                        Debug.Log("XdimensionA "+furniture.Xdimension);
-                        Debug.Log("YdimensionA "+furniture.Ydimension);
-                        Debug.Log("ZdimensionA "+furniture.Zdimension);
-                        Debug.Log("FurnitureTypeIDA "+furniture.FurnitureTypeID);
-                        Debug.Log("RoomIDA "+furniture.RoomID);
                         callback(furniture);
                        i = i+6;
                     }
@@ -256,10 +240,8 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     RoomID = int.Parse(www.downloadHandler.text);
                     LoginSystem.instance.RoomID = RoomID;
-                    Debug.Log("deneme roomid:" + RoomID);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -278,7 +260,6 @@ namespace Assets.Models
             form.AddField("length", furnitureMeasurement.Zdimension.ToString());
             form.AddField("furnitureName", furnitureName);
             form.AddField("roomID", LoginSystem.instance.RoomID);
-            Debug.Log(LoginSystem.instance.RoomID);
         
             //LoginSystem.instance.furnitureID = furnitureMeasurement.furnitureID;
             string message = "";
@@ -380,7 +361,6 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
                     callback(www.downloadHandler.text);
                 }
             }
@@ -446,9 +426,6 @@ namespace Assets.Models
             form.AddField("RotationX", newLocation.RotationX.ToString().Replace(",", "."));
             form.AddField("RotationY", newLocation.RotationY.ToString().Replace(",", "."));
             form.AddField("RotationZ", newLocation.RotationZ.ToString().Replace(",", "."));
-            Debug.Log(wallName);
-            Debug.Log(LoginSystem.instance.RoomID);
-            Debug.Log(StructureName);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/roomStructures.php", form))
@@ -462,7 +439,7 @@ namespace Assets.Models
                 }
                 else
                 {
-                    Debug.Log(www.downloadHandler.text);
+                //    Debug.Log(www.downloadHandler.text);
 
                 }
             }
@@ -644,7 +621,9 @@ namespace Assets.Models
             string FinishYString = "";
             string CenterYString = "";
             string FitnessScoreString = "";
-
+            string CloseWallNameString = "";
+            string Degree = "";
+            
             for (int i=0; i < furnitureGeneticLocations.Count; i++)
             {
                 FurnitureIDString += furnitureGeneticLocations[i].FurnitureID.ToString()+";";
@@ -655,6 +634,8 @@ namespace Assets.Models
                 FinishYString += furnitureGeneticLocations[i].FinishY.ToString() + ";";
                 CenterYString += furnitureGeneticLocations[i].CenterY.ToString() + ";";
                 FitnessScoreString += furnitureGeneticLocations[i].FitnessScore.ToString() + ";";
+                CloseWallNameString += furnitureGeneticLocations[i].WallName.ToString() + ";";
+                Degree += furnitureGeneticLocations[i].Degree.ToString() + ";";
             }
 
             WWWForm form = new WWWForm();
@@ -667,6 +648,8 @@ namespace Assets.Models
             form.AddField("FinishY", FinishYString);
             form.AddField("CenterY", CenterYString);
             form.AddField("FitnessScore", FitnessScoreString);
+            form.AddField("CloseWallName", CloseWallNameString);
+            form.AddField("Degree", Degree);
 
             // setting database connection:
             using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/tempFurnitureLocation.php", form))
@@ -689,5 +672,129 @@ namespace Assets.Models
         }
 
         #endregion
+
+        #region Fetch Furniture Locations
+
+        public IEnumerator FurnitureLocationsFetch(List<FurnitureGeneticLocation> furnitureinfo, System.Action<List<FurnitureGeneticLocation>> callback)
+        {
+            List<FurnitureGeneticLocation> furnitureLocationList = new List<FurnitureGeneticLocation>();
+
+            string IDstring = "";
+            for (int i = 0; i < furnitureinfo.Count; i++)
+            {
+                IDstring = IDstring + furnitureinfo[i].FurnitureID.ToString() + ";";
+
+            }
+            Debug.Log("IDstring: " + IDstring);
+
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "furnitureLocationInformation");
+            form.AddField("furnitureID", IDstring);
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/furnitureLocationInformation.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    string returnedFurnitureLocation = www.downloadHandler.text;
+                    Debug.Log("------------returnedFurnitureLocation " + returnedFurnitureLocation);
+
+                    // splitting the returned string according to the class attributes : https://csharp-tutorials.com/tr-TR/linq/Split
+                    if (returnedFurnitureLocation != "")
+                    {
+                        string[] structuresArray = returnedFurnitureLocation.Split(';');
+                        int i = 0;
+
+                        while (i < structuresArray.Length - 1)
+                        {
+
+                            furnitureLocationList.Add(new FurnitureGeneticLocation()
+                            {
+                                GeneticLocationID = int.Parse(structuresArray[i]),
+                                FurnitureID = int.Parse(structuresArray[i + 1]),
+                                StartX = int.Parse(structuresArray[i + 2]),
+                                FinishX = int.Parse(structuresArray[i + 3]),
+                                CenterX = int.Parse(structuresArray[i + 4]),
+                                StartY = int.Parse(structuresArray[i + 5]),
+                                FinishY = int.Parse(structuresArray[i + 6]),
+                                CenterY = int.Parse(structuresArray[i + 7]),
+                                
+                            });
+                            i += 8;
+                        }
+                    }
+                }
+            }
+            callback(furnitureLocationList);
+
+        }
+
+        #endregion
+
+        #region Fetch All Furniture Name
+
+        public IEnumerator fetchAllFurnitureName(List<FurnitureGeneticLocation> furnitureGeneticLocation, System.Action<List<FurnitureGeneticInformation>> callback)
+        {
+            List<FurnitureGeneticInformation> furnitureGeneticInformationList = new List<FurnitureGeneticInformation>();
+
+            string GeneticFurnitureIDstring = "";
+            for (int i = 0; i < furnitureGeneticLocation.Count; i++)
+            {
+                
+                GeneticFurnitureIDstring = GeneticFurnitureIDstring + furnitureGeneticLocation[i].FurnitureID.ToString() + ";";
+
+            }
+            WWWForm form = new WWWForm();
+            form.AddField("unity", "getAllFurnitureType");
+            form.AddField("furnitureID", GeneticFurnitureIDstring);
+
+            // setting database connection:
+            using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/Unity_DB/getAllFurnitureNames.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                // This part of the code checks whether there exists a network or connection error with the database.
+                if (www.isNetworkError || www.isHttpError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    
+                    string returnedFurnitureName = www.downloadHandler.text;
+                    Debug.Log("+++++++++++++++returnedFurnitureName " + returnedFurnitureName);
+                    if (returnedFurnitureName != "")
+                    {
+                        string[] FurnitureNameArray = returnedFurnitureName.Split(';');
+                        int i = 0;
+                        while (i < FurnitureNameArray.Length - 1)
+                        {
+
+                            furnitureGeneticInformationList.Add(new FurnitureGeneticInformation()
+                            {
+
+                                FurnitureName = FurnitureNameArray[i],
+                                FurnitureID = furnitureGeneticLocation[i].FurnitureID,
+                                GeneticLocationID = furnitureGeneticLocation[i].GeneticLocationID
+                            });
+
+                            i++;
+                        }
+                    }
+
+                    callback(furnitureGeneticInformationList);
+
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
+
+        #endregion
+
+
     }
 }

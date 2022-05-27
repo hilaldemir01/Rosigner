@@ -17,6 +17,8 @@ if($_POST['unity']=="tempFurnitureLocation")
     $FinishY=$_POST['FinishY'];
     $CenterY=$_POST['CenterY'];
     $FitnessScore=$_POST['FitnessScore'];
+    $CloseWallName=$_POST['CloseWallName'];
+    $Degree = $_POST['Degree'];
 
     $FurnitureIDArray = explode (";", $FurnitureID); 
     $StartXArray = explode (";", $StartX); 
@@ -25,10 +27,13 @@ if($_POST['unity']=="tempFurnitureLocation")
     $StartYArray = explode (";", $StartY);     
     $FinishYArray = explode (";", $FinishY); 
     $CenterYArray = explode (";", $CenterY); 
-    $FitnessScoreArray = explode (";", $FitnessScore); 
+    $FitnessScoreArray = explode (";", $FitnessScore);
+    $CloseWallNameArray = explode(";",$CloseWallName);
+    $DegreeArray = explode(";",$Degree);
+
   #  $query = "";
     for ($x = 0; $x < count($FurnitureIDArray)-1; $x++) {
-        $query="INSERT INTO furnituregeneticlocation (FurnitureID,StartX,FinishX,CenterX,StartY,FinishY,CenterY,FitnessScore) VALUES ('".intval($FurnitureIDArray[$x])."','".intval($StartXArray[$x])."','".intval($FinishXArray[$x])."','".intval($CenterXArray[$x])."','".intval($StartYArray[$x])."','".intval($FinishYArray[$x])."','".intval($CenterYArray[$x])."','".intval($FitnessScoreArray[$x])."');";
+        $query="INSERT INTO furnituregeneticlocation (FurnitureID,StartX,FinishX,CenterX,StartY,FinishY,CenterY,FitnessScore,CloseWallName,Degree) VALUES ('".intval($FurnitureIDArray[$x])."','".intval($StartXArray[$x])."','".intval($FinishXArray[$x])."','".intval($CenterXArray[$x])."','".intval($StartYArray[$x])."','".intval($FinishYArray[$x])."','".intval($CenterYArray[$x])."','".intval($FitnessScoreArray[$x])."','".$CloseWallNameArray[$x]."','".intval($DegreeArray)."');";
         $queryResult = mysqli_query($con,$query);
 
     }
