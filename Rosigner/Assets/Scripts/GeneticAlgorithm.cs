@@ -340,7 +340,6 @@ namespace Assets.Models
 			}
 			selectedGenomeIndex = RouletteWheelSelection(); //to get the randomly selected population index for dad
 			Genome dadGenome = genomes[selectedGenomeIndex];
-			
 
 			for (int m = furnitureList.Count * selectedGenomeIndex; m < ((selectedGenomeIndex * furnitureList.Count) + furnitureList.Count); m++)
 			{
@@ -662,8 +661,7 @@ namespace Assets.Models
 							});
 
 
-							baby1.populationFitnessScore = baby1.populationFitnessScore + baby1FurnitureGeneticLocations[i].FitnessScore;
-
+							baby1.populationFitnessScore = baby1.populationFitnessScore + baby1FurnitureGeneticLocations[i].FitnessScore;		
 
 							baby2.xcoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartX);
 							baby2.ycoordinatebaby.Add(dadFurnitureGeneticLocations[j].StartY);
